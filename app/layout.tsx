@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Navbar } from "@/components/layout/Navbar";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { Footer } from "@/components/layout/Footer";
+import { IntroExperience } from "@/components/ui/IntroExperience";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,14 +30,16 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <TooltipProvider>
-            <div className="relative flex min-h-screen flex-col">
-              <Navbar />
-              <main className="flex-1">
-                {children}
-              </main>
-              <Footer />
-              <MobileNav />
-            </div>
+            <IntroExperience>
+              <div className="relative flex min-h-screen flex-col">
+                <Navbar />
+                <main className="flex-1">
+                  {children}
+                </main>
+                <Footer />
+                <MobileNav />
+              </div>
+            </IntroExperience>
           </TooltipProvider>
         </ThemeProvider>
       </body>
