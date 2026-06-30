@@ -1,15 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { motion } from "framer-motion";
-import { Home, Layers, LayoutGrid, User, Menu, ArrowRight } from "lucide-react";
+import { Home, Layers, LayoutGrid, User, Menu, ArrowRight, Briefcase } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { getSocials } from "@/config/socials";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { CALENDLY_LINK } from "@/config/socials";
+import { HireMeModal } from "@/components/ui/HireMeModal";
 
 const navLinks = [
   { name: "Home", href: "/", icon: Home },
@@ -20,6 +22,7 @@ const navLinks = [
 
 export function Navbar() {
   const pathname = usePathname();
+  const [isHireMeOpen, setIsHireMeOpen] = useState(false);
   const navSocials = getSocials(["GitHub", "LinkedIn"]);
 
   return (
@@ -119,6 +122,7 @@ export function Navbar() {
                 {/* Navigation Links */}
                 <nav className="flex flex-col gap-2 flex-grow">
                   {navLinks.map((link) => {
+                    if (link.name === "Work") return null;
                     const isActive = pathname === link.href;
                     const Icon = link.icon;
                     return (
@@ -141,6 +145,17 @@ export function Navbar() {
                       </Link>
                     );
                   })}
+                  
+                  {/* Hire Me Button */}
+                  <button
+                    onClick={() => setIsHireMeOpen(true)}
+                    className="group flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-300 text-muted-foreground hover:bg-card/50 hover:text-foreground text-left"
+                  >
+                    <div className="p-2 rounded-xl bg-card/50 group-hover:bg-card">
+                      <Briefcase className="w-5 h-5 text-emerald-500" />
+                    </div>
+                    <span className="text-xl font-semibold text-foreground tracking-tight">Hire Me</span>
+                  </button>
                 </nav>
 
                 {/* Footer CTA */}
@@ -163,6 +178,7 @@ export function Navbar() {
 
         </div>
       </div>
+      <HireMeModal isOpen={isHireMeOpen} onClose={() => setIsHireMeOpen(false)} />
     </header>
   );
 }
