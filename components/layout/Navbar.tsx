@@ -39,10 +39,10 @@ export function Navbar() {
         <Link href="/" className="text-xl font-bold tracking-tight text-foreground flex items-center gap-3">
           <div className="w-12 h-12 border-2 border-primary/20 rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-shadow overflow-hidden relative">
             <Image 
-              src="/images/logo.jpg" 
+              src="/images/profile.jpg" 
               alt="Kumail Kmr Logo" 
               fill 
-              className="object-cover object-[50%_25%]"
+              className="object-cover object-top"
               sizes="48px"
               priority
             />

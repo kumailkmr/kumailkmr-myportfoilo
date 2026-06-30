@@ -156,21 +156,21 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
               </p>
             </div>
 
-            {/* Premium Glowing Interactive Button */}
+            {/* Premium Glowing Interactive Button — Royal Blue Theme */}
             <motion.button
               onClick={startExperience}
-              className="relative inline-flex items-center justify-center px-10 py-4.5 rounded-full bg-white/5 border border-white/10 text-white font-extrabold tracking-widest text-sm uppercase transition-all shadow-[0_0_30px_rgba(124,58,237,0.15)] duration-300 overflow-hidden group hover:scale-[1.03] active:scale-[0.98]"
+              className="relative inline-flex items-center justify-center px-10 py-4.5 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-extrabold tracking-widest text-sm uppercase transition-all duration-300 overflow-hidden group hover:scale-[1.03] active:scale-[0.98] border border-blue-400/30"
               whileHover={{ y: -2 }}
               style={{
-                boxShadow: "inset 0 1px 0 rgba(255,255,255,0.1), 0 4px 20px rgba(0,0,0,0.5)"
+                boxShadow: "0 0 30px rgba(37,99,235,0.45), inset 0 1px 0 rgba(255,255,255,0.25), 0 4px 20px rgba(0,0,0,0.5)"
               }}
             >
               {/* Button Hover Glow Background */}
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-purple-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
               {/* Animated Light Sweep */}
               <div 
-                className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/15 to-transparent skew-x-12 -translate-x-full group-hover:animate-shimmer"
+                className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 -translate-x-full group-hover:animate-shimmer"
                 style={{ animationDuration: "1.5s" }}
               />
 

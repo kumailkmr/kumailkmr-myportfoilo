@@ -12,8 +12,8 @@ export default async function Icon() {
   // Read the logo image file from the public directory
   const fs = await import('fs');
   const path = await import('path');
-  const imageBuffer = fs.readFileSync(path.join(process.cwd(), 'public/images/logo.jpg'));
-  const imageData = `data:image/jpeg;base64,${imageBuffer.toString('base64')}`;
+  const imageBuffer = fs.readFileSync(path.join(process.cwd(), 'public/images/logo.png'));
+  const imageData = `data:image/png;base64,${imageBuffer.toString('base64')}`;
 
   return new ImageResponse(
     (
@@ -26,7 +26,7 @@ export default async function Icon() {
           justifyContent: 'center',
           borderRadius: '50%',
           overflow: 'hidden',
-          background: '#000',
+          background: '#fff',
         }}
       >
         <img
@@ -36,7 +36,7 @@ export default async function Icon() {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            objectPosition: '50% 25%',
+            objectPosition: 'center',
           }}
         />
       </div>
