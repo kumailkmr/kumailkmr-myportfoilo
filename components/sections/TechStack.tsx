@@ -6,88 +6,73 @@ import {
   SiReact, SiNextdotjs, SiTypescript, SiTailwindcss,
   SiNodedotjs, SiPostgresql, SiSupabase, SiPrisma,
   SiOpenai, SiVercel, SiCloudflare, SiSentry,
-  SiWhatsapp, SiStripe, SiGoogle
+  SiWhatsapp, SiStripe, SiGoogle,
+  SiZapier, SiNotion, SiTwilio, SiRazorpay, SiAirtable
 } from "react-icons/si";
-import { Workflow, Bot, Component, Server, Cpu, Webhook, Mail, ShieldCheck } from "lucide-react";
+import { Workflow, Bot, Component, Server, Cpu, Webhook, Mail, ShieldCheck, Database, MessagesSquare, Code2, Layers, Network } from "lucide-react";
 
 const categories = [
+  {
+    id: "automation",
+    label: "Automation",
+    techs: [
+      { name: "n8n", icon: Workflow, color: "text-primary" },
+      { name: "Make", icon: Layers, color: "text-primary" },
+      { name: "Zapier", icon: SiZapier, color: "text-primary" },
+      { name: "Pipedream", icon: Webhook, color: "text-primary" }
+    ]
+  },
+  {
+    id: "ai",
+    label: "AI & LLMs",
+    techs: [
+      { name: "OpenAI API", icon: SiOpenai, color: "text-primary" },
+      { name: "Anthropic API", icon: Bot, color: "text-primary" },
+      { name: "LangChain", icon: Network, color: "text-primary" },
+      { name: "LlamaIndex", icon: Database, color: "text-primary" },
+      { name: "Flowise", icon: Component, color: "text-primary" },
+      { name: "Langflow", icon: Workflow, color: "text-primary" }
+    ]
+  },
+  {
+    id: "backend",
+    label: "Backend & Scripting",
+    techs: [
+      { name: "Node.js", icon: SiNodedotjs, color: "text-primary" },
+      { name: "TypeScript", icon: SiTypescript, color: "text-primary" },
+      { name: "Server Actions", icon: Server, color: "text-primary" }
+    ]
+  },
+  {
+    id: "database",
+    label: "Databases & Storage",
+    techs: [
+      { name: "Supabase", icon: SiSupabase, color: "text-primary" },
+      { name: "PostgreSQL", icon: SiPostgresql, color: "text-primary" },
+      { name: "Pinecone", icon: Database, color: "text-primary" },
+      { name: "Weaviate", icon: Database, color: "text-primary" },
+      { name: "Airtable", icon: SiAirtable, color: "text-primary" },
+      { name: "Notion", icon: SiNotion, color: "text-primary" }
+    ]
+  },
+  {
+    id: "integrations",
+    label: "APIs & Comms",
+    techs: [
+      { name: "Twilio", icon: SiTwilio, color: "text-primary" },
+      { name: "Resend", icon: Mail, color: "text-primary" },
+      { name: "SendGrid", icon: Mail, color: "text-primary" },
+      { name: "Stripe", icon: SiStripe, color: "text-primary" },
+      { name: "Razorpay", icon: SiRazorpay, color: "text-primary" }
+    ]
+  },
   {
     id: "frontend",
     label: "Frontend",
     techs: [
       { name: "Next.js", icon: SiNextdotjs, color: "text-primary" },
       { name: "React", icon: SiReact, color: "text-primary" },
-      { name: "TypeScript", icon: SiTypescript, color: "text-primary" },
-      { name: "Tailwind CSS", icon: SiTailwindcss, color: "text-primary" },
-      { name: "shadcn/ui", icon: Component, color: "text-primary" }
-    ]
-  },
-  {
-    id: "backend",
-    label: "Backend",
-    techs: [
-      { name: "Server Actions", icon: Server, color: "text-primary" },
-      { name: "Node.js", icon: SiNodedotjs, color: "text-primary" }
-    ]
-  },
-  {
-    id: "database",
-    label: "Database",
-    techs: [
-      { name: "PostgreSQL", icon: SiPostgresql, color: "text-primary" },
-      { name: "Supabase", icon: SiSupabase, color: "text-primary" },
-      { name: "Prisma", icon: SiPrisma, color: "text-primary" }
-    ]
-  },
-  {
-    id: "auth",
-    label: "Authentication",
-    techs: [
-      { name: "Supabase Auth", icon: ShieldCheck, color: "text-primary" }
-    ]
-  },
-  {
-    id: "ai",
-    label: "AI",
-    techs: [
-      { name: "OpenAI", icon: SiOpenai, color: "text-primary" },
-      { name: "Gemini", icon: SiGoogle, color: "text-primary" },
-      { name: "Claude", icon: Bot, color: "text-primary" },
-      { name: "Vercel AI SDK", icon: Cpu, color: "text-primary" }
-    ]
-  },
-  {
-    id: "automation",
-    label: "Automation",
-    techs: [
-      { name: "n8n", icon: Workflow, color: "text-primary" },
-      { name: "Webhooks", icon: Webhook, color: "text-primary" }
-    ]
-  },
-  {
-    id: "integrations",
-    label: "Integrations",
-    techs: [
-      { name: "WhatsApp", icon: SiWhatsapp, color: "text-primary" },
-      { name: "Google APIs", icon: SiGoogle, color: "text-primary" },
-      { name: "Resend", icon: Mail, color: "text-primary" },
-      { name: "Stripe", icon: SiStripe, color: "text-primary" }
-    ]
-  },
-  {
-    id: "deployment",
-    label: "Deployment",
-    techs: [
-      { name: "Vercel", icon: SiVercel, color: "text-primary" },
-      { name: "Railway", icon: Server, color: "text-primary" },
-      { name: "Cloudflare", icon: SiCloudflare, color: "text-primary" }
-    ]
-  },
-  {
-    id: "monitoring",
-    label: "Monitoring",
-    techs: [
-      { name: "Sentry", icon: SiSentry, color: "text-primary" }
+      { name: "Tailwind CSS", icon: SiTailwindcss, color: "text-primary" }
     ]
   }
 ];

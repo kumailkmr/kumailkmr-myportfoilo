@@ -1,173 +1,144 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import { motion, Variants } from "framer-motion";
+import { CALENDLY_LINK } from "@/config/socials";
 import { Scene } from "@/components/three/Scene";
 import { AIBrain } from "@/components/three/AIBrain";
-import { CheckCircle2, ArrowRight } from "lucide-react";
-import { getSocials } from "@/config/socials";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { ArrowRight, Bot, Code2, Cpu, LineChart } from "lucide-react";
+import Link from "next/link";
 
 export function Hero() {
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.15,
       },
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" as const },
+      transition: { duration: 0.8, ease: "easeOut" },
     },
   };
 
+  const tags = [
+    { name: "AI Automation", icon: <Bot className="w-4 h-4" /> },
+    { name: "Web Development", icon: <Code2 className="w-4 h-4" /> },
+    { name: "Business Systems", icon: <Cpu className="w-4 h-4" /> },
+    { name: "SaaS Solutions", icon: <LineChart className="w-4 h-4" /> },
+  ];
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
-      {/* Ambient Background Glows */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary/20 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-purple-600/20 blur-[120px] pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-background/80 to-background pointer-events-none" />
-
-
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20 lg:pt-40 lg:pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center min-h-[calc(100vh-160px)]">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background"> 
+      
+      {/* Background Particles & Glows */}
+      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/15 blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-purple-600/15 blur-[150px] pointer-events-none" />
+      
+      {/* Animated Flowing Grid */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-[0.03] dark:opacity-20 pointer-events-none mask-image-fade" />
+      
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12 lg:pt-28 lg:pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-8 items-center min-h-[calc(100vh-120px)]">
           
           {/* Left Content */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="flex flex-col items-start text-left max-w-2xl"
+            className="flex flex-col items-start text-left max-w-2xl relative z-20"
           >
-            <motion.div variants={itemVariants} className="mb-6">
-              <span className="inline-flex items-center rounded-full border border-primary/30 bg-primary/5 backdrop-blur-md px-4 py-1.5 text-sm font-medium text-primary shadow-[0_0_15px_rgba(37,99,235,0.15)]">
-                <span className="relative flex h-2 w-2 mr-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                </span>
-                Available for New Projects
-              </span>
+            {/* Service Tags */}
+            <motion.div variants={itemVariants} className="flex flex-wrap gap-3 mb-8">
+              {tags.map((tag, idx) => (
+                <div 
+                  key={idx}
+                  className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 backdrop-blur-md px-4 py-1.5 text-sm font-medium text-primary shadow-[0_0_15px_rgba(37,99,235,0.1)]"
+                >
+                  {tag.icon}
+                  {tag.name}
+                </div>
+              ))}
             </motion.div>
 
-            <motion.h1 variants={itemVariants} className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 text-foreground leading-[1.1]">
-              I Build Premium AI Software That{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">
-                Scales Your Business
+            {/* Main Heading */}
+            <motion.h1 
+              variants={itemVariants} 
+              className="text-4xl md:text-5xl lg:text-[4rem] font-bold tracking-tight mb-6 text-foreground leading-[1.1]"
+            >
+              I Build AI Systems & Websites That Automate Businesses and {" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600 drop-shadow-sm">
+                Increase Revenue
               </span>
             </motion.h1>
 
-            <motion.p variants={itemVariants} className="text-lg md:text-xl text-muted-foreground mb-10 max-w-xl">
-              Partner with an independent senior engineer to turn your complex business problems into elegant, automated software solutions. Skip the agency overhead and work directly with the expert.
+            {/* Subheading */}
+            <motion.p 
+              variants={itemVariants} 
+              className="text-lg md:text-xl text-muted-foreground mb-10 max-w-xl leading-relaxed"
+            >
+              Helping businesses reduce manual work, automate operations, and scale faster using AI, automation, and modern web solutions.
             </motion.p>
 
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-6">
-              <Button size="lg" className="hover-lift w-full sm:w-auto text-base px-8 py-6 rounded-full group shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_40px_rgba(37,99,235,0.6)] border border-primary/50 relative overflow-hidden">
+            {/* CTAs */}
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto">
+              {/* Primary Button */}
+              <a 
+                href={CALENDLY_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center font-semibold transition-all bg-primary text-primary-foreground h-14 hover-lift w-full sm:w-auto text-base px-8 rounded-full group shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_40px_rgba(37,99,235,0.6)] border border-primary/50 relative overflow-hidden"
+              >
                 <span className="relative z-10 flex items-center">
-                  Book a Free Strategy Call
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  Let’s Build Your System
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-primary via-blue-500 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              </Button>
-              <Button size="lg" variant="outline" className="hover-lift w-full sm:w-auto text-base px-8 py-6 rounded-full text-foreground border-border/50 bg-background/30 backdrop-blur-md hover:bg-muted/50 hover:border-primary/50 transition-all">
-                View My Portfolio
-              </Button>
-            </motion.div>
-
-            {/* Social Links Row */}
-            <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-3 mb-10">
-              <TooltipProvider delay={100}>
-                {getSocials(["GitHub", "LinkedIn", "X (Twitter)", "WhatsApp"]).map(social => {
-                  if (!social) return null;
-                  const Icon = social.icon;
-                  return (
-                    <Tooltip key={social.platform}>
-                      <TooltipTrigger>
-                        <a
-                          href={social.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-4 py-2 rounded-full bg-card/40 backdrop-blur-sm border border-white/5 shadow-sm hover:border-[#2563EB] hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 text-secondary-foreground hover:text-foreground"
-                        >
-                          <Icon className="w-4 h-4" />
-                          <span className="text-sm font-medium hidden sm:inline-block">{social.platform}</span>
-                        </a>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom" className="text-xs">
-                        <p>{social.tooltip}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  );
-                })}
-              </TooltipProvider>
-            </motion.div>
-            
-            {/* Trust Indicators */}
-            <motion.div variants={itemVariants} className="flex flex-wrap gap-x-6 gap-y-3 text-sm font-medium text-secondary-foreground mb-12">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-primary" />
-                Custom AI Solutions
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-primary" />
-                Direct Developer Access
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-primary" />
-                No Agency Overhead
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-primary" />
-                Fast Delivery
-              </div>
-            </motion.div>
-
-            {/* Statistics */}
-            <motion.div variants={itemVariants} className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full">
-              <div className="flex flex-col items-start p-4 rounded-2xl bg-card/40 backdrop-blur-xl border border-white/5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:bg-card/60 transition-colors">
-                <span className="text-2xl font-bold text-foreground">50+</span>
-                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mt-1">Projects Built</span>
-              </div>
-              <div className="flex flex-col items-start p-4 rounded-2xl bg-card/40 backdrop-blur-xl border border-white/5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:bg-card/60 transition-colors">
-                <span className="text-2xl font-bold text-foreground">15+</span>
-                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mt-1">Industries</span>
-              </div>
-              <div className="flex flex-col items-start p-4 rounded-2xl bg-card/40 backdrop-blur-xl border border-white/5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:bg-card/60 transition-colors">
-                <span className="text-2xl font-bold text-foreground">20+</span>
-                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mt-1">Technologies</span>
-              </div>
-              <div className="flex flex-col items-start p-4 rounded-2xl bg-card/40 backdrop-blur-xl border border-white/5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:bg-card/60 transition-colors">
-                <span className="text-2xl font-bold text-foreground">&lt; 2h</span>
-                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mt-1">Response</span>
-              </div>
+                <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </a>
+              
+              {/* Secondary Button */}
+              <Link 
+                href="/work"
+                className="inline-flex items-center justify-center font-medium transition-all text-foreground h-14 w-full sm:w-auto text-base px-8 rounded-full border border-border/50 bg-background/30 backdrop-blur-md hover:bg-muted/50 hover:border-primary/50 shadow-sm hover:-translate-y-1 duration-300"
+              >
+                View My Work
+              </Link>
             </motion.div>
           </motion.div>
 
           {/* Right Content - 3D Visual */}
           <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="relative h-[400px] lg:h-[600px] w-full rounded-3xl overflow-visible"
+            initial={{ opacity: 0, filter: "blur(20px)" }}
+            animate={{ opacity: 1, filter: "blur(0px)" }}
+            transition={{ duration: 1.5, delay: 0.2 }}
+            className="relative h-[450px] lg:h-[700px] w-full rounded-3xl overflow-visible hidden md:block"
           >
-            {/* Subtle glow behind the 3D canvas */}
-            <div className="absolute inset-0 bg-primary/10 blur-[80px] rounded-full pointer-events-none" />
+            {/* Subtle glow behind the 3D canvas to ground it */}
+            <div className="absolute inset-0 bg-primary/5 blur-[100px] rounded-full pointer-events-none" />
             <Scene className="w-full h-full relative z-10">
-              <ambientLight intensity={0.8} />
-              <pointLight position={[10, 10, 10]} intensity={1.5} color="#2563EB" />
-              <pointLight position={[-10, -10, -10]} intensity={1} color="#7C3AED" />
+              <ambientLight intensity={0.5} />
+              <pointLight position={[10, 10, 10]} intensity={2} color="#06b6d4" /> {/* Cyan */}
+              <pointLight position={[-10, -10, -10]} intensity={1.5} color="#2563eb" /> {/* Electric Blue */}
+              <pointLight position={[0, -5, 5]} intensity={1} color="#3b82f6" />
               <AIBrain />
             </Scene>
           </motion.div>
 
         </div>
       </div>
+      
+      {/* Mask for grid */}
+      <style jsx>{`
+        .mask-image-fade {
+          mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+        }
+      `}</style>
     </section>
   );
 }

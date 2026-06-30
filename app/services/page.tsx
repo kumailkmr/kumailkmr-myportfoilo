@@ -2,7 +2,6 @@ import { SmoothScroll } from "@/components/animations/SmoothScroll";
 import { Services } from "@/components/sections/Services";
 import { Industries } from "@/components/sections/Industries";
 import { Process } from "@/components/sections/Process";
-import { Footer } from "@/components/sections/Footer";
 
 export default function ServicesPage() {
   return (
@@ -12,7 +11,6 @@ export default function ServicesPage() {
         <Industries />
         <Process />
       </div>
-      <Footer />
     </SmoothScroll>
   );
 }

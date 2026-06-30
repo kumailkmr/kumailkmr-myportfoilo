@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { motion } from "framer-motion";
 import { getSocials } from "@/config/socials";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { CALENDLY_LINK } from "@/config/socials";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -23,10 +23,13 @@ export function Navbar() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
         <Link href="/" className="text-xl font-bold tracking-tight text-foreground flex items-center gap-2">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground">
-            <span className="font-bold text-lg">A</span>
+          <div className="w-10 h-10 border border-primary/20 bg-primary/5 rounded-full flex items-center justify-center text-primary shadow-sm hover:shadow-md transition-shadow">
+            <span className="font-black text-xl tracking-tighter">K.</span>
           </div>
-          <span className="hidden sm:inline-block">AI Automations</span>
+          <div className="hidden sm:flex flex-col">
+            <span className="font-bold text-base leading-none text-foreground tracking-tight">Kumail Kmr</span>
+            <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-[0.2em] mt-1">Independent</span>
+          </div>
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
@@ -83,9 +86,14 @@ export function Navbar() {
           </div>
 
           <ThemeToggle />
-          <Button className="hidden sm:inline-flex hover-lift rounded-full px-6">
+          <a 
+            href={CALENDLY_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 rounded-full px-6 hover-lift"
+          >
             Book Consultation
-          </Button>
+          </a>
         </div>
       </div>
     </header>

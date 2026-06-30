@@ -45,21 +45,21 @@
 }
 
 .dark {
-  --background: #0A0A0A;
+  --background: #000000;
   --foreground: #FFFFFF;
-  --card: #171717;
-  --card-hover: #1F1F1F;
+  --card: #0A0A0A;
+  --card-hover: #111111;
   --card-foreground: #FFFFFF;
-  --popover: #171717;
+  --popover: #0A0A0A;
   --popover-foreground: #FFFFFF;
   --primary: #3B82F6;
   --primary-hover: #2563EB;
   --primary-foreground: #FFFFFF;
-  --secondary: #111827;
+  --secondary: #0A0A0A;
   --secondary-foreground: #A1A1AA;
-  --muted: #111827;
+  --muted: #0A0A0A;
   --muted-foreground: #71717A;
-  --accent: #111827;
+  --accent: #0A0A0A;
   --accent-foreground: #FFFFFF;
   --destructive: #EF4444;
   --destructive-foreground: #FFFFFF;
@@ -73,13 +73,13 @@
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: #0A0A0A;
+  --sidebar: #000000;
   --sidebar-foreground: #FFFFFF;
   --sidebar-primary: #3B82F6;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #111827;
+  --sidebar-accent: #0A0A0A;
   --sidebar-accent-foreground: #FFFFFF;
-  --sidebar-border: #262626;
+  --sidebar-border: #1A1A1A;
   --sidebar-ring: #3B82F6;
 }
 
@@ -142,8 +142,15 @@
     0% { transform: translateX(0%); }
     100% { transform: translateX(-50%); }
   }
+  @keyframes marquee-reverse {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0%); }
+  }
   .animate-marquee {
-    animation: marquee 25s linear infinite;
+    animation: marquee 80s linear infinite;
+  }
+  .animate-marquee-reverse {
+    animation: marquee-reverse 80s linear infinite;
   }
   
   /* Premium Gradient Utilities */
@@ -195,5 +202,31 @@
   .hover-lift:hover .hover-icon-subtle svg, 
   .group:hover .hover-icon-subtle svg {
     @apply scale-110 text-primary;
+  }
+
+  /* Patterns & Textures */
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+  }
+  
+  .dark .bg-noise {
+    opacity: 0.05;
+  }
+
+  .bg-grid-pattern {
+    background-size: 40px 40px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  }
+
+  .dark .bg-grid-pattern {
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  }
+
+  .glass-panel {
+    @apply bg-white/60 dark:bg-black/40 backdrop-blur-xl border border-white/20 dark:border-white/10;
   }
 }

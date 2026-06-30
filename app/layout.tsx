@@ -5,14 +5,13 @@ import { ThemeProvider } from "@/components/common/ThemeProvider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Navbar } from "@/components/layout/Navbar";
 import { MobileNav } from "@/components/layout/MobileNav";
-import { FloatingContact } from "@/components/layout/FloatingContact";
 import { Footer } from "@/components/layout/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Kumail KMR | Premium AI Software Engineer",
-  description: "I build high-end AI software, automated workflows, and premium web experiences that help businesses scale.",
+  title: "Kumail Kmr | Freelance AI & Business Systems Architect",
+  description: "Independent consultant building high-end AI software, automated workflows, and premium web experiences that help businesses scale.",
 };
 
 export default function RootLayout({
@@ -36,7 +35,6 @@ export default function RootLayout({
                 {children}
               </main>
               <Footer />
-              <FloatingContact />
               <MobileNav />
             </div>
           </TooltipProvider>

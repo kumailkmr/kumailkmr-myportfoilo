@@ -2,7 +2,6 @@ import { SmoothScroll } from "@/components/animations/SmoothScroll";
 import { Projects } from "@/components/sections/Projects";
 import { CaseStudies } from "@/components/sections/CaseStudies";
 import { Technologies } from "@/components/sections/Technologies";
-import { Footer } from "@/components/sections/Footer";
 
 export default function WorkPage() {
   return (
@@ -12,7 +11,6 @@ export default function WorkPage() {
         <CaseStudies />
         <Technologies />
       </div>
-      <Footer />
     </SmoothScroll>
   );
 }

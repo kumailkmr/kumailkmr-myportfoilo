@@ -1,54 +1,76 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Search, Map, Cpu, Rocket } from "lucide-react";
 
-const steps = [
-  { id: "01", title: "Discovery", desc: "Understanding your business goals, pain points, and technical requirements." },
-  { id: "02", title: "Strategy", desc: "Formulating a scalable architecture and precise project roadmap." },
-  { id: "03", title: "Design", desc: "Creating intuitive UI/UX and finalizing the data models." },
-  { id: "04", title: "Development", desc: "Engineering the solution using clean, modern, and performant code." },
-  { id: "05", title: "Testing", desc: "Rigorous QA to ensure flawless execution under load." },
-  { id: "06", title: "Deployment", desc: "Seamless launch into your production environment." },
-  { id: "07", title: "Support", desc: "Ongoing maintenance and optimization to ensure long-term success." },
+const processSteps = [
+  { 
+    id: "01", 
+    title: "Deep-Dive Audit", 
+    desc: "We don't start with code. We start by auditing your current operational bottlenecks, identifying where you are losing time and revenue, and defining exactly how technology can solve it.",
+    icon: Search
+  },
+  { 
+    id: "02", 
+    title: "Strategic Architecture", 
+    desc: "I map out the exact ROI of the proposed solution. You get a clear, transparent roadmap detailing the data models, AI integrations, and the automation flows that will run your business.",
+    icon: Map
+  },
+  { 
+    id: "03", 
+    title: "Rapid Implementation", 
+    desc: "Development happens fast. Using modern frameworks and scalable cloud infrastructure, I build, test, and integrate your new systems without disrupting your day-to-day operations.",
+    icon: Cpu
+  },
+  { 
+    id: "04", 
+    title: "Scale & Optimize", 
+    desc: "Once deployed, we don't just walk away. We monitor system performance, optimize AI responses based on real-world data, and scale the infrastructure as your business grows.",
+    icon: Rocket
+  }
 ];
 
 export function Process() {
   return (
-    <section className="py-24 container mx-auto px-4">
-      <div className="text-center mb-16">
-        <h2 className="text-3xl md:text-5xl font-bold mb-4">Development Process</h2>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          A systematic, transparent approach to delivering enterprise-grade solutions.
-        </p>
-      </div>
+    <section className="py-32 relative overflow-hidden bg-muted/20">
+      <div className="container mx-auto px-4 relative z-10 max-w-6xl">
+        <div className="text-center mb-20">
+          <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">The <span className="text-primary">Partner</span> Framework</h2>
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            A strategic, transparent approach to delivering enterprise-grade solutions. You are not just hiring a developer; you are gaining a technical partner.
+          </p>
+        </div>
 
-      <div className="max-w-3xl mx-auto relative">
-        <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-border -translate-x-1/2" />
-        
-        {steps.map((step, index) => (
-          <motion.div
-            key={step.id}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
-            className={`relative flex flex-col md:flex-row items-center gap-8 mb-12 last:mb-0 ${
-              index % 2 === 0 ? "md:flex-row-reverse" : ""
-            }`}
-          >
-            <div className="flex-1 w-full" />
-            <div className="absolute left-4 md:left-1/2 w-8 h-8 rounded-full bg-background border-4 border-primary flex items-center justify-center -translate-x-1/2 z-10">
-              <div className="w-2 h-2 rounded-full bg-primary" />
-            </div>
-            <div className="flex-1 w-full pl-12 md:pl-0">
-              <div className={`bg-muted/30 p-6 rounded-2xl border border-border ${index % 2 === 0 ? "md:text-right" : "md:text-left"}`}>
-                <span className="text-primary font-bold text-xl mb-2 block">{step.id}</span>
-                <h3 className="text-2xl font-bold mb-2">{step.title}</h3>
-                <p className="text-muted-foreground">{step.desc}</p>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {processSteps.map((step, index) => (
+            <motion.div
+              key={step.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: index * 0.15, duration: 0.5 }}
+              className="relative group"
+            >
+              {/* Connector Line (Desktop only) */}
+              {index < processSteps.length - 1 && (
+                <div className="hidden lg:block absolute top-10 left-[60%] w-full h-[2px] bg-gradient-to-r from-primary/30 to-transparent z-0" />
+              )}
+              
+              <div className="relative z-10 bg-background/60 backdrop-blur-md border border-border/50 p-8 rounded-3xl h-full shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300">
+                <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+                  <step.icon className="w-8 h-8 text-primary group-hover:text-primary-foreground transition-colors" />
+                </div>
+                
+                <span className="text-6xl font-black text-muted/30 absolute top-6 right-6 select-none">{step.id}</span>
+                
+                <h3 className="text-2xl font-bold mb-4">{step.title}</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  {step.desc}
+                </p>
               </div>
-            </div>
-          </motion.div>
-        ))}
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

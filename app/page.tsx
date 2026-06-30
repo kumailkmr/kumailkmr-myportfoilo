@@ -2,7 +2,6 @@ import { SmoothScroll } from "@/components/animations/SmoothScroll";
 import { Hero } from "@/components/sections/Hero";
 import { TechStack } from "@/components/sections/TechStack";
 import { ProblemsSolved } from "@/components/sections/ProblemsSolved";
-import { Footer } from "@/components/sections/Footer";
 
 export default function Home() {
   return (
@@ -12,7 +11,6 @@ export default function Home() {
         <TechStack />
         <ProblemsSolved />
       </div>
-      <Footer />
     </SmoothScroll>
   );
 }

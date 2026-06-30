@@ -10,6 +10,8 @@ export type SocialProfile = {
   tooltip: string;
 };
 
+export const CALENDLY_LINK = "https://calendly.com/ka6307464/business-automation-strategy-session?month=2026-07";
+
 export const SOCIALS: SocialProfile[] = [
   {
     platform: "GitHub",
@@ -69,7 +71,7 @@ export const SOCIALS: SocialProfile[] = [
   },
   {
     platform: "Calendly",
-    url: "https://calendly.com/kumailkmr",
+    url: CALENDLY_LINK,
     handle: "Book a Call",
     icon: Calendar,
     description: "Schedule a free consultation or strategy session directly.",
