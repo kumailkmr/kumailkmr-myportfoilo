@@ -5,7 +5,8 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { motion } from "framer-motion";
-import { Home, Layers, LayoutGrid, User } from "lucide-react";
+import { Home, Layers, LayoutGrid, User, Menu, ArrowRight } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { getSocials } from "@/config/socials";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { CALENDLY_LINK } from "@/config/socials";
@@ -24,14 +25,15 @@ export function Navbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
-        <Link href="/" className="text-xl font-bold tracking-tight text-foreground flex items-center gap-2">
-          <div className="w-10 h-10 border border-primary/20 rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-shadow overflow-hidden relative">
+        <Link href="/" className="text-xl font-bold tracking-tight text-foreground flex items-center gap-3">
+          <div className="w-12 h-12 border-2 border-primary/20 rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-shadow overflow-hidden relative">
             <Image 
               src="/images/logo.jpg" 
               alt="Kumail Kmr Logo" 
               fill 
-              className="object-cover object-top"
-              sizes="40px"
+              className="object-cover object-[50%_25%]"
+              sizes="48px"
+              priority
             />
           </div>
           <div className="hidden sm:flex flex-col">
@@ -102,6 +104,62 @@ export function Navbar() {
           >
             Book Consultation
           </a>
+
+          {/* Mobile Hamburger Menu */}
+          <div className="md:hidden flex items-center ml-2">
+            <Sheet>
+              <SheetTrigger className="p-2 -mr-2 text-secondary-foreground hover:text-primary transition-colors focus:outline-none">
+                  <Menu className="w-6 h-6" />
+                  <span className="sr-only">Toggle Menu</span>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] sm:w-[350px] bg-background border-l border-border/20 pt-16 shadow-2xl flex flex-col">
+                <SheetTitle className="sr-only">Mobile Navigation</SheetTitle>
+                <SheetDescription className="sr-only">Links to navigate the website.</SheetDescription>
+
+                {/* Navigation Links */}
+                <nav className="flex flex-col gap-2 flex-grow">
+                  {navLinks.map((link) => {
+                    const isActive = pathname === link.href;
+                    const Icon = link.icon;
+                    return (
+                      <Link
+                        key={link.name}
+                        href={link.href}
+                        className={`group flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-300 ${
+                          isActive 
+                            ? "bg-primary/10 text-primary" 
+                            : "text-muted-foreground hover:bg-card/50 hover:text-foreground"
+                        }`}
+                      >
+                        <div className={`p-2 rounded-xl ${isActive ? "bg-primary/20" : "bg-card/50 group-hover:bg-card"}`}>
+                          <Icon className="w-5 h-5" />
+                        </div>
+                        <span className="text-xl font-semibold text-foreground tracking-tight">{link.name}</span>
+                        {isActive && (
+                          <div className="ml-auto w-1.5 h-1.5 rounded-full bg-primary" />
+                        )}
+                      </Link>
+                    );
+                  })}
+                </nav>
+
+                {/* Footer CTA */}
+                <div className="mt-auto pt-6 border-t border-border/20">
+                  <a 
+                    href={CALENDLY_LINK}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center justify-between w-full p-4 rounded-2xl bg-gradient-to-r from-primary/90 to-purple-600/90 hover:from-primary hover:to-purple-600 text-white shadow-lg transition-all duration-300 hover:shadow-primary/25 hover:-translate-y-1"
+                  >
+                    <span className="font-bold text-base tracking-tight">Book Consultation</span>
+                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                      <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-0.5 transition-transform" />
+                    </div>
+                  </a>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
 
         </div>
       </div>
