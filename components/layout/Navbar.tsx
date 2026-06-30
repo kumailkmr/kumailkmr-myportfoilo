@@ -6,22 +6,30 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { motion } from "framer-motion";
-import { Home, Layers, LayoutGrid, User, Menu, ArrowRight, Briefcase, BarChart3 } from "lucide-react";
+import { Home, Layers, LayoutGrid, User, UserCircle, Menu, ArrowRight, Briefcase, BarChart3 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { getSocials } from "@/config/socials";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { CALENDLY_LINK } from "@/config/socials";
 import { HireMeModal } from "@/components/ui/HireMeModal";
+import { AboutMeModal } from "@/components/ui/AboutMeModal";
 
 const navLinks = [
-  { name: "Insights", href: "/insights", icon: BarChart3 },
+  { name: "Home", href: "/", icon: Home },
+  { name: "Services", href: "/services", icon: Layers },
   { name: "Work", href: "/work", icon: LayoutGrid },
   { name: "About", href: "/about", icon: User },
+];
+
+// Sidebar-only links (Work removed — accessible via bottom nav)
+const sidebarLinks = [
+  { name: "Insights", href: "/insights", icon: BarChart3 },
 ];
 
 export function Navbar() {
   const pathname = usePathname();
   const [isHireMeOpen, setIsHireMeOpen] = useState(false);
+  const [isAboutMeOpen, setIsAboutMeOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navSocials = getSocials(["GitHub", "LinkedIn"]);
 
@@ -129,7 +137,7 @@ export function Navbar() {
 
                 {/* Navigation Links */}
                 <nav className="flex flex-col gap-2 flex-grow">
-                  {navLinks.map((link) => {
+                  {sidebarLinks.map((link) => {
                     const isActive = pathname === link.href;
                     const Icon = link.icon;
                     return (
@@ -154,6 +162,17 @@ export function Navbar() {
                     );
                   })}
                   
+                  {/* About Me Button — opens the same modal as hero */}
+                  <button
+                    onClick={() => { setIsAboutMeOpen(true); setIsSidebarOpen(false); }}
+                    className="group flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-300 text-muted-foreground hover:bg-card/50 hover:text-foreground text-left"
+                  >
+                    <div className="p-2 rounded-xl bg-card/50 group-hover:bg-card">
+                      <UserCircle className="w-5 h-5 text-purple-500" />
+                    </div>
+                    <span className="text-xl font-semibold text-foreground tracking-tight">About Me</span>
+                  </button>
+
                   {/* Hire Me Button */}
                   <button
                     onClick={() => { setIsHireMeOpen(true); setIsSidebarOpen(false); }}
@@ -187,6 +206,7 @@ export function Navbar() {
         </div>
       </div>
       <HireMeModal isOpen={isHireMeOpen} onClose={() => setIsHireMeOpen(false)} />
+      <AboutMeModal isOpen={isAboutMeOpen} onClose={() => setIsAboutMeOpen(false)} />
     </header>
   );
 }
