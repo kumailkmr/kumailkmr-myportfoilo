@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { motion } from "framer-motion";
@@ -24,8 +25,14 @@ export function Navbar() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
         <Link href="/" className="text-xl font-bold tracking-tight text-foreground flex items-center gap-2">
-          <div className="w-10 h-10 border border-primary/20 bg-primary/5 rounded-full flex items-center justify-center text-primary shadow-sm hover:shadow-md transition-shadow">
-            <span className="font-black text-xl tracking-tighter">K.</span>
+          <div className="w-10 h-10 border border-primary/20 rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-shadow overflow-hidden relative">
+            <Image 
+              src="/images/logo.jpg" 
+              alt="Kumail Kmr Logo" 
+              fill 
+              className="object-cover object-top"
+              sizes="40px"
+            />
           </div>
           <div className="hidden sm:flex flex-col">
             <span className="font-bold text-base leading-none text-foreground tracking-tight">Kumail Kmr</span>
