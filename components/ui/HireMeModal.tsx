@@ -28,7 +28,8 @@ export function HireMeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
 
   // Only render portal after component mounts (client-side)
   useEffect(() => {
-    setMounted(true);
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
   }, []);
 
   // Lock body scroll when modal is open

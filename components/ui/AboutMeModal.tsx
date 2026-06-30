@@ -18,7 +18,8 @@ export function AboutMeModal({ isOpen, onClose }: AboutMeModalProps) {
 
   // Only render portal after mount (client-side)
   useEffect(() => {
-    setMounted(true);
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
   }, []);
 
   // Prevent scrolling when modal is open
