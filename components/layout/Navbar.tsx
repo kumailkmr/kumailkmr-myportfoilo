@@ -6,7 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { motion } from "framer-motion";
-import { Home, Layers, LayoutGrid, User, Menu, ArrowRight, Briefcase } from "lucide-react";
+import { Home, Layers, LayoutGrid, User, Menu, ArrowRight, Briefcase, BarChart3 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { getSocials } from "@/config/socials";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -15,7 +15,7 @@ import { HireMeModal } from "@/components/ui/HireMeModal";
 
 const navLinks = [
   { name: "Home", href: "/", icon: Home },
-  { name: "Services", href: "/services", icon: Layers },
+  { name: "Insights", href: "/insights", icon: BarChart3 },
   { name: "Work", href: "/work", icon: LayoutGrid },
   { name: "About", href: "/about", icon: User },
 ];
