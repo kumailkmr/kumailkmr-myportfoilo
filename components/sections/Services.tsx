@@ -52,7 +52,7 @@ const premiumServices = [
 
 export function Services() {
   return (
-    <section className="py-24 relative overflow-hidden bg-background">
+    <section className="pt-12 pb-16 relative overflow-hidden bg-background">
       {/* Subtle Premium Background Layers */}
       <div className="absolute inset-0 bg-noise opacity-[0.03] dark:opacity-[0.15] pointer-events-none" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />

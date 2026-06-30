@@ -2,6 +2,7 @@ import { SmoothScroll } from "@/components/animations/SmoothScroll";
 import { Services } from "@/components/sections/Services";
 import { Industries } from "@/components/sections/Industries";
 import { Process } from "@/components/sections/Process";
+import { AIEcosystem } from "@/components/sections/AIEcosystem";
 
 export default function ServicesPage() {
   return (
@@ -10,6 +11,7 @@ export default function ServicesPage() {
         <Services />
         <Industries />
         <Process />
+        <AIEcosystem />
       </div>
     </SmoothScroll>
   );

@@ -32,7 +32,7 @@ const processSteps = [
 
 export function Process() {
   return (
-    <section className="py-32 relative overflow-hidden bg-muted/20">
+    <section className="py-16 relative overflow-hidden bg-muted/20">
       <div className="container mx-auto px-4 relative z-10 max-w-6xl">
         <div className="text-center mb-20">
           <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">The <span className="text-primary">Partner</span> Framework</h2>

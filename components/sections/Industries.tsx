@@ -47,7 +47,7 @@ const premiumIndustries = [
 
 export function Industries() {
   return (
-    <section className="py-24 relative overflow-hidden bg-background border-t border-border/20">
+    <section className="py-16 relative overflow-hidden bg-background border-t border-border/20">
       {/* Premium Ambient Backgrounds */}
       <div className="absolute top-1/2 left-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] -translate-y-1/2 pointer-events-none" />
       
