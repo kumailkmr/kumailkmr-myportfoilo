@@ -3,7 +3,6 @@
 import { AboutHeader } from "./about/AboutHeader";
 import { StorySection } from "./about/StorySection";
 import { InteractiveTimeline } from "./about/InteractiveTimeline";
-import { TechOrbit } from "./about/TechOrbit";
 import { CoreValues } from "./about/CoreValues";
 import { AboutCTA } from "./about/AboutCTA";
 
@@ -13,7 +12,6 @@ export function About() {
       <AboutHeader />
       <StorySection />
       <InteractiveTimeline />
-      <TechOrbit />
       <CoreValues />
       <AboutCTA />
     </div>
