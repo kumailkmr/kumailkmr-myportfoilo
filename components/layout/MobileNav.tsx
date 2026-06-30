@@ -26,8 +26,8 @@ export function MobileNav() {
   const pathname = usePathname();
 
   return (
-    <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-[400px]">
-      <nav className="flex items-center justify-between px-2 py-2 bg-background/60 backdrop-blur-xl border border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] rounded-full">
+    <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 w-full">
+      <nav className="flex items-center justify-around px-2 py-3 bg-background/80 backdrop-blur-3xl border-t border-border/50 shadow-[0_-8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_-8px_30px_rgb(0,0,0,0.4)]">
         {mobileNavLinks.map((link) => {
           const isActive = pathname === link.href && !link.isExternal;
           const Icon = link.icon;

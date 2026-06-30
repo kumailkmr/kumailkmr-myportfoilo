@@ -21,12 +21,8 @@ export function AboutCTA() {
           viewport={{ once: true }}
           className="max-w-4xl mx-auto text-center glass-panel p-10 md:p-16 rounded-3xl border border-primary/20 shadow-[0_0_50px_rgba(37,99,235,0.15)]"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            Let's Build Something That Makes Your Business More <span className="text-primary">Efficient</span>
-          </h2>
-          <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-            Whether you need AI automation, a custom web application, or a scalable software solution, I'm ready to help transform your ideas into reliable digital products.
-          </p>
+          <h2 className="text-3xl md:text-5xl font-black tracking-tight text-white mb-6">Ready to Build Your Next &apos;Unfair Advantage&apos;?</h2>
+          <p className="text-xl text-primary-foreground/80 max-w-2xl mx-auto mb-10 font-medium">Let&apos;s architect a system that removes the operational friction from your business so you can focus on scale.</p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a 

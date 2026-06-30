@@ -164,6 +164,7 @@ export function Testimonials() {
               align: "start",
               loop: true,
             }}
+            // eslint-disable-next-line react-hooks/refs
             plugins={[plugin.current]}
             className="w-full relative"
           >

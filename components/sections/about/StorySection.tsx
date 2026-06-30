@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CheckCircle2, User, Wrench, Users, Target } from "lucide-react";
+import { User, Wrench, Users, Target } from "lucide-react";
 import { VisualComposition } from "./VisualComposition";
 
 export function StorySection() {

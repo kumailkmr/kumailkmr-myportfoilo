@@ -4,10 +4,14 @@ import { motion, Variants } from "framer-motion";
 import { CALENDLY_LINK } from "@/config/socials";
 import { Scene } from "@/components/three/Scene";
 import { AIBrain } from "@/components/three/AIBrain";
-import { ArrowRight, Bot, Code2, Cpu, LineChart } from "lucide-react";
+import { ArrowRight, Bot, Code2, Cpu, LineChart, UserCircle } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import { AboutMeModal } from "@/components/ui/AboutMeModal";
 
 export function Hero() {
+  const [isAboutMeOpen, setIsAboutMeOpen] = useState(false);
+
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -109,6 +113,15 @@ export function Hero() {
               >
                 View My Work
               </Link>
+              
+              {/* About Me Modal Button */}
+              <button 
+                onClick={() => setIsAboutMeOpen(true)}
+                className="inline-flex items-center justify-center font-medium transition-all text-foreground h-14 w-full sm:w-auto text-base px-8 rounded-full border border-border/50 bg-background/30 backdrop-blur-md hover:bg-muted/50 hover:border-purple-500/50 shadow-sm hover:-translate-y-1 duration-300 group"
+              >
+                <UserCircle className="w-5 h-5 mr-2 text-muted-foreground group-hover:text-purple-400 transition-colors" />
+                About Me
+              </button>
             </motion.div>
           </motion.div>
 
@@ -139,6 +152,9 @@ export function Hero() {
           mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
         }
       `}</style>
+
+      {/* Render the About Me Modal */}
+      <AboutMeModal isOpen={isAboutMeOpen} onClose={() => setIsAboutMeOpen(false)} />
     </section>
   );
 }
