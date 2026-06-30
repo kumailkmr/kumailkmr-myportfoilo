@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 interface IntroAnimationProps {
   onComplete: () => void;
@@ -29,7 +30,7 @@ function playBeep(ctx: AudioContext, freq: number, startTime: number, duration: 
 
 function playHeartbeat() {
   safePlaySound(() => {
-    const ctx = new AudioContext();
+    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
     const now = ctx.currentTime;
     playBeep(ctx, 880, now, 0.12, 0.25);
     playBeep(ctx, 660, now + 0.18, 0.1, 0.15);
@@ -38,7 +39,7 @@ function playHeartbeat() {
 
 function playShimmer() {
   safePlaySound(() => {
-    const ctx = new AudioContext();
+    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
     const now = ctx.currentTime;
     [523, 659, 784, 1047].forEach((freq, i) => {
       const osc = ctx.createOscillator();
@@ -96,43 +97,93 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
 
   return (
     <motion.div
-      className="fixed inset-0 flex items-center justify-center bg-black cursor-pointer"
+      className="fixed inset-0 flex items-center justify-center bg-black"
       style={{ zIndex: 99999 }}
       animate={phase === 3 ? { opacity: 0 } : { opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeInOut" }}
-      onClick={!started ? startExperience : undefined}
     >
-      {/* Ambient glow */}
+      {/* Premium background grid & ambient light */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-[0.03] pointer-events-none" />
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] sm:w-[600px] sm:h-[600px] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 70%)" }}
-          animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.5, 0.2] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 70%)" }}
+          animate={{ scale: [1, 1.25, 1], opacity: [0.3, 0.6, 0.3] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
 
       {/* Startup Prompt */}
       {!started && (
         <motion.div 
-          className="flex flex-col items-center gap-6 z-10 px-6 text-center"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
+          className="flex flex-col items-center gap-8 z-10 px-6 text-center max-w-md"
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, type: "spring" }}
         >
-          <div
-            className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-2 border-white/20 bg-white/5 backdrop-blur-xl flex items-center justify-center"
-            style={{ boxShadow: "0 0 40px rgba(124,58,237,0.3), inset 0 1px 0 rgba(255,255,255,0.1)" }}
-          >
-            <span className="text-4xl sm:text-5xl font-black bg-gradient-to-br from-white via-purple-200 to-cyan-300 bg-clip-text text-transparent">
-              K
-            </span>
+          {/* Avatar Container with glowing rings */}
+          <div className="relative">
+            {/* Outer animated gradient glow */}
+            <motion.div 
+              className="absolute -inset-2 rounded-full bg-gradient-to-r from-primary via-purple-500 to-cyan-500 opacity-80 blur-md"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+            />
+            {/* Inner photo container */}
+            <div
+              className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full border-2 border-white/20 bg-black overflow-hidden shadow-[0_0_50px_rgba(124,58,237,0.4)]"
+            >
+              <Image 
+                src="/images/profile.jpg"
+                alt="Kumail Kmr Logo"
+                fill
+                className="object-cover object-top"
+                sizes="(max-width: 768px) 112px, 128px"
+                priority
+              />
+            </div>
+            {/* Monogram Badge on bottom right */}
+            <div className="absolute -bottom-1 -right-1 w-9 h-9 rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center border-2 border-black shadow-xl">
+              <span className="text-sm font-extrabold text-white">K</span>
+            </div>
           </div>
-          <div className="space-y-2">
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">Kumail Kmr</h2>
-            <p className="text-xs sm:text-sm text-purple-400 font-semibold tracking-[0.25em] uppercase animate-pulse">
-              Click to Enter Experience
-            </p>
+
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <h2 className="text-3xl font-black tracking-tight text-white">Kumail Kmr</h2>
+              <p className="text-xs sm:text-sm text-muted-foreground uppercase tracking-[0.3em] font-semibold">
+                AI & Business Systems Architect
+              </p>
+            </div>
+
+            {/* Premium Glowing Interactive Button */}
+            <motion.button
+              onClick={startExperience}
+              className="relative inline-flex items-center justify-center px-10 py-4.5 rounded-full bg-white/5 border border-white/10 text-white font-extrabold tracking-widest text-sm uppercase transition-all shadow-[0_0_30px_rgba(124,58,237,0.15)] duration-300 overflow-hidden group hover:scale-[1.03] active:scale-[0.98]"
+              whileHover={{ y: -2 }}
+              style={{
+                boxShadow: "inset 0 1px 0 rgba(255,255,255,0.1), 0 4px 20px rgba(0,0,0,0.5)"
+              }}
+            >
+              {/* Button Hover Glow Background */}
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-purple-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              {/* Animated Light Sweep */}
+              <div 
+                className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/15 to-transparent skew-x-12 -translate-x-full group-hover:animate-shimmer"
+                style={{ animationDuration: "1.5s" }}
+              />
+
+              <span className="relative z-10 flex items-center gap-3">
+                Click to Experience
+                <motion.span
+                  animate={{ x: [0, 6, 0] }}
+                  transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                >
+                  →
+                </motion.span>
+              </span>
+            </motion.button>
           </div>
         </motion.div>
       )}
@@ -199,24 +250,29 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
       )}
 
       {/* Phase 2: Welcome Text */}
-      {phase === 2 && (
+      {started && phase === 2 && (
         <motion.div
           className="absolute inset-0 flex flex-col items-center justify-center gap-5 sm:gap-6 px-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
         >
-          {/* K Monogram */}
+          {/* Photo Monogram */}
           <motion.div
-            className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-2 border-white/20 bg-white/5 backdrop-blur-xl flex items-center justify-center"
-            style={{ boxShadow: "0 0 40px rgba(124,58,237,0.3), inset 0 1px 0 rgba(255,255,255,0.1)" }}
+            className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full border-2 border-white/20 bg-background overflow-hidden"
+            style={{ boxShadow: "0 0 40px rgba(124,58,237,0.3)" }}
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ type: "spring", damping: 15, stiffness: 200 }}
           >
-            <span className="text-4xl sm:text-5xl font-black bg-gradient-to-br from-white via-purple-200 to-cyan-300 bg-clip-text text-transparent">
-              K
-            </span>
+            <Image 
+              src="/images/profile.jpg"
+              alt="Kumail Kmr Portrait"
+              fill
+              className="object-cover object-top"
+              sizes="(max-width: 768px) 80px, 96px"
+              priority
+            />
           </motion.div>
 
           {/* Welcome text */}
