@@ -11,7 +11,6 @@ const mobileNavLinks = [
   { name: "Services", href: "/services", icon: Layers },
   { name: "Work", href: "/work", icon: LayoutGrid },
   { name: "About", href: "/about", icon: User },
-  { name: "Contact", href: "/contact", icon: MessageSquare },
 ];
 
 export function MobileNav() {
