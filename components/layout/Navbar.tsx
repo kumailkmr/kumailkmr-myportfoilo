@@ -14,7 +14,6 @@ import { CALENDLY_LINK } from "@/config/socials";
 import { HireMeModal } from "@/components/ui/HireMeModal";
 
 const navLinks = [
-  { name: "Home", href: "/", icon: Home },
   { name: "Insights", href: "/insights", icon: BarChart3 },
   { name: "Work", href: "/work", icon: LayoutGrid },
   { name: "About", href: "/about", icon: User },
@@ -23,6 +22,7 @@ const navLinks = [
 export function Navbar() {
   const pathname = usePathname();
   const [isHireMeOpen, setIsHireMeOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navSocials = getSocials(["GitHub", "LinkedIn"]);
 
   return (
@@ -71,34 +71,42 @@ export function Navbar() {
 
         <div className="flex items-center gap-4">
           {/* Desktop Minimal Socials */}
-          <div className="hidden lg:flex items-center gap-1 mr-2 border-r border-border pr-6">
-            <TooltipProvider delay={100}>
-              {navSocials.map(social => {
-                if (!social) return null;
-                const Icon = social.icon;
-                return (
-                  <Tooltip key={social.platform}>
-                    <TooltipTrigger>
-                      <a
-                        href={social.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 text-secondary-foreground hover:text-primary hover:bg-secondary rounded-full transition-colors"
-                        aria-label={social.platform}
-                      >
-                        <Icon className="w-4 h-4" />
-                      </a>
-                    </TooltipTrigger>
-                    <TooltipContent side="bottom" className="text-xs">
-                      <p>{social.platform}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                );
-              })}
-            </TooltipProvider>
-          </div>
+            <div className="hidden lg:flex items-center gap-1 mr-2 border-r border-border pr-6">
+              <TooltipProvider delay={100}>
+                {navSocials.map(social => {
+                  if (!social) return null;
+                  const Icon = social.icon;
+                  return (
+                    <Tooltip key={social.platform}>
+                      <TooltipTrigger>
+                        <a
+                          href={social.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 text-secondary-foreground hover:text-primary hover:bg-secondary rounded-full transition-colors"
+                          aria-label={social.platform}
+                        >
+                          <Icon className="w-4 h-4" />
+                        </a>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom" className="text-xs">
+                        <p>{social.platform}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  );
+                })}
+              </TooltipProvider>
+            </div>
 
-          <ThemeToggle />
+            {/* Desktop Hire Me Button */}
+            <button
+              onClick={() => setIsHireMeOpen(true)}
+              className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+            >
+              Hire Me
+            </button>
+
+            <ThemeToggle />
           <a 
             href={CALENDLY_LINK}
             target="_blank"
@@ -110,7 +118,7 @@ export function Navbar() {
 
           {/* Mobile Hamburger Menu */}
           <div className="md:hidden flex items-center ml-2">
-            <Sheet>
+            <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
               <SheetTrigger className="p-2 -mr-2 text-secondary-foreground hover:text-primary transition-colors focus:outline-none">
                   <Menu className="w-6 h-6" />
                   <span className="sr-only">Toggle Menu</span>
@@ -122,13 +130,13 @@ export function Navbar() {
                 {/* Navigation Links */}
                 <nav className="flex flex-col gap-2 flex-grow">
                   {navLinks.map((link) => {
-                    if (link.name === "Work") return null;
                     const isActive = pathname === link.href;
                     const Icon = link.icon;
                     return (
                       <Link
                         key={link.name}
                         href={link.href}
+                        onClick={() => setIsSidebarOpen(false)}
                         className={`group flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-300 ${
                           isActive 
                             ? "bg-primary/10 text-primary" 
@@ -148,7 +156,7 @@ export function Navbar() {
                   
                   {/* Hire Me Button */}
                   <button
-                    onClick={() => setIsHireMeOpen(true)}
+                    onClick={() => { setIsHireMeOpen(true); setIsSidebarOpen(false); }}
                     className="group flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-300 text-muted-foreground hover:bg-card/50 hover:text-foreground text-left"
                   >
                     <div className="p-2 rounded-xl bg-card/50 group-hover:bg-card">
