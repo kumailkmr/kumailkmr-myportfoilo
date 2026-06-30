@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Premium Digital Solutions Portfolio
 
-## Getting Started
+A high-performance, conversion-focused portfolio and services website built for a Senior Software Engineer & UI/UX Architect. This repository serves as a master template for attracting high-ticket clients seeking AI automation, custom SaaS products, and premium web development.
 
-First, run the development server:
+## 🚀 Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+This project is engineered with modern, scalable, and production-ready technologies:
+
+- **Framework**: [Next.js 14](https://nextjs.org/) (App Router)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Components**: [shadcn/ui](https://ui.shadcn.com/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/) & [Lenis](https://lenis.studiofreight.com/) (Smooth Scrolling)
+- **3D Graphics**: [Three.js](https://threejs.org/) & [React Three Fiber](https://docs.pmnd.rs/react-three-fiber/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Package Manager**: [pnpm](https://pnpm.io/)
+
+## ✨ Key Features
+
+- **Premium UI/UX**: Glassmorphism, subtle gradients, and deep shadow hover effects designed for a high-end feel (inspired by Linear, Vercel, and Stripe).
+- **Smooth Scrolling**: Buttery smooth page scrolling powered by Lenis.
+- **Dynamic 3D Hero**: Integrated React Three Fiber canvas ready for interactive 3D models.
+- **Comprehensive Sections**: 15 modular feature blocks including massively expanded, dynamically mapped `Services` and `Industries` components.
+- **Fully Responsive**: Flawless execution across mobile, tablet, and desktop breakpoints.
+- **Dark/Light Mode**: Seamless theme switching utilizing `next-themes`.
+
+## 📂 Project Structure
+
+```text
+├── app/                  # Next.js App Router and global CSS
+├── components/
+│   ├── animations/       # Smooth scroll wrappers and transition components
+│   ├── common/           # Providers (Theme, Tooltip, etc.)
+│   ├── sections/         # The 15 core portfolio feature sections (Hero, About, Services, etc.)
+│   ├── three/            # WebGL / Three.js canvas components
+│   └── ui/               # shadcn/ui base components
+├── lib/                  # Utility functions (cn, etc.)
+├── public/               # Static assets (images, icons, models)
+└── types/                # Global TypeScript definitions
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+First, ensure you have `pnpm` installed.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Install dependencies:**
+   ```bash
+   pnpm install
+   ```
 
-## Learn More
+2. **Run the development server:**
+   ```bash
+   pnpm run dev
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+3. **Open the application:**
+   Navigate to [http://localhost:3000](http://localhost:3000) in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔒 Code Quality
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The project enforces strict code quality standards:
+- **Zero-Error TypeScript**: Fully typed components and props.
+- **Strict Linting**: Configured with ESLint v9 (`pnpm run lint`).
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+*Engineered with precision for maximum conversion and performance.*
