@@ -6,7 +6,6 @@ import Autoplay from "embla-carousel-autoplay";
 import { motion } from "framer-motion";
 import { Star, CheckCircle2, ArrowRight, Quote } from "lucide-react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
 import { CALENDLY_LINK } from "@/config/socials";
 import {
   Carousel,

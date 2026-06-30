@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { YoutubeModal } from "@/components/ui/YoutubeModal";
 import { CALENDLY_LINK } from "@/config/socials";
 import { 
@@ -119,6 +119,7 @@ export function Footer() {
                     rel="noopener noreferrer"
                     className={`group flex items-center justify-center w-12 h-12 rounded-xl bg-card/20 backdrop-blur-md border border-border/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${social.hoverBorder}`}
                     title={social.name}
+                    aria-label={social.name}
                   >
                     <social.icon className={`w-5 h-5 text-muted-foreground transition-colors duration-300 ${social.hoverColor}`} />
                   </a>
@@ -129,6 +130,7 @@ export function Footer() {
                   onClick={() => setIsYoutubeOpen(true)}
                   className="group flex items-center justify-center w-12 h-12 rounded-xl bg-card/20 backdrop-blur-md border border-border/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-[#FF0000]/50"
                   title="YouTube Channels"
+                  aria-label="YouTube Channels"
                 >
                   <SiYoutube className="w-5 h-5 text-muted-foreground transition-colors duration-300 group-hover:text-[#FF0000]" />
                 </button>

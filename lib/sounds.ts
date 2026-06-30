@@ -32,7 +32,7 @@ export function playHeartbeatSound() {
     playBeep(ctx, now, 880, 0.12, 0.3);
     // Second beep (slightly lower, slightly softer)
     playBeep(ctx, now + 0.18, 660, 0.1, 0.2);
-  } catch (e) {
+  } catch {
     // Silently fail if audio is blocked
   }
 }
@@ -87,7 +87,7 @@ export function playWelcomeBurstSound() {
       osc.start(start);
       osc.stop(start + dur);
     });
-  } catch (e) {
+  } catch {
     // Silently fail
   }
 }
@@ -105,7 +105,7 @@ export function playKnockSound() {
     createKnock(ctx, now, 0.25);
     // Knock 2 (softer)
     createKnock(ctx, now + 0.15, 0.18);
-  } catch (e) {
+  } catch {
     // Silently fail
   }
 }
@@ -179,7 +179,7 @@ export function playECGDrawSound(): () => void {
       gain.gain.linearRampToValueAtTime(0, t + 0.3);
       osc.stop(t + 0.35);
     };
-  } catch (e) {
+  } catch {
     return () => {};
   }
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback } from "react";
 import { IntroAnimation } from "@/components/ui/IntroAnimation";
 import { WelcomeNotification } from "@/components/ui/WelcomeNotification";
 import { HireMeModal } from "@/components/ui/HireMeModal";

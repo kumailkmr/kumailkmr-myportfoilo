@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Bot, Mic, FileText, Database, Zap, Cpu, Code2, Network } from "lucide-react";
+import { Bot, Mic, FileText, Database, Cpu, Code2, Network } from "lucide-react";
 
 const expertisePillars = [
   {

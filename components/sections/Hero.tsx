@@ -1,13 +1,25 @@
 "use client";
 
 import { motion, Variants } from "framer-motion";
-import { CALENDLY_LINK } from "@/config/socials";
-import { Scene } from "@/components/three/Scene";
-import { AIBrain } from "@/components/three/AIBrain";
+import dynamic from "next/dynamic";
 import { ArrowRight, Bot, Code2, Cpu, LineChart, UserCircle } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { AboutMeModal } from "@/components/ui/AboutMeModal";
+import { CALENDLY_LINK } from "@/config/socials";
+
+const Scene = dynamic(() => import("@/components/three/Scene").then((mod) => mod.Scene), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full bg-transparent flex items-center justify-center text-muted-foreground/30 font-semibold tracking-wider text-sm">
+      Loading 3D Visual...
+    </div>
+  )
+});
+
+const AIBrain = dynamic(() => import("@/components/three/AIBrain").then((mod) => mod.AIBrain), {
+  ssr: false
+});
 
 export function Hero() {
   const [isAboutMeOpen, setIsAboutMeOpen] = useState(false);

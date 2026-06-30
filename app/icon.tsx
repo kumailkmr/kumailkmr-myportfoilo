@@ -29,6 +29,7 @@ export default async function Icon() {
           background: '#fff',
         }}
       >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={imageData}
           alt="Kumail Kmr"

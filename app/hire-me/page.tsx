@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { X, Briefcase, MessageSquare } from "lucide-react";
+import { X, MessageSquare } from "lucide-react";
 import Link from "next/link";
 
 const services = [

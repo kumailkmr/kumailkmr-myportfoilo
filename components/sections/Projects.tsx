@@ -92,7 +92,7 @@ export function Projects() {
         </div>
 
         <div className="space-y-16">
-          {caseStudies.map((study, index) => (
+          {caseStudies.map((study) => (
             <motion.div
               key={study.id}
               initial={{ opacity: 0, y: 40 }}

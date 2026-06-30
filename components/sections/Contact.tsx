@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +10,34 @@ import { getSocials } from "@/config/socials";
 
 export function Contact() {
   const contactCards = getSocials(["GitHub", "LinkedIn", "WhatsApp", "Email"]);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!firstName || !email || !message) {
+      alert("Please fill out all required fields.");
+      return;
+    }
+    
+    setSubmitting(true);
+    
+    const fullName = `${firstName} ${lastName}`.trim();
+    const formattedMessage = `Hello Kumail! I'd like to get in touch.%0A%0A*Name:* ${fullName}%0A*Email:* ${email}%0A*Message:*%0A${message}`;
+    const whatsappUrl = `https://wa.me/916006121193?text=${formattedMessage}`;
+    
+    setTimeout(() => {
+      window.open(whatsappUrl, "_blank");
+      setSubmitting(false);
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setMessage("");
+    }, 800);
+  };
 
   return (
     <section className="py-24 bg-white dark:bg-[#0A0A0A] relative overflow-hidden">
@@ -41,6 +70,7 @@ export function Contact() {
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.1 }}
                   className="group flex flex-col bg-gray-50 dark:bg-[#171717] border border-[#E5E7EB] dark:border-[#262626] hover:border-[#2563EB] dark:hover:border-[#2563EB] p-6 rounded-3xl transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-15px_rgba(37,99,235,0.15)]"
+                  aria-label={social.platform}
                 >
                   <div className="w-12 h-12 rounded-xl bg-white dark:bg-[#262626] border border-black/5 dark:border-white/5 flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 group-hover:text-[#2563EB] transition-all duration-300">
                     <Icon className="w-6 h-6 text-[#111827] dark:text-white group-hover:text-[#2563EB] transition-colors" />
@@ -65,30 +95,59 @@ export function Contact() {
             <Card className="bg-white dark:bg-[#171717] border-[#E5E7EB] dark:border-[#262626] shadow-xl rounded-[32px] overflow-hidden">
               <CardContent className="p-8 md:p-12">
                 <h3 className="text-2xl font-bold mb-8 text-[#111827] dark:text-white">Send a Direct Message</h3>
-                <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+                <form className="space-y-6" onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-sm font-semibold text-[#111827] dark:text-gray-300">First Name</label>
-                      <Input placeholder="John" className="bg-gray-50 dark:bg-[#262626] border-transparent focus-visible:ring-[#2563EB]" />
+                      <label htmlFor="first-name" className="text-sm font-semibold text-[#111827] dark:text-gray-300">First Name</label>
+                      <Input 
+                        id="first-name" 
+                        required 
+                        value={firstName} 
+                        onChange={(e) => setFirstName(e.target.value)} 
+                        placeholder="John" 
+                        className="bg-gray-50 dark:bg-[#262626] border-transparent focus-visible:ring-[#2563EB]" 
+                      />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-semibold text-[#111827] dark:text-gray-300">Last Name</label>
-                      <Input placeholder="Doe" className="bg-gray-50 dark:bg-[#262626] border-transparent focus-visible:ring-[#2563EB]" />
+                      <label htmlFor="last-name" className="text-sm font-semibold text-[#111827] dark:text-gray-300">Last Name</label>
+                      <Input 
+                        id="last-name" 
+                        value={lastName} 
+                        onChange={(e) => setLastName(e.target.value)} 
+                        placeholder="Doe" 
+                        className="bg-gray-50 dark:bg-[#262626] border-transparent focus-visible:ring-[#2563EB]" 
+                      />
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-semibold text-[#111827] dark:text-gray-300">Email</label>
-                    <Input type="email" placeholder="john@company.com" className="bg-gray-50 dark:bg-[#262626] border-transparent focus-visible:ring-[#2563EB]" />
+                    <label htmlFor="contact-email" className="text-sm font-semibold text-[#111827] dark:text-gray-300">Email</label>
+                    <Input 
+                      id="contact-email" 
+                      required 
+                      type="email" 
+                      value={email} 
+                      onChange={(e) => setEmail(e.target.value)} 
+                      placeholder="john@company.com" 
+                      className="bg-gray-50 dark:bg-[#262626] border-transparent focus-visible:ring-[#2563EB]" 
+                    />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-semibold text-[#111827] dark:text-gray-300">How can I help?</label>
+                    <label htmlFor="contact-message" className="text-sm font-semibold text-[#111827] dark:text-gray-300">How can I help?</label>
                     <textarea 
-                      className="flex min-h-[140px] w-full rounded-xl bg-gray-50 dark:bg-[#262626] border-transparent px-4 py-3 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] disabled:cursor-not-allowed disabled:opacity-50"
+                      id="contact-message"
+                      required
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      className="flex min-h-[140px] w-full rounded-xl bg-gray-50 dark:bg-[#262626] border-transparent px-4 py-3 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] disabled:cursor-not-allowed disabled:opacity-50 text-foreground"
                       placeholder="Tell me about your project goals..."
                     />
                   </div>
-                  <Button type="submit" className="w-full bg-[#2563EB] hover:bg-blue-700 text-white rounded-full py-6 text-base font-semibold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all">
-                    Send Inquiry
+                  <Button 
+                    type="submit" 
+                    disabled={submitting}
+                    className="w-full bg-[#2563EB] hover:bg-blue-700 text-white rounded-full py-6 text-base font-semibold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50"
+                  >
+                    {submitting ? "Sending..." : "Send Inquiry"}
                   </Button>
                 </form>
               </CardContent>

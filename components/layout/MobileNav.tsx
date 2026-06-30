@@ -2,11 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Layers, LayoutGrid, User, MessageSquare, LucideIcon } from "lucide-react";
+import { Home, Layers, LayoutGrid, User, LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-
-import { SOCIALS } from "@/config/socials";
 
 type NavLink = {
   name: string;

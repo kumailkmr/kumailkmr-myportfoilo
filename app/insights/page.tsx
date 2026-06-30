@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, TrendingUp, BarChart3, Users, Zap, Play, Target, Bot } from "lucide-react";
+import { ArrowUpRight, TrendingUp, BarChart3, Zap, Play, Target, Bot } from "lucide-react";
 import Link from "next/link";
 
 const insights = [

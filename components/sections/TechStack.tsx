@@ -4,12 +4,11 @@ import { motion } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   SiReact, SiNextdotjs, SiTypescript, SiTailwindcss,
-  SiNodedotjs, SiPostgresql, SiSupabase, SiPrisma,
-  SiOpenai, SiVercel, SiCloudflare, SiSentry,
-  SiWhatsapp, SiStripe, SiGoogle,
+  SiNodedotjs, SiPostgresql, SiSupabase,
+  SiOpenai, SiStripe,
   SiZapier, SiNotion, SiTwilio, SiRazorpay, SiAirtable
 } from "react-icons/si";
-import { Workflow, Bot, Component, Server, Cpu, Webhook, Mail, ShieldCheck, Database, MessagesSquare, Code2, Layers, Network } from "lucide-react";
+import { Workflow, Bot, Component, Server, Webhook, Mail, Database, Layers, Network } from "lucide-react";
 
 const categories = [
   {

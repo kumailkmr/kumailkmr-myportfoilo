@@ -91,7 +91,7 @@ export function Services() {
 
         {/* Stacked Service Pillars */}
         <div className="space-y-12">
-          {premiumServices.map((service, index) => (
+          {premiumServices.map((service) => (
             <motion.div 
               key={service.id}
               initial={{ opacity: 0, y: 40 }}

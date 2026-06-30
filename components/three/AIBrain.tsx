@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/purity */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useRef, useMemo } from "react";
