@@ -4,78 +4,97 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Mail, MessageCircle, Globe } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import { getSocials } from "@/config/socials";
 
 export function Contact() {
-  return (
-    <section className="py-24 bg-muted/30">
-      <div className="container mx-auto px-4 max-w-6xl">
-        <div className="grid md:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 className="text-3xl md:text-5xl font-bold mb-6">Let&apos;s Build Something Great</h2>
-            <p className="text-lg text-muted-foreground mb-8">
-              Ready to automate your workflows, build a custom SaaS, or integrate AI into your business? Reach out for a free technical consultation.
-            </p>
+  const contactCards = getSocials(["GitHub", "LinkedIn", "WhatsApp", "Email"]);
 
-            <div className="space-y-6 mb-8">
-              <a href="#" className="flex items-center gap-4 text-muted-foreground hover:text-primary transition-colors">
-                <div className="w-12 h-12 rounded-full bg-background border border-border flex items-center justify-center">
-                  <Mail className="w-5 h-5" />
-                </div>
-                <span className="font-medium">hello@yourdomain.com</span>
-              </a>
-              <a href="#" className="flex items-center gap-4 text-muted-foreground hover:text-primary transition-colors">
-                <div className="w-12 h-12 rounded-full bg-background border border-border flex items-center justify-center">
-                  <MessageCircle className="w-5 h-5" />
-                </div>
-                <span className="font-medium">+1 (555) 123-4567</span>
-              </a>
-              <a href="#" className="flex items-center gap-4 text-muted-foreground hover:text-primary transition-colors">
-                <div className="w-12 h-12 rounded-full bg-background border border-border flex items-center justify-center">
-                  <Globe className="w-5 h-5" />
-                </div>
-                <span className="font-medium">linkedin.com/in/yourprofile</span>
-              </a>
-            </div>
+  return (
+    <section className="py-24 bg-white dark:bg-[#0A0A0A] relative overflow-hidden">
+      {/* Subtle Background Glow */}
+      <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="container mx-auto px-4 max-w-7xl relative z-10">
+        <div className="text-center mb-16 max-w-2xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-extrabold mb-6 text-[#111827] dark:text-white tracking-tight">Let&apos;s Build Something Great</h2>
+          <p className="text-lg text-[#6B7280] dark:text-[#A1A1AA]">
+            Ready to automate your workflows or build a custom SaaS? Reach out via any of the platforms below or send a direct message.
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+          
+          {/* Social Cards Grid */}
+          <div className="grid sm:grid-cols-2 gap-6">
+            {contactCards.map((social, idx) => {
+              if (!social) return null;
+              const Icon = social.icon;
+              return (
+                <motion.a
+                  key={social.platform}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="group flex flex-col bg-gray-50 dark:bg-[#171717] border border-[#E5E7EB] dark:border-[#262626] hover:border-[#2563EB] dark:hover:border-[#2563EB] p-6 rounded-3xl transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-15px_rgba(37,99,235,0.15)]"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-white dark:bg-[#262626] border border-black/5 dark:border-white/5 flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 group-hover:text-[#2563EB] transition-all duration-300">
+                    <Icon className="w-6 h-6 text-[#111827] dark:text-white group-hover:text-[#2563EB] transition-colors" />
+                  </div>
+                  <h3 className="text-xl font-bold mb-2 text-[#111827] dark:text-white">{social.platform}</h3>
+                  <p className="text-sm text-[#6B7280] dark:text-[#A1A1AA] mb-6 flex-grow">{social.description}</p>
+                  <div className="flex items-center text-sm font-semibold text-[#2563EB] mt-auto">
+                    Connect
+                    <ArrowUpRight className="w-4 h-4 ml-1 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300" />
+                  </div>
+                </motion.a>
+              );
+            })}
           </div>
 
+          {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
           >
-            <Card className="bg-background border-border shadow-xl">
-              <CardContent className="p-8">
-                <h3 className="text-2xl font-bold mb-6">Send a Message</h3>
-                <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-                  <div className="grid grid-cols-2 gap-4">
+            <Card className="bg-white dark:bg-[#171717] border-[#E5E7EB] dark:border-[#262626] shadow-xl rounded-[32px] overflow-hidden">
+              <CardContent className="p-8 md:p-12">
+                <h3 className="text-2xl font-bold mb-8 text-[#111827] dark:text-white">Send a Direct Message</h3>
+                <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-sm font-medium">First Name</label>
-                      <Input placeholder="John" />
+                      <label className="text-sm font-semibold text-[#111827] dark:text-gray-300">First Name</label>
+                      <Input placeholder="John" className="bg-gray-50 dark:bg-[#262626] border-transparent focus-visible:ring-[#2563EB]" />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-medium">Last Name</label>
-                      <Input placeholder="Doe" />
+                      <label className="text-sm font-semibold text-[#111827] dark:text-gray-300">Last Name</label>
+                      <Input placeholder="Doe" className="bg-gray-50 dark:bg-[#262626] border-transparent focus-visible:ring-[#2563EB]" />
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Email</label>
-                    <Input type="email" placeholder="john@company.com" />
+                    <label className="text-sm font-semibold text-[#111827] dark:text-gray-300">Email</label>
+                    <Input type="email" placeholder="john@company.com" className="bg-gray-50 dark:bg-[#262626] border-transparent focus-visible:ring-[#2563EB]" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">How can I help?</label>
+                    <label className="text-sm font-semibold text-[#111827] dark:text-gray-300">How can I help?</label>
                     <textarea 
-                      className="flex min-h-[120px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                      className="flex min-h-[140px] w-full rounded-xl bg-gray-50 dark:bg-[#262626] border-transparent px-4 py-3 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] disabled:cursor-not-allowed disabled:opacity-50"
                       placeholder="Tell me about your project goals..."
                     />
                   </div>
-                  <Button type="submit" className="w-full" size="lg">
+                  <Button type="submit" className="w-full bg-[#2563EB] hover:bg-blue-700 text-white rounded-full py-6 text-base font-semibold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all">
                     Send Inquiry
                   </Button>
                 </form>
               </CardContent>
             </Card>
           </motion.div>
+
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Float, Points, PointMaterial } from "@react-three/drei";
 import * as THREE from "three";
@@ -9,7 +9,7 @@ export function AIBrain() {
   const groupRef = useRef<THREE.Group>(null);
   
   // Create random points for the neural network particles
-  const [positions] = useMemo(() => {
+  const [positions] = useState(() => {
     const count = 400;
     const positions = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
@@ -22,8 +22,8 @@ export function AIBrain() {
       positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
       positions[i * 3 + 2] = r * Math.cos(phi);
     }
-    return [positions];
-  }, []);
+    return positions;
+  });
 
   useFrame((state) => {
     if (groupRef.current) {

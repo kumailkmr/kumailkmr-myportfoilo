@@ -6,9 +6,9 @@ import {
   SiReact, SiNextdotjs, SiTypescript, SiTailwindcss,
   SiNodedotjs, SiPostgresql, SiSupabase, SiPrisma,
   SiOpenai, SiVercel, SiCloudflare, SiSentry,
-  SiWhatsapp, SiRazorpay, SiStripe, SiGoogle
+  SiWhatsapp, SiStripe, SiGoogle
 } from "react-icons/si";
-import { Workflow, Bot, Cloud, Component, Server, Cpu, Webhook, Mail, ShieldCheck, Activity } from "lucide-react";
+import { Workflow, Bot, Component, Server, Cpu, Webhook, Mail, ShieldCheck } from "lucide-react";
 
 const categories = [
   {

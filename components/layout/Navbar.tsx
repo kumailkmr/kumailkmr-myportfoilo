@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { motion } from "framer-motion";
+import { getSocials } from "@/config/socials";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -16,6 +18,7 @@ const navLinks = [
 
 export function Navbar() {
   const pathname = usePathname();
+  const navSocials = getSocials(["GitHub", "LinkedIn"]);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -52,6 +55,34 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-4">
+          {/* Desktop Minimal Socials */}
+          <div className="hidden lg:flex items-center gap-1 mr-2 border-r border-border pr-6">
+            <TooltipProvider delay={100}>
+              {navSocials.map(social => {
+                if (!social) return null;
+                const Icon = social.icon;
+                return (
+                  <Tooltip key={social.platform}>
+                    <TooltipTrigger>
+                      <a
+                        href={social.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 text-secondary-foreground hover:text-primary hover:bg-secondary rounded-full transition-colors"
+                        aria-label={social.platform}
+                      >
+                        <Icon className="w-4 h-4" />
+                      </a>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom" className="text-xs">
+                      <p>{social.platform}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                );
+              })}
+            </TooltipProvider>
+          </div>
+
           <ThemeToggle />
           <Button className="hidden sm:inline-flex hover-lift rounded-full px-6">
             Book Consultation
@@ -61,3 +92,4 @@ export function Navbar() {
     </header>
   );
 }
+

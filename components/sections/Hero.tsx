@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Scene } from "@/components/three/Scene";
 import { AIBrain } from "@/components/three/AIBrain";
 import { CheckCircle2, ArrowRight } from "lucide-react";
+import { getSocials } from "@/config/socials";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export function Hero() {
   const containerVariants = {
@@ -22,7 +24,7 @@ export function Hero() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
+      transition: { duration: 0.6, ease: "easeOut" as const },
     },
   };
 
@@ -34,8 +36,8 @@ export function Hero() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-background/80 to-background pointer-events-none" />
 
 
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-0">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center min-h-[calc(100vh-80px)]">
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20 lg:pt-40 lg:pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center min-h-[calc(100vh-160px)]">
           
           {/* Left Content */}
           <motion.div
@@ -56,7 +58,7 @@ export function Hero() {
 
             <motion.h1 variants={itemVariants} className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 text-foreground leading-[1.1]">
               I Build Premium AI Software That{" "}
-              <span className="text-transparent bg-clip-text bg-hero-gradient">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">
                 Scales Your Business
               </span>
             </motion.h1>
@@ -65,7 +67,7 @@ export function Hero() {
               Partner with an independent senior engineer to turn your complex business problems into elegant, automated software solutions. Skip the agency overhead and work directly with the expert.
             </motion.p>
 
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-10">
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-6">
               <Button size="lg" className="hover-lift w-full sm:w-auto text-base px-8 py-6 rounded-full group shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_40px_rgba(37,99,235,0.6)] border border-primary/50 relative overflow-hidden">
                 <span className="relative z-10 flex items-center">
                   Book a Free Strategy Call
@@ -76,6 +78,34 @@ export function Hero() {
               <Button size="lg" variant="outline" className="hover-lift w-full sm:w-auto text-base px-8 py-6 rounded-full text-foreground border-border/50 bg-background/30 backdrop-blur-md hover:bg-muted/50 hover:border-primary/50 transition-all">
                 View My Portfolio
               </Button>
+            </motion.div>
+
+            {/* Social Links Row */}
+            <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-3 mb-10">
+              <TooltipProvider delay={100}>
+                {getSocials(["GitHub", "LinkedIn", "X (Twitter)", "WhatsApp"]).map(social => {
+                  if (!social) return null;
+                  const Icon = social.icon;
+                  return (
+                    <Tooltip key={social.platform}>
+                      <TooltipTrigger>
+                        <a
+                          href={social.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-4 py-2 rounded-full bg-card/40 backdrop-blur-sm border border-white/5 shadow-sm hover:border-[#2563EB] hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 text-secondary-foreground hover:text-foreground"
+                        >
+                          <Icon className="w-4 h-4" />
+                          <span className="text-sm font-medium hidden sm:inline-block">{social.platform}</span>
+                        </a>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom" className="text-xs">
+                        <p>{social.tooltip}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  );
+                })}
+              </TooltipProvider>
             </motion.div>
             
             {/* Trust Indicators */}

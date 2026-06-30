@@ -38,16 +38,20 @@ const industries = [
 
 export function Industries() {
   return (
-    <section className="py-24 relative overflow-hidden bg-muted/20 border-y border-border">
-      <div className="container mx-auto px-4 max-w-7xl">
+    <section className="py-24 relative overflow-hidden bg-background">
+      {/* Premium Ambient Backgrounds */}
+      <div className="absolute top-1/2 left-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] -translate-y-1/2 pointer-events-none" />
+      <div className="absolute top-1/2 right-0 w-[600px] h-[600px] bg-purple-600/5 rounded-full blur-[150px] -translate-y-1/2 pointer-events-none" />
+
+      <div className="container mx-auto px-4 max-w-7xl relative z-10">
         <div className="text-center mb-20 max-w-3xl mx-auto">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight"
+            className="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight text-foreground"
           >
-            Industries We Help Transform
+            Industries <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">I Transform</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -56,11 +60,11 @@ export function Industries() {
             transition={{ delay: 0.1 }}
             className="text-lg md:text-xl text-muted-foreground leading-relaxed"
           >
-            Every industry has repetitive tasks, customer communication challenges, and operational bottlenecks. I build AI-powered solutions tailored to solve real business problems.
+            Every industry has repetitive tasks, customer communication challenges, and operational bottlenecks. I build AI-powered solutions tailored to solve your exact business problems.
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {industries.map((industry, index) => (
             <motion.div
               key={index}
@@ -69,14 +73,14 @@ export function Industries() {
               viewport={{ once: true }}
               transition={{ delay: (index % 8) * 0.05, duration: 0.4 }}
             >
-              <Card className="h-full bg-background/50 backdrop-blur-md border-border/50 hover:bg-muted/50 transition-colors duration-300 rounded-2xl group">
+              <Card className="h-full bg-card/40 backdrop-blur-xl border border-white/5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.15)] hover:bg-card/60 hover:border-primary/30 transition-all duration-300 rounded-2xl group hover:-translate-y-1 hover:shadow-[0_8px_40px_rgba(37,99,235,0.12)]">
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
-                      <industry.icon className="w-5 h-5 text-primary group-hover:text-primary-foreground transition-colors" />
+                    <div className="w-10 h-10 rounded-lg bg-background border border-white/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 group-hover:border-primary/30 transition-all duration-300">
+                      <industry.icon className="w-5 h-5 text-foreground/70 group-hover:text-primary transition-colors duration-300" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-foreground mb-1 group-hover:text-primary transition-colors">
+                      <h3 className="font-bold text-foreground mb-1 group-hover:text-primary transition-colors duration-300">
                         {industry.name}
                       </h3>
                       <p className="text-sm text-muted-foreground leading-relaxed">

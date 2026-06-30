@@ -5,23 +5,14 @@ import { ThemeProvider } from "@/components/common/ThemeProvider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Navbar } from "@/components/layout/Navbar";
 import { MobileNav } from "@/components/layout/MobileNav";
+import { FloatingContact } from "@/components/layout/FloatingContact";
+import { Footer } from "@/components/layout/Footer";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Premium Portfolio Foundation",
-  description: "A production-quality portfolio website.",
-  openGraph: {
-    title: "Premium Portfolio Foundation",
-    description: "A production-quality portfolio website.",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-  },
+  title: "Kumail KMR | Premium AI Software Engineer",
+  description: "I build high-end AI software, automated workflows, and premium web experiences that help businesses scale.",
 };
 
 export default function RootLayout({
@@ -31,14 +22,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans min-h-screen antialiased flex flex-col`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+      <body className={`${inter.className} min-h-screen bg-background antialiased pb-24 md:pb-0`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
           <TooltipProvider>
-            <Navbar />
-            <main className="flex-1 pt-20 pb-24 md:pb-0">
-              {children}
-            </main>
-            <MobileNav />
+            <div className="relative flex min-h-screen flex-col">
+              <Navbar />
+              <main className="flex-1">
+                {children}
+              </main>
+              <Footer />
+              <FloatingContact />
+              <MobileNav />
+            </div>
           </TooltipProvider>
         </ThemeProvider>
       </body>
