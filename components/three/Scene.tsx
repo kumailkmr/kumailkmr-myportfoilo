@@ -6,11 +6,12 @@ import { ReactNode } from "react";
 
 interface SceneProps {
   children: ReactNode;
+  className?: string;
 }
 
-export function Scene({ children }: SceneProps) {
+export function Scene({ children, className = "w-full h-full absolute inset-0 -z-10" }: SceneProps) {
   return (
-    <div className="w-full h-full absolute inset-0 -z-10">
+    <div className={className}>
       <Canvas
         camera={{ position: [0, 0, 5], fov: 45 }}
         gl={{ antialias: true, alpha: true }}
