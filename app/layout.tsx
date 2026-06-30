@@ -11,7 +11,7 @@ import { IntroExperience } from "@/components/ui/IntroExperience";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://kumailkmr.com"),
+  metadataBase: new URL("https://kumailkmr.vercel.app"),
   title: {
     default: "Kumail Kmr | Freelance AI & Business Systems Architect",
     template: "%s | Kumail Kmr",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Kumail Kmr | Freelance AI & Business Systems Architect",
     description: "Independent consultant building high-end AI software, automated workflows, and premium web experiences that help businesses scale.",
-    url: "https://kumailkmr.com",
+    url: "https://kumailkmr.vercel.app",
     siteName: "Kumail Kmr Portfolio",
     locale: "en_US",
     type: "website",

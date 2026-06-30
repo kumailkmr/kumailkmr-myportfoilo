@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://kumailkmr.com';
+  const baseUrl = 'https://kumailkmr.vercel.app';
   
   const routes = ['', '/about', '/services', '/work', '/insights', '/hire-me'];
   
