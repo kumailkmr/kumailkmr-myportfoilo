@@ -5,7 +5,6 @@ import { useRef } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { motion } from "framer-motion";
 import { Star, CheckCircle2, ArrowRight, Quote } from "lucide-react";
-import Link from "next/link";
 import { CALENDLY_LINK } from "@/config/socials";
 import {
   Carousel,
@@ -119,8 +118,8 @@ export function Testimonials() {
   return (
     <section className="py-32 relative overflow-hidden bg-background">
       {/* Premium Ambient Backgrounds */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-600/5 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[min(600px,90vw)] h-[min(600px,90vw)] bg-primary/5 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[min(600px,90vw)] h-[min(600px,90vw)] bg-purple-600/5 rounded-full blur-[150px] pointer-events-none" />
 
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
         
@@ -215,11 +214,9 @@ export function Testimonials() {
         </motion.div>
 
         <div className="mt-20 text-center">
-          <Link href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
-            <button className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white bg-primary hover:bg-primary/90 rounded-full transition-all duration-300 hover:scale-105 shadow-[0_0_30px_rgba(37,99,235,0.3)]">
-              Become a Success Story <ArrowRight className="ml-2 w-5 h-5" />
-            </button>
-          </Link>
+          <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer" className="btn-premium btn-premium-primary inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8">
+            Become a Success Story <ArrowRight className="ml-2 w-5 h-5" />
+          </a>
         </div>
 
       </div>

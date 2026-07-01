@@ -263,9 +263,9 @@ export function TechStack() {
     <section className="py-24 bg-muted/20 relative overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">Technology Stack</h2>
+          <h2 className="text-3xl md:text-5xl font-black mb-4">My Engineered Tech Stack</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            I leverage modern, scalable, and secure technologies to build enterprise-grade applications. Click a technology to inspect details.
+            I leverage battle-tested, high-performance frameworks, AI models, and automation platforms to build secure, enterprise-grade business systems. Click any logo to inspect parameters.
           </p>
         </div>
 

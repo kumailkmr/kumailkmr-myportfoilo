@@ -44,6 +44,44 @@ export function HireMeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
     };
   }, [isOpen]);
 
+  // Load lead state when modal opens
+  useEffect(() => {
+    if (!isOpen) return;
+    let frameId: number;
+    try {
+      const saved = localStorage.getItem("lead-estimation-data");
+      if (saved) {
+        const data = JSON.parse(saved);
+        let details = "";
+        if (data.estimatorOutput) {
+          details += `- Solution: ${data.estimatorOutput.title}\n- Target Timeline: ${data.estimatorOutput.timeline}\n`;
+        }
+        const emps = Number(data.employees || 0);
+        const hrs = Number(data.hoursPerWeek || 0);
+        const sal = Number(data.hourlySalary || 0);
+        if (emps && hrs && sal) {
+          const savings = emps * hrs * 4.3 * sal * 12;
+          details += `- Est. Annual Savings: $${Math.round(savings).toLocaleString()}\n`;
+        }
+        if (data.selectedFeatures && data.selectedFeatures.length > 0) {
+          details += `- Target Features: ${data.selectedFeatures.join(", ")}\n`;
+        }
+        
+        if (details) {
+          frameId = requestAnimationFrame(() => {
+            setRequirements(prev => prev ? prev : `Staged parameters from Estimator:\n\n${details}\nLet's connect to discuss this project blueprint.`);
+            setService("Custom AI Automation");
+          });
+        }
+      }
+    } catch {
+      // Ignore
+    }
+    return () => {
+      if (frameId) cancelAnimationFrame(frameId);
+    };
+  }, [isOpen]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const message = `Hello Kumail! I'm interested in working with you.%0A%0A*Name:* ${name}%0A*Service:* ${service}%0A*Hire Type:* ${hireType}%0A*Requirements:*%0A${requirements}`;

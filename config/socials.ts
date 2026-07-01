@@ -23,7 +23,7 @@ export const SOCIALS: SocialProfile[] = [
   },
   {
     platform: "LinkedIn",
-    url: "https://linkedin.com/in/kumailkmr",
+    url: "https://www.linkedin.com/in/kumail-kmr-/",
     handle: "Kumail KMR",
     icon: FaLinkedin,
     description: "Connect with me professionally and view my career history.",

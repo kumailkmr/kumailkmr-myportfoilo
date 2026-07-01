@@ -19,7 +19,7 @@ import {
 import { FaLinkedin } from "react-icons/fa";
 
 const footerSocials = [
-  { name: "LinkedIn", url: "https://linkedin.com/in/kumailkmr", icon: FaLinkedin, hoverColor: "group-hover:text-[#0077b5]", hoverBorder: "hover:border-[#0077b5]/50" },
+  { name: "LinkedIn", url: "https://www.linkedin.com/in/kumail-kmr-/", icon: FaLinkedin, hoverColor: "group-hover:text-[#0077b5]", hoverBorder: "hover:border-[#0077b5]/50" },
   { name: "X (Twitter)", url: "https://x.com/kumailkmr", icon: SiX, hoverColor: "group-hover:text-white", hoverBorder: "hover:border-white/50" },
   { name: "GitHub", url: "https://github.com/kumailkmr", icon: SiGithub, hoverColor: "group-hover:text-[#fafafa]", hoverBorder: "hover:border-[#fafafa]/50" },
   { name: "Kaggle", url: "https://www.kaggle.com/kumailkmr", icon: SiKaggle, hoverColor: "group-hover:text-[#20BEFF]", hoverBorder: "hover:border-[#20BEFF]/50" },
@@ -52,8 +52,8 @@ export function Footer() {
     <>
       <footer className="border-t border-border/20 bg-background pt-24 pb-12 relative overflow-hidden">
         {/* Subtle glowing ambient backdrop */}
-        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-purple-600/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-0 right-1/4 w-[min(500px,90vw)] h-[min(500px,90vw)] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 left-1/4 w-[min(500px,90vw)] h-[min(500px,90vw)] bg-purple-600/5 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="container mx-auto px-4 max-w-7xl relative z-10">
           

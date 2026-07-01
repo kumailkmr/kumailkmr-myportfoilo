@@ -3,118 +3,170 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  Building2, HeartPulse, Home, Scale, Cloud, ShoppingBag, ArrowRight, X, AlertTriangle, Lightbulb, RefreshCw, BarChart, FileText
+  Building2, HeartPulse, Home, Scale, Cloud, ShoppingBag, ArrowRight, X, AlertTriangle, 
+  Lightbulb, RefreshCw, BarChart, FileText, Cpu, Clock, Calendar, Sparkles
 } from "lucide-react";
 
-const premiumIndustries = [
+interface IndustryItem {
+  name: string;
+  icon: React.ComponentType<{ className?: string }>;
+  desc: string;
+  highlight: string;
+  problems: string;
+  solutions: string;
+  automations: string;
+  expectedROI: string;
+  caseStudies: string;
+  recommendedServices: string;
+}
+
+const premiumIndustries: IndustryItem[] = [
   { 
-    name: "Healthcare & Clinics", 
+    name: "Hospitals & Clinics", 
     icon: HeartPulse, 
-    desc: "HIPAA-compliant automation. We implement automated patient scheduling, secure telehealth portals, and AI triage systems to reduce administrative load.",
+    desc: "Patient appointment scheduler, secure intake forms, and automated calendar notifications that drop front-desk admin work.",
     highlight: "Reduce no-shows by 40%",
     problems: "Long booking queues, manual follow-up calls, high patient no-show rates, administrative data overload.",
     solutions: "Automated booking portals with active SMS verification, instant calendar synchronization for doctors, self-intake forms.",
     automations: "Twilio SMS notification cascades, Google Calendar/Outlook bidirectional CRM sync, secure document upload queues.",
     expectedROI: "40% reduction in appointment no-shows, reclaiming 15+ hours of front-desk labor weekly.",
     caseStudies: "Scaling support with Generative AI (RAG data checks)",
-    recommendedServices: "Intelligent Automation Hubs"
+    recommendedServices: "AI Automation Hubs"
   },
   { 
     name: "Real Estate & Agencies", 
     icon: Home, 
-    desc: "Never miss a lead. Automated lead capture from property listings, instant WhatsApp viewing schedules, and centralized broker dashboards.",
+    desc: "Qualify buyer budgets and schedule viewings 24/7 via WhatsApp bots synchronized directly with agent Calendars.",
     highlight: "Engage leads in < 30 seconds",
     problems: "Prospects drop out due to slow agent response times after-hours, manual property description uploads, outdated listing sync.",
     solutions: "24/7 conversational WhatsApp AI Assistant to qualify budgets, schedule listing viewings, and send rich PDFs.",
     automations: "WhatsApp Business API webhook listeners, automated PDF description generation, calendar booking slot updates.",
     expectedROI: "3x appointment booking volumes within 30 days, 100% after-hours lead conversion check.",
     caseStudies: "Automated Booking & Lead WhatsApp Engine",
-    recommendedServices: "AI-Driven Conversion Systems"
+    recommendedServices: "WhatsApp Automation"
   },
   { 
-    name: "Law Firms & Finance", 
+    name: "Law Firms & CAs", 
     icon: Scale, 
-    desc: "Secure document management, client intake automation, and billing workflows that keep your practice strictly compliant and heavily efficient.",
+    desc: "Secure invoice pipelines, template-based contract compilers, and document management with SOC2 compliance.",
     highlight: "Zero data leakage",
     problems: "Time-intensive contract preparation, manual billing reconciliation, client onboarding delays.",
     solutions: "Custom client onboarding CRM dashboards, template-based contract generators, and secure client checkout panels.",
     automations: "Stripe payment checkouts, custom Node.js document formatting scripts, automated Notion files assembly.",
     expectedROI: "Zero dropped leads, billing administration time cut by 90% (from 30 mins to 1 click).",
     caseStudies: "Enterprise Workflow CRM Automation",
-    recommendedServices: "Bespoke Enterprise Portals"
+    recommendedServices: "CRM & ERP Dashboards"
   },
   { 
     name: "SaaS & Tech Startups", 
     icon: Cloud, 
-    desc: "Rapid MVP architecture, scalable cloud foundations, and custom AI integrations that help you secure funding and scale aggressively.",
-    highlight: "Enterprise-grade architecture",
+    desc: "Scale database schemas, authentication, payment checkout webhooks, and deploy landing pages at millisecond load speeds.",
+    highlight: "Enterprise Architecture",
     problems: "High agency costs, slow time-to-market, complex multi-tenant database systems, insecure API handshakes.",
     solutions: "Next.js 14 App Router scaffolding, Supabase databases, secure auth flows, and Stripe webhook listeners.",
     automations: "Stripe checkout billing triggers, automated email confirmation cascades via Resend, pgvector searches.",
     expectedROI: "Production-ready MVP built in 4 - 6 weeks (saving $15,000+ compared to agency overhead).",
     caseStudies: "Bespoke Enterprise Portals (Next.js & Supabase)",
-    recommendedServices: "Bespoke Enterprise Portals"
+    recommendedServices: "Custom Software Development"
   },
   { 
-    name: "E-commerce & Retail", 
+    name: "Hotels & Restaurants", 
     icon: ShoppingBag, 
-    desc: "Omnichannel inventory syncing, AI-driven product recommendations, and automated abandoned cart recovery via SMS and Email.",
-    highlight: "Boost revenue by 20%+",
-    problems: "Abandoned checkout carts, delayed customer service response, mismatched inventory databases.",
-    solutions: "AI support chatbots parsing return policies, multi-channel inventory sync scripts, and dynamic SMS recovery flows.",
-    automations: "Shopify / custom webhooks, OpenAI assistants, Twilio/Resend automated cart recovery triggers.",
-    expectedROI: "20%+ revenue boost through automated abandoned cart recovery, 60% customer support cost drop.",
-    caseStudies: "Scaling Support with Generative AI",
-    recommendedServices: "AI-Driven Conversion Systems"
+    desc: "Allow customers to browse menus, submit table reservations, and place takeout orders directly in WhatsApp.",
+    highlight: "WhatsApp Order Sync",
+    problems: "Low conversion rates on checkout pages, high customer drops, delayed manual order confirmations.",
+    solutions: "24/7 conversational WhatsApp AI Assistant to take orders, suggest upsells, and coordinate bookings.",
+    automations: "WhatsApp Business API webhook listeners, Stripe payment checkout links, automated receipt dispatches.",
+    expectedROI: "3.2x higher conversion than standard checkout, automated checkouts and receipt deliveries.",
+    caseStudies: "Automated Booking & Lead WhatsApp Engine",
+    recommendedServices: "WhatsApp Automation"
   },
   { 
-    name: "B2B Consulting", 
-    icon: Building2, 
-    desc: "High-ticket sales funnels. We automate your outbound outreach, calendar bookings, and client onboarding sequences.",
-    highlight: "Scale your agency effortlessly",
-    problems: "Manual client onboarding, lead data leakage, administrative scheduling friction, repetitive invoice preparation.",
-    solutions: "Centralized lead routing CRM portals, automated onboarding forms, and unified Calendly booking pathways.",
-    automations: "n8n webhooks connecting HubSpot/Notion/Stripe, automated email templates, PDF proposal builders.",
-    expectedROI: "Reclaim 20+ hours of manual administrative labor per week, zero lead dropouts.",
+    name: "Travel Agencies & Schedulers", 
+    icon: Calendar, 
+    desc: "Custom itinerary compilations, automatic PDF receipts dispatches, and WhatsApp booking schedulers.",
+    highlight: "Instant Itinerary Sync",
+    problems: "Double-bookings, manual calendar entry mistakes, customer no-shows, admin scheduling fatigue.",
+    solutions: "Centralized itinerary compilers, instant calendar collision checks, and automated reminders.",
+    automations: "Google Calendar API integrations, automated SMS reminder dispatches, database webhook syncing.",
+    expectedROI: "90% reduction in appointment no-shows, zero manual calendar entry mistakes.",
     caseStudies: "Enterprise Workflow CRM Automation",
-    recommendedServices: "Intelligent Automation Hubs"
+    recommendedServices: "Booking Systems & Calendars"
+  },
+  { 
+    name: "Schools & Colleges", 
+    icon: Building2, 
+    desc: "Student enrollment document parsing, intake qualifications, and automated email confirmation cycles.",
+    highlight: "Automate Admissions",
+    problems: "Hours spent parsing student document scans, manual intake grading, slow enrollment email feedback loops.",
+    solutions: "Custom file upload portals, automated intake document graders, and automated Resend triggers.",
+    automations: "OCR receipt readers, automated email drip workflows, secure student upload vaults.",
+    expectedROI: "80% drop in intake grading times, zero student file leakage.",
+    caseStudies: "Scaling Support with Generative AI",
+    recommendedServices: "Custom Software Development"
+  },
+  { 
+    name: "Construction & Manufacturing", 
+    icon: Cpu, 
+    desc: "Automated supplier data extractions, inventory tracking alerts, and shipping webhook status updates.",
+    highlight: "ERP Flow Control",
+    problems: "Manual invoice copy-pasting, blind spots in supplier shipping logs, slow logistics logs compiling.",
+    solutions: "Automated invoice OCR extraction scripts, visual analytics dashboards, and status webhook loops.",
+    automations: "Redis webhook handlers, custom Pandas parsing loops, automated PDF summary generators.",
+    expectedROI: "Zero manual spreadsheet data compiling, instant shipping tracking logs access.",
+    caseStudies: "Enterprise Workflow CRM Automation",
+    recommendedServices: "Data & Analytics"
+  },
+  { 
+    name: "Salons, Spas & Gyms", 
+    icon: Clock, 
+    desc: "Automated booking slots verification, deposit collection, and customer reminder message chains.",
+    highlight: "No-Show Prevention",
+    problems: "Double-bookings, lost appointment slots, administrative booking reminder logs fatigue.",
+    solutions: "Dynamic appointment schedulers, prepayments collection interfaces, and reminder delay loops.",
+    automations: "Twilio API text message flows, calendar booking slot updates, Stripe checkout links.",
+    expectedROI: "Reclaim 15+ hours of scheduling labor weekly, 90% no-shows drop.",
+    caseStudies: "Automated Booking & Lead WhatsApp Engine",
+    recommendedServices: "Booking Systems & Calendars"
   }
 ];
 
 export function Industries() {
-  const [selectedIndustry, setSelectedIndustry] = useState<typeof premiumIndustries[number] | null>(null);
+  const [selectedIndustry, setSelectedIndustry] = useState<IndustryItem | null>(null);
 
   return (
-    <section className="py-16 relative overflow-hidden bg-background border-t border-border/20">
+    <section className="py-24 relative overflow-hidden bg-background border-t border-border/20">
       {/* Premium Ambient Backgrounds */}
       <div className="absolute top-1/2 left-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] -translate-y-1/2 pointer-events-none" />
-      
+      <div className="absolute inset-0 bg-noise opacity-[0.03] dark:opacity-20 pointer-events-none" />
+
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
-        <div className="text-center mb-20 max-w-3xl mx-auto">
+        <div className="text-center mb-16 max-w-3xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-flex items-center justify-center px-4 py-1.5 mb-6 rounded-full bg-secondary border border-border text-sm font-semibold text-foreground tracking-wide uppercase"
+            className="inline-flex items-center justify-center px-4 py-1.5 mb-6 rounded-full bg-secondary border border-border text-xs font-bold text-foreground tracking-wide uppercase"
           >
+            <Sparkles className="w-3.5 h-3.5 mr-1.5 text-primary animate-pulse" />
             Specialized Niches
           </motion.div>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight text-foreground"
+            className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-foreground"
           >
-            Industries I <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/60">Transform</span>
+            Industries I <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-500">Transform</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-lg md:text-xl text-muted-foreground leading-relaxed"
+            className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto"
           >
-            I don&apos;t build generic software. I engineer highly specialized systems designed to solve the exact operational bottlenecks inherent to your specific industry. Click a card to inspect blueprint.
+            I don&apos;t build generic software templates. I engineer specialized pipelines designed to solve the exact bottlenecks of your specific industry.
           </motion.p>
         </div>
 
@@ -122,38 +174,38 @@ export function Industries() {
           {premiumIndustries.map((industry, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
+              transition={{ delay: (index % 3) * 0.05, duration: 0.5 }}
               className="group relative cursor-pointer"
               onClick={() => setSelectedIndustry(industry)}
             >
               {/* Premium Glow on hover */}
               <div className="absolute -inset-[1px] bg-gradient-to-b from-primary/20 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
               
-              <div className="relative h-full flex flex-col p-8 bg-card/40 backdrop-blur-xl border border-border/60 hover:border-primary/30 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)] rounded-3xl transition-all duration-500 hover:-translate-y-1">
+              <div className="relative h-full flex flex-col p-6 bg-card/45 backdrop-blur-xl border border-border/60 hover:border-primary/30 shadow-xs rounded-3xl transition-all duration-300">
                 
-                <div className="flex items-center justify-between mb-8">
-                  <div className="w-14 h-14 rounded-2xl bg-secondary border border-border flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 group-hover:border-primary/30 transition-all duration-300">
-                    <industry.icon className="w-7 h-7 text-muted-foreground group-hover:text-primary transition-colors duration-300" />
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-12 h-12 rounded-2xl bg-secondary border border-border flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 group-hover:border-primary/30 transition-all duration-300">
+                    <industry.icon className="w-6 h-6 text-muted-foreground group-hover:text-primary transition-colors duration-300" />
                   </div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-primary/80 bg-primary/10 px-3 py-1 rounded-full">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-primary/80 bg-primary/10 px-2.5 py-1 rounded-full">
                     {industry.highlight}
                   </span>
                 </div>
                 
-                <h3 className="text-2xl font-bold text-foreground mb-4 group-hover:text-primary transition-colors duration-300">
+                <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
                   {industry.name}
                 </h3>
                 
-                <p className="text-muted-foreground leading-relaxed mb-8 flex-1">
+                <p className="text-xs text-muted-foreground leading-relaxed mb-6 flex-1">
                   {industry.desc}
                 </p>
 
-                <div className="pt-6 border-t border-border/50 mt-auto flex justify-between items-center text-xs font-bold text-muted-foreground group-hover:text-primary transition-colors">
+                <div className="pt-4 border-t border-border/40 mt-auto flex justify-between items-center text-xs font-bold text-muted-foreground group-hover:text-primary transition-colors">
                   <span>View Industry Blueprint</span>
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-0.5 transition-transform" />
                 </div>
                 
               </div>
@@ -165,7 +217,7 @@ export function Industries() {
       {/* Expandable Industry Details Dialog */}
       <AnimatePresence>
         {selectedIndustry && (
-          <div className="fixed inset-0 z-[9995] flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+          <div className="fixed inset-0 z-[9995] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -194,24 +246,24 @@ export function Industries() {
               {/* Grid content */}
               <div className="space-y-4">
                 <div className="grid md:grid-cols-2 gap-4">
-                  <div className="bg-secondary border border-border/40 p-4 rounded-2xl">
+                  <div className="bg-secondary/40 border border-border/40 p-4 rounded-2xl">
                     <h4 className="text-xs font-bold text-red-500 dark:text-red-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                      <AlertTriangle className="w-3.5 h-3.5" />
+                      <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
                       Core Industry Problems
                     </h4>
                     <p className="text-xs text-foreground/80 leading-relaxed">{selectedIndustry.problems}</p>
                   </div>
 
-                  <div className="bg-secondary border border-border/40 p-4 rounded-2xl">
+                  <div className="bg-secondary/40 border border-border/40 p-4 rounded-2xl">
                     <h4 className="text-xs font-bold text-emerald-500 dark:text-emerald-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                      <Lightbulb className="w-3.5 h-3.5" />
+                      <Lightbulb className="w-3.5 h-3.5 shrink-0" />
                       Engineered Solutions
                     </h4>
                     <p className="text-xs text-foreground/80 leading-relaxed">{selectedIndustry.solutions}</p>
                   </div>
                 </div>
 
-                <div className="bg-secondary border border-border/40 p-4 rounded-2xl space-y-2">
+                <div className="bg-secondary/40 border border-border/40 p-4 rounded-2xl space-y-2">
                   <h4 className="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
                     <RefreshCw className="w-3.5 h-3.5" />
                     Target Automation Pipelines
@@ -220,7 +272,7 @@ export function Industries() {
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-4">
-                  <div className="bg-secondary border border-border/40 p-4 rounded-2xl">
+                  <div className="bg-secondary/40 border border-border/40 p-4 rounded-2xl">
                     <h4 className="text-xs font-bold text-foreground uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                       <BarChart className="w-3.5 h-3.5 text-primary" />
                       Expected ROI Metrics
@@ -228,7 +280,7 @@ export function Industries() {
                     <p className="text-xs text-foreground/95 font-semibold leading-relaxed">{selectedIndustry.expectedROI}</p>
                   </div>
 
-                  <div className="bg-secondary border border-border/40 p-4 rounded-2xl">
+                  <div className="bg-secondary/40 border border-border/40 p-4 rounded-2xl">
                     <h4 className="text-xs font-bold text-foreground uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                       <FileText className="w-3.5 h-3.5 text-purple-500 dark:text-purple-400" />
                       Featured Case Study

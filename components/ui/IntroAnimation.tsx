@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { isAudioMuted } from "@/lib/sounds";
 
 interface IntroAnimationProps {
   onComplete: () => void;
@@ -10,7 +11,10 @@ interface IntroAnimationProps {
 
 // Sound helpers — wrapped to never crash the component
 function safePlaySound(fn: () => void) {
-  try { fn(); } catch { /* audio blocked or unavailable */ }
+  try {
+    if (isAudioMuted()) return;
+    fn();
+  } catch { /* audio blocked or unavailable */ }
 }
 
 function playBeep(ctx: AudioContext, freq: number, startTime: number, duration: number, vol: number) {
@@ -59,14 +63,11 @@ function playShimmer() {
 }
 
 export function IntroAnimation({ onComplete }: IntroAnimationProps) {
-  const [started, setStarted] = useState(false);
   const [phase, setPhase] = useState(0);
   const [visible, setVisible] = useState(true);
 
-  const startExperience = () => {
-    setStarted(true);
-    
-    // Play heartbeat immediately on click to verify audio works
+  useEffect(() => {
+    // Play heartbeat immediately on mount
     playHeartbeat();
 
     const timers = [
@@ -91,7 +92,7 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
     ];
 
     return () => timers.forEach(clearTimeout);
-  };
+  }, [onComplete]);
 
   if (!visible) return null;
 
@@ -113,83 +114,8 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
         />
       </div>
 
-      {/* Startup Prompt */}
-      {!started && (
-        <motion.div 
-          className="flex flex-col items-center gap-8 z-10 px-6 text-center max-w-md"
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, type: "spring" }}
-        >
-          {/* Avatar Container with glowing rings */}
-          <div className="relative">
-            {/* Outer animated gradient glow */}
-            <motion.div 
-              className="absolute -inset-2 rounded-full bg-gradient-to-r from-primary via-purple-500 to-cyan-500 opacity-80 blur-md"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-            />
-            {/* Inner photo container */}
-            <div
-              className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full border-2 border-white/20 bg-black overflow-hidden shadow-[0_0_50px_rgba(124,58,237,0.4)]"
-            >
-              <Image 
-                src="/images/profile.jpg"
-                alt="Kumail Kmr Logo"
-                fill
-                className="object-cover object-top"
-                sizes="(max-width: 768px) 112px, 128px"
-                priority
-              />
-            </div>
-            {/* Monogram Badge on bottom right */}
-            <div className="absolute -bottom-1 -right-1 w-9 h-9 rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center border-2 border-black shadow-xl">
-              <span className="text-sm font-extrabold text-white">K</span>
-            </div>
-          </div>
-
-          <div className="space-y-6">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-black tracking-tight text-white">Kumail Kmr</h2>
-              <p className="text-xs sm:text-sm text-muted-foreground uppercase tracking-[0.3em] font-semibold">
-                AI & Business Systems Architect
-              </p>
-            </div>
-
-            {/* Premium Glowing Interactive Button — Royal Blue Theme */}
-            <motion.button
-              onClick={startExperience}
-              className="relative inline-flex items-center justify-center px-10 py-4.5 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-extrabold tracking-widest text-sm uppercase transition-all duration-300 overflow-hidden group hover:scale-[1.03] active:scale-[0.98] border border-blue-400/30"
-              whileHover={{ y: -2 }}
-              style={{
-                boxShadow: "0 0 30px rgba(37,99,235,0.45), inset 0 1px 0 rgba(255,255,255,0.25), 0 4px 20px rgba(0,0,0,0.5)"
-              }}
-            >
-              {/* Button Hover Glow Background */}
-              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              {/* Animated Light Sweep */}
-              <div 
-                className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 -translate-x-full group-hover:animate-shimmer"
-                style={{ animationDuration: "1.5s" }}
-              />
-
-              <span className="relative z-10 flex items-center gap-3">
-                Click to Experience
-                <motion.span
-                  animate={{ x: [0, 6, 0] }}
-                  transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-                >
-                  →
-                </motion.span>
-              </span>
-            </motion.button>
-          </div>
-        </motion.div>
-      )}
-
       {/* Phase 0 & 1: ECG Line */}
-      {started && phase <= 1 && (
+      {phase <= 1 && (
         <motion.div
           className="absolute inset-0 flex items-center justify-center px-4"
           animate={phase === 1 ? { opacity: [1, 0.8, 1] } : {}}
@@ -250,7 +176,7 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
       )}
 
       {/* Phase 2: Welcome Text */}
-      {started && phase === 2 && (
+      {phase === 2 && (
         <motion.div
           className="absolute inset-0 flex flex-col items-center justify-center gap-5 sm:gap-6 px-6"
           initial={{ opacity: 0 }}

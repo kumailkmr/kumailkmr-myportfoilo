@@ -18,7 +18,7 @@ const objections = [
   },
   {
     question: "Will this disrupt my current day-to-day operations?",
-    answer: "No. All architecture, development, and testing happen in an isolated staging environment. We only deploy and integrate when the system is 100% verified and you are fully trained."
+    answer: "No. All architecture, development, and testing happen in an isolated staging environment. I only deploy and integrate when the system is 100% verified and you are fully trained."
   },
   {
     question: "Why shouldn't I just hire a big agency?",
@@ -98,7 +98,7 @@ export function WorkCTA() {
             </p>
             
             <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer" className="inline-block w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-lg rounded-full group hover:scale-105 transition-all shadow-[0_0_30px_rgba(37,99,235,0.3)]">
+              <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-lg rounded-xl group hover:scale-105 transition-all shadow-[0_0_30px_rgba(234,179,8,0.3)]">
                 Book a Strategy Session
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>

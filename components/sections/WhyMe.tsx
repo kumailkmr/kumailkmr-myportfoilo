@@ -1,27 +1,70 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Network, ShieldCheck, Zap, ArrowUpRight } from "lucide-react";
+import { X, Check, ArrowRight, Sparkles } from "lucide-react";
 import { CALENDLY_LINK } from "@/config/socials";
 
-const advantages = [
+interface ComparisonRow {
+  feature: string;
+  agency: string;
+  kmr: string;
+  isKmrPositive: boolean;
+}
+
+const COMPARISONS: ComparisonRow[] = [
   {
-    title: "Zero Agency Bloat",
-    desc: "Agencies charge you for account managers, office space, and junior developers. You work directly with me—a senior architect—meaning faster execution, clearer communication, and higher ROI.",
-    icon: Zap,
-    color: "from-blue-500 to-indigo-600"
+    feature: "Response Time",
+    agency: "1 - 2 business days (Account manager bottleneck)",
+    kmr: "Sub-2 hours average (Direct engineer WhatsApp/Slack access)",
+    isKmrPositive: true
   },
   {
-    title: "Business-First Architecture",
-    desc: "I don't just write code for the sake of it. Every system, automation, and AI agent I build is strictly engineered to reduce your operational costs or multiply your revenue.",
-    icon: Network,
-    color: "from-emerald-400 to-teal-600"
+    feature: "Automation Capability",
+    agency: "Manual copy-paste or generic Zapier templates",
+    kmr: "Stateful custom LangGraph AI agents & n8n connectors",
+    isKmrPositive: true
   },
   {
-    title: "Enterprise-Grade Reliability",
-    desc: "From robust error handling to SOC2-compliant data practices, the infrastructure I deploy for your business is designed to scale securely without breaking under pressure.",
-    icon: ShieldCheck,
-    color: "from-purple-500 to-fuchsia-600"
+    feature: "Client Support",
+    agency: "Faceless support ticket queue",
+    kmr: "Direct developer availability without account handlers",
+    isKmrPositive: true
+  },
+  {
+    feature: "Code Customization",
+    agency: "Proprietary locked platforms (high monthly seat costs)",
+    kmr: "100% custom codebase ownership via GitHub",
+    isKmrPositive: true
+  },
+  {
+    feature: "System Performance",
+    agency: "Slow, bloated wordpress templates",
+    kmr: "Serverless Next.js structures (98+ Lighthouse speed)",
+    isKmrPositive: true
+  },
+  {
+    feature: "Scalability Costs",
+    agency: "Expensive seat-based licensing limits growth",
+    kmr: "Serverless scaling (pay-as-you-use server resources)",
+    isKmrPositive: true
+  },
+  {
+    feature: "Project ROI",
+    agency: "Unfocused agency hours with delayed payouts",
+    kmr: "Pre-modeled business savings & lead sync metrics",
+    isKmrPositive: true
+  },
+  {
+    feature: "System Innovation",
+    agency: "Adapt systems to standard templates",
+    kmr: "Stateful vector databases & RAG indexing capabilities",
+    isKmrPositive: true
+  },
+  {
+    feature: "Data Security",
+    agency: "Shared credentials across multiple freelancers",
+    kmr: "SOC2 aligned secure API vaults & encrypted access keys",
+    isKmrPositive: true
   }
 ];
 
@@ -29,96 +72,93 @@ export function WhyMe() {
   return (
     <section className="py-24 relative overflow-hidden bg-background border-y border-border/20">
       {/* Ambient background glow */}
-      <div className="absolute top-1/2 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[150px] -translate-y-1/2 pointer-events-none" />
-      
-      <div className="container mx-auto px-4 max-w-7xl relative z-10">
+      <div className="absolute top-1/2 right-0 w-[min(600px,90vw)] h-[min(600px,90vw)] bg-primary/10 rounded-full blur-[150px] -translate-y-1/2 pointer-events-none" />
+      <div className="absolute inset-0 bg-noise opacity-[0.03] dark:opacity-20 pointer-events-none" />
+
+      <div className="container mx-auto px-4 max-w-6xl relative z-10">
         
-        <div className="text-center mb-20 max-w-3xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-16 max-w-3xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary border border-border text-xs font-bold uppercase tracking-widest text-primary mb-6"
+            className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-secondary border border-border text-xs font-bold uppercase tracking-widest text-primary mb-6 animate-pulse"
           >
-            The Independent Advantage
+            <Sparkles className="w-3.5 h-3.5" />
+            Strategic Comparison
           </motion.div>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight text-foreground"
+            className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-foreground"
           >
-            Why Partner With <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-500">Kumail?</span>
+            Traditional Agency vs <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-500">Kumail Kmr AI Solutions</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-lg md:text-xl text-muted-foreground leading-relaxed"
+            className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto"
           >
-            Choosing the right technical partner is the difference between a stalled project and market dominance. Here is why high-growth companies hire me instead of traditional agencies.
+            Ditch bloated agency overhead. Here is a technical breakdown of how I build intelligent software systems compared to traditional service models.
           </motion.p>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-8 items-stretch">
-          
-          {/* Left Column: The Big Metric */}
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="lg:col-span-5 relative group"
-          >
-            <div className="absolute -inset-[1px] bg-gradient-to-br from-primary/30 to-purple-600/30 rounded-[2.5rem] blur-md opacity-50 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-            <div className="relative h-full bg-card/40 backdrop-blur-xl border border-border/50 p-10 md:p-14 rounded-[2.5rem] flex flex-col justify-center text-center group-hover:border-primary/30 transition-colors">
-              <div className="text-7xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-b from-foreground to-foreground/50 mb-4 tracking-tighter">
-                100%
-              </div>
-              <h3 className="text-2xl font-bold text-foreground mb-4">Delivery Rate</h3>
-              <p className="text-muted-foreground text-lg leading-relaxed mb-10">
-                I do not take on projects I cannot execute perfectly. Every single engagement is delivered on time, within budget, and engineered to spec.
-              </p>
-              <a 
-                href={CALENDLY_LINK} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 text-sm font-bold text-primary hover:text-primary/80 transition-colors uppercase tracking-widest"
-              >
-                Discuss Your Project <ArrowUpRight className="w-5 h-5" />
-              </a>
-            </div>
-          </motion.div>
+        {/* Comparison Dashboard Grid */}
+        <div className="border border-border/80 rounded-3xl overflow-hidden bg-card/25 backdrop-blur-2xl shadow-xl">
+          {/* Header Row */}
+          <div className="grid grid-cols-1 md:grid-cols-12 border-b border-border/80 bg-muted/30 p-4 md:p-6 text-xs font-extrabold uppercase tracking-wider text-muted-foreground gap-4">
+            <div className="md:col-span-3 text-foreground">Operational Parameter</div>
+            <div className="md:col-span-4">Traditional Agency</div>
+            <div className="md:col-span-5 text-primary">Kumail Kmr AI Solutions</div>
+          </div>
 
-          {/* Right Column: The Advantages */}
-          <div className="lg:col-span-7 flex flex-col justify-between gap-6">
-            {advantages.map((adv, index) => (
+          {/* Table Rows */}
+          <div className="divide-y divide-border/60">
+            {COMPARISONS.map((row, index) => (
               <motion.div
-                key={index}
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                key={row.feature}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.15 }}
-                className="group relative bg-card/20 hover:bg-card/40 backdrop-blur-md border border-border/40 hover:border-border p-8 rounded-3xl transition-all duration-300"
+                transition={{ delay: index * 0.05, duration: 0.4 }}
+                className="grid grid-cols-1 md:grid-cols-12 p-4 md:p-6 items-center gap-4 text-xs font-semibold leading-relaxed hover:bg-muted/10 transition-colors"
               >
-                <div className="flex flex-col sm:flex-row items-start gap-6">
-                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${adv.color} p-[1px] shadow-lg flex-shrink-0`}>
-                    <div className="w-full h-full bg-background rounded-[15px] flex items-center justify-center">
-                      <adv.icon className="w-6 h-6 text-foreground group-hover:scale-110 transition-transform duration-300" />
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="text-2xl font-bold text-foreground mb-3">{adv.title}</h4>
-                    <p className="text-muted-foreground leading-relaxed text-lg">
-                      {adv.desc}
-                    </p>
-                  </div>
+                {/* Feature Name */}
+                <div className="md:col-span-3 text-foreground font-black text-sm tracking-tight">{row.feature}</div>
+                
+                {/* Traditional Agency */}
+                <div className="md:col-span-4 flex items-start gap-2 text-muted-foreground">
+                  <X className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                  <span>{row.agency}</span>
+                </div>
+                
+                {/* Kumail Kmr AI Solutions */}
+                <div className="md:col-span-5 flex items-start gap-2.5 text-foreground/90 font-bold bg-primary/5 border border-primary/10 p-3 rounded-2xl md:bg-transparent md:border-none md:p-0">
+                  <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                  <span>{row.kmr}</span>
                 </div>
               </motion.div>
             ))}
           </div>
-
         </div>
+
+        {/* Call to action */}
+        <div className="mt-12 text-center">
+          <a
+            href={CALENDLY_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-premium btn-premium-primary inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8"
+          >
+            Discuss Your System Requirements
+            <ArrowRight className="w-4 h-4" />
+          </a>
+        </div>
+
       </div>
     </section>
   );

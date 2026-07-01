@@ -2,93 +2,250 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Bot, Workflow, Code, CheckCircle2, Zap, X, ShieldAlert, Sparkles, Clock, HelpCircle, Layers } from "lucide-react";
-import { CALENDLY_LINK } from "@/config/socials";
+import { 
+  ArrowRight, Bot, Code, CheckCircle2, Zap, X, Sparkles, 
+  Clock, Layers, Cpu, Smartphone, TrendingUp, LineChart, Code2 
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const premiumServices = [
+interface ServiceItem {
+  id: string;
+  category: string;
+  name: string;
+  tagline: string;
+  description: string;
+  icon: React.ComponentType<{ className?: string }>;
+  color: string;
+  outcomes: string[];
+  tech: string[];
+  benefits: string;
+  problems: string;
+  features: string[];
+  pricing: string;
+  timeline: string;
+}
+
+const CATEGORIES = [
+  "AI Automation",
+  "WhatsApp Automation",
+  "Website Development",
+  "Booking Systems",
+  "CRM & ERP",
+  "Marketing Automation",
+  "AI Creative Services",
+  "Data & Analytics",
+  "Custom Software",
+  "Integrations"
+];
+
+const premiumServices: ServiceItem[] = [
   {
-    id: "01",
-    name: "Intelligent Automation Hubs",
-    tagline: "Stop Doing Manual Data Entry.",
-    description: "I connect your fragmented software (CRMs, Email, Billing) into a seamless, autonomous engine. Eliminate human error and reclaim hundreds of hours a month.",
-    icon: Workflow,
+    id: "ai-support",
+    category: "AI Automation",
+    name: "AI Customer Support Assistant",
+    tagline: "Instant 24/7 support scaling.",
+    description: "Train a custom AI agent on your exact business data and handbooks to handle customer inquiries, solve issues, and qualify leads round-the-clock.",
+    icon: Bot,
     color: "from-blue-500 to-indigo-600",
     outcomes: [
-      "Save 40+ hours of staff time weekly",
-      "Zero manual data entry between tools",
-      "Automated invoice & contract generation",
+      "70% faster customer response time",
+      "Reduced monthly support rep overhead",
+      "Seamless handoff to human support"
     ],
-    tech: ["n8n", "Make", "Zapier", "Python"],
-    // Extended parameters
-    benefits: "Save hours of copy-pasting, get real-time client record updates across all boards, and automatically dispatch invoices after every sale.",
-    problems: "Mismatched spreadsheets, manual onboarding delays, human typing errors, delayed proposals.",
-    features: ["Bi-directional CRM sync", "Automated contract & PDF creation", "Multi-path custom API retry logic", "Slack/Teams notifications"],
-    workflow: "API Audit → Trigger mapping → Code-level scripting → Beta review → Production deployment.",
-    pricing: "Custom packages starting from $2,500 USD / ₹1,80,000 INR.",
-    timeline: "2 - 4 weeks standard delivery.",
-    faqs: [
-      { q: "Do I have to pay monthly software fees?", a: "No. I prioritize self-hosted open-source tools like n8n which reduces your subscription overhead to near zero." },
-      { q: "Can we add new apps later?", a: "Yes. The system is modular and written in clean JS, allowing you to connect extra APIs easily." }
-    ],
-    caseStudies: "Enterprise Workflow CRM Automation"
+    tech: ["OpenAI API", "Pinecone", "LangGraph", "Node.js"],
+    benefits: "Reduce ticket backlogs, maintain 24/7 availability, and ensure factual responses based on vector data.",
+    problems: "Missed inquiries after hours, high staffing costs, slow customer support resolution.",
+    features: ["Vector RAG knowledge search", "Slack/Email alerts for team", "Stateful dialogue routing"],
+    pricing: "$3,500 USD / ₹2,80,000 INR",
+    timeline: "3 - 5 weeks"
   },
   {
-    id: "02",
-    name: "AI-Driven Conversion Systems",
-    tagline: "Turn Traffic into Qualified Meetings 24/7.",
-    description: "Custom AI agents and WhatsApp assistants that engage your prospects instantly, qualify leads based on your strict criteria, and automatically book them into your calendar.",
-    icon: Bot,
+    id: "wa-ordering",
+    category: "WhatsApp Automation",
+    name: "WhatsApp Ordering & Stores",
+    tagline: "Close sales inside the chat thread.",
+    description: "Construct conversational stores directly in WhatsApp. Allow users to browse catalog items, place orders, and pay securely via Stripe or UPI.",
+    icon: Smartphone,
     color: "from-emerald-400 to-teal-600",
     outcomes: [
-      "Instant 24/7 lead response times",
-      "Automated lead qualification & booking",
-      "Pre-trained on your specific business data",
+      "3.2x higher conversion than standard checkout",
+      "Automated invoices & receipt delivery",
+      "Zero manual CRM data entry"
     ],
-    tech: ["OpenAI", "LangChain", "WhatsApp API", "Pinecone"],
-    // Extended parameters
-    benefits: "Engage warm leads instantly, reply outside of standard business hours, filter prospects by budget, and push booking dates to calendar slots automatically.",
-    problems: "Lost leads due to delayed replies, time spent chasing cold prospects, scheduling friction.",
-    features: ["RAG knowledge base querying", "Conversational qualifying pathways", "WhatsApp & SMS API configurations", "Calendly scheduling API sync"],
-    workflow: "Knowledge ingestion → Prompt scoping → Bot tree engineering → API integration → Launch review.",
-    pricing: "Custom packages starting from $5,000 USD / ₹3,80,000 INR.",
-    timeline: "4 - 8 weeks delivery.",
-    faqs: [
-      { q: "Does the AI hallucinate or make up false info?", a: "No. I write custom system boundaries and use vector databases to restrict the AI to your official data." },
-      { q: "Can it transfer to a human?", a: "Yes. The assistant flags complex questions and instantly alerts your sales team via SMS or Slack." }
-    ],
-    caseStudies: "Scaling Support with Generative AI"
+    tech: ["WhatsApp Business API", "Stripe API", "Make", "Express.js"],
+    benefits: "Eliminate friction. Buyers don't need to visit external pages or install apps; they purchase where they chat.",
+    problems: "Low conversion rates on checkout pages, high customer drops, delayed manual order confirmations.",
+    features: ["Stripe/UPI integration", "Automated stock check loops", "Interactive buttons list selection"],
+    pricing: "$2,800 USD / ₹2,24,000 INR",
+    timeline: "2 - 4 weeks"
   },
   {
-    id: "03",
-    name: "Bespoke Enterprise Portals",
-    tagline: "Your Business, Your Software.",
-    description: "Off-the-shelf software is bloated and forces you to adapt to it. I build bespoke SaaS platforms and internal dashboards engineered specifically for your unique operational workflows.",
+    id: "web-corp",
+    category: "Website Development",
+    name: "Custom Web Apps & Portals",
+    tagline: "Proprietary software tailored to your processes.",
+    description: "Ditch rigid page templates. Build high-speed Next.js corporate dashboards, real estate directories, or custom SaaS panels designed strictly for your operations.",
     icon: Code,
     color: "from-purple-500 to-fuchsia-600",
     outcomes: [
-      "Customized strictly to your processes",
-      "Real-time analytics and KPI visibility",
-      "Enterprise-grade security and role access",
+      "98+ Google Lighthouse performance speeds",
+      "Role-based secure member areas",
+      "100% custom code repository ownership"
     ],
-    tech: ["Next.js", "TypeScript", "Supabase", "Tailwind"],
-    // Extended parameters
-    benefits: "Ditch bloated subscription portals, own 100% of your source code, and run client portals that load in milliseconds.",
-    problems: "Rigid templates, high seat-based monthly fees, slow UI response times, insecure data shares.",
-    features: ["Serverless PostgreSQL databases", "Supabase auth layers with secure policies", "Real-time metrics charts", "Stripe payment checkouts"],
-    workflow: "UI wireframing → Database schema design → Full-stack scripting → Webhook configuration → Serverless deployment.",
-    pricing: "Bespoke engineering starting from $7,500 USD / ₹5,50,000 INR.",
-    timeline: "1 - 3 months delivery.",
-    faqs: [
-      { q: "Who owns the code after delivery?", a: "You do. You get full ownership of the GitHub repository and all deployment access credentials." },
-      { q: "How does the hosting scale?", a: "I deploy on serverless platforms (like Vercel and Supabase) meaning your hosting costs scale dynamically with your actual traffic." }
+    tech: ["Next.js", "TypeScript", "TailwindCSS", "Supabase"],
+    benefits: "Own your platform. Highly customized design matching Vercel/Linear vibes that load in milliseconds.",
+    problems: "Bloated seat-based monthly subscriptions, slow template speeds, security gaps, poor search rankings.",
+    features: ["Serverless database querying", "Supabase authentication", "SEO-optimized static page generation"],
+    pricing: "$5,500 USD / ₹4,40,000 INR",
+    timeline: "4 - 8 weeks"
+  },
+  {
+    id: "book-appointment",
+    category: "Booking Systems",
+    name: "Appointment Scheduler & Reminders",
+    tagline: "Automated schedule assignment.",
+    description: "Custom appointment coordinators for clinics, gyms, salons, or consultants. Synchronizes live slots and automates confirmation triggers.",
+    icon: Clock,
+    color: "from-rose-500 to-red-600",
+    outcomes: [
+      "90% reduction in customer no-shows",
+      "Real-time calendar collision check",
+      "Automated SMS & WhatsApp reminders"
     ],
-    caseStudies: "Next.js SaaS Platform Case Study"
+    tech: ["Google Calendar API", "Twilio API", "Cal.com API", "Node.js"],
+    benefits: "Ditch back-and-forth emails. Allow bookings and prepayments while assigned staff receive dashboard alerts.",
+    problems: "Double-bookings, manual entry mistakes, customer forgetfulness, administrative overhead.",
+    features: ["Multi-time-zone conversion", "Collect deposits on booking", "Automated custom notification delay loops"],
+    pricing: "$2,000 USD / ₹1,60,000 INR",
+    timeline: "2 - 3 weeks"
+  },
+  {
+    id: "crm-pipeline",
+    category: "CRM & ERP",
+    name: "Lead Management & Pipelines",
+    tagline: "Track and organize every lead.",
+    description: "Centralized client portals, invoice management tables, sales pipelines, and executive dashboards structured for your sales pipelines.",
+    icon: Layers,
+    color: "from-cyan-500 to-blue-600",
+    outcomes: [
+      "25+ manual paperwork hours saved weekly",
+      "Consolidated contact interaction logs",
+      "Visual charts of annual revenue pipelines"
+    ],
+    tech: ["Next.js", "PostgreSQL", "Prisma", "Chart.js"],
+    benefits: "Ditch messy spreadsheets. Follow up with warm leads immediately and monitor sales velocities on interactive graphs.",
+    problems: "Lost client email threads, double invoicing, lack of executive performance visibility.",
+    features: ["Visual Kanban boards", "Automated PDF invoice generation", "Role security access layers"],
+    pricing: "$4,800 USD / ₹3,84,000 INR",
+    timeline: "4 - 8 weeks"
+  },
+  {
+    id: "mkt-automation",
+    category: "Marketing Automation",
+    name: "Lead Funnels & Review Loop",
+    tagline: "Turn visitors into active customers.",
+    description: "Deploy high-converting landing pages integrated with email onboarding drips, WhatsApp broadcasts, and automated Google Review triggers.",
+    icon: TrendingUp,
+    color: "from-amber-500 to-orange-600",
+    outcomes: [
+      "35%+ conversion rate on landing flows",
+      "Automated review requests after sale",
+      "Dormant lead re-engagement drops"
+    ],
+    tech: ["ActiveCampaign API", "Resend", "Make", "TailwindCSS"],
+    benefits: "Keep leads engaged automatically. Nurture visitors, trigger prompts based on customer actions, and capture 5-star ratings.",
+    problems: "Cold traffic dropping, manually emailing proposals, zero customer re-engagement pipelines.",
+    features: ["Automated email drip triggers", "A/B testable layouts", "Google Review API hooks"],
+    pricing: "$2,500 USD / ₹2,00,000 INR",
+    timeline: "2 - 4 weeks"
+  },
+  {
+    id: "ai-creative",
+    category: "AI Creative Services",
+    name: "AI Ads & Product Videos",
+    tagline: "Studio quality creative media at scale.",
+    description: "Deploy high-converting AI commercial videos, restaurant reel showcases, real estate tours, and prompt-engineered custom graphics.",
+    icon: Sparkles,
+    color: "from-pink-500 to-rose-600",
+    outcomes: [
+      "5x drop in video production costs",
+      "Immediate video edits and rendering",
+      "Highly targeted ad creative hooks"
+    ],
+    tech: ["Midjourney", "Runway Gen-2", "ElevenLabs", "Premiere"],
+    benefits: "Bypass camera and editor logistics. Generate voiceovers, mockups, and video advertisements in hours instead of weeks.",
+    problems: "Expensive commercial filming shoots, content fatigue on ads, slow editing cycles.",
+    features: ["AI voice synthesizers", "4K image rendering models", "Motion overlays editing"],
+    pricing: "$1,800 USD / ₹1,44,000 INR",
+    timeline: "1 - 2 weeks"
+  },
+  {
+    id: "data-bi",
+    category: "Data & Analytics",
+    name: "BI Dashboards & PDF Automation",
+    tagline: "Unlock hidden business intelligence.",
+    description: "Automate PDF invoice extraction, document OCR parsing, and configure real-time reporting boards for company leadership.",
+    icon: LineChart,
+    color: "from-indigo-500 to-violet-600",
+    outcomes: [
+      "Zero manual paperwork parsing invoices",
+      "Instant PDF data table extraction",
+      "Automated Slack analytics reports"
+    ],
+    tech: ["Python", "Pandas", "Supabase", "Apache Superset"],
+    benefits: "Base decisions on facts. Streamline manual billing files, parse scans using AI OCR, and dispatch reporting emails.",
+    problems: "Blind spots in financial trends, staff spending hours copy-pasting numbers from PDF receipts.",
+    features: ["OCR document parsing", "Weekly executive PDF exports", "Real-time metrics charts"],
+    pricing: "$3,200 USD / ₹2,56,000 INR",
+    timeline: "3 - 5 weeks"
+  },
+  {
+    id: "saas-panel",
+    category: "Custom Software",
+    name: "SaaS Dev & Admin Panels",
+    tagline: "Proprietary software engines.",
+    description: "Develop serverless SaaS systems, inventory trackers, and internal back-office panels coded specifically for your company.",
+    icon: Code2,
+    color: "from-sky-500 to-blue-700",
+    outcomes: [
+      "Zero seat-based monthly billing fees",
+      "Serverless architecture scaling cost-effectively",
+      "Custom Stripe billing webhooks integration"
+    ],
+    tech: ["React", "TypeScript", "Node.js", "AWS Lambdas"],
+    benefits: "Retain 100% code ownership. Your platform scales seamlessly to match user activity, keeping hosting bills low.",
+    problems: "Rigid SaaS options that lack key features, climbing monthly software bills as your staff grows.",
+    features: ["Stripe subscription webhooks", "Secure multi-user permissions", "Indexed relational tables"],
+    pricing: "$6,500 USD / ₹5,20,000 INR",
+    timeline: "6 - 12 weeks"
+  },
+  {
+    id: "api-sync",
+    category: "Integrations",
+    name: "API Gateways & Sync Connectors",
+    tagline: "Sync your software tools securely.",
+    description: "Configure custom webhook receivers, payment gateway checkout links, and fail-safe API retry queues to keep databases aligned.",
+    icon: Cpu,
+    color: "from-emerald-500 to-teal-700",
+    outcomes: [
+      "100% data alignment between tools",
+      "Sub-second API dispatch speeds",
+      "Fail-safe request queuing in Redis"
+    ],
+    tech: ["Express.js", "Redis Queue", "PostgreSQL", "Webhooks"],
+    benefits: "Unify your stack. Keep Stripe, email dashboards, CRM pipelines, and messaging webhooks synchronized in real-time.",
+    problems: "Dropped API notifications, out-of-sync contact databases, double payments, delayed logs.",
+    features: ["Redis request retry loops", "Secure encryption credentials", "Webhook rate limiters"],
+    pricing: "$2,200 USD / ₹1,76,000 INR",
+    timeline: "2 - 3 weeks"
   }
 ];
 
 export function Services() {
-  const [activeService, setActiveService] = useState<typeof premiumServices[number] | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>("AI Automation");
+  const [activeService, setActiveService] = useState<ServiceItem | null>(null);
+
+  const filteredServices = premiumServices.filter(s => s.category === activeCategory);
 
   return (
     <section className="pt-12 pb-16 relative overflow-hidden bg-background">
@@ -99,7 +256,7 @@ export function Services() {
       <div className="container mx-auto px-4 max-w-6xl relative z-10">
         
         {/* Enterprise Header */}
-        <div className="text-center mb-24 max-w-3xl mx-auto">
+        <div className="text-center mb-16 max-w-3xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -107,239 +264,227 @@ export function Services() {
             className="inline-flex items-center justify-center px-4 py-1.5 mb-6 rounded-full bg-primary/10 border border-primary/20 text-sm font-semibold text-primary"
           >
             <Zap className="w-4 h-4 mr-2" />
-            High-ROI Solutions
+            High-ROI Systems
           </motion.div>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-6xl font-extrabold mb-8 tracking-tight text-foreground leading-[1.1]"
+            className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-foreground leading-[1.1]"
           >
-            Engineering Systems That <br className="hidden md:block" /> <span className="text-primary">Scale Revenue</span>
+            Engineering Systems That <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-500">Scale Revenue</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto"
+            className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto"
           >
-            I don&apos;t just sell code. I partner with businesses to eliminate operational bottlenecks, automate growth, and build enterprise-grade software that drives measurable returns. Click a solution to inspect details.
+            I build intelligent systems that help businesses grow. Select a category below to browse premium automated solutions engineered to save time and reduce overhead.
           </motion.p>
         </div>
 
-        {/* Stacked Service Pillars */}
-        <div className="space-y-12">
-          {premiumServices.map((service) => (
-            <motion.div 
-              key={service.id}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.7, ease: "easeOut" }}
-              className="group relative"
+        {/* Category Switcher Tabs */}
+        <div className="flex border-b border-border gap-2 overflow-x-auto pb-4 mb-12 scrollbar-none">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer relative ${
+                activeCategory === cat 
+                  ? "text-primary bg-primary/15 border border-primary/20" 
+                  : "text-muted-foreground hover:text-foreground border border-transparent"
+              }`}
             >
-              {/* Premium Glow on hover */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-primary/10 via-transparent to-primary/10 rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-              
-              <div className="relative flex flex-col lg:flex-row gap-8 lg:gap-16 items-center p-8 md:p-12 bg-card/40 backdrop-blur-2xl border border-border/50 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)] overflow-hidden">
-                
-                {/* Left Side: Context */}
-                <div className="flex-1 lg:max-w-lg z-10">
-                  <div className="flex items-center gap-4 mb-6">
-                    <span className="text-5xl font-black text-muted/30 dark:text-muted-foreground/10">{service.id}</span>
-                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color} p-0.5 shadow-lg`}>
-                      <div className="w-full h-full bg-background/90 backdrop-blur-sm rounded-[14px] flex items-center justify-center">
-                        <service.icon className="w-6 h-6 text-foreground" />
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* Services Grid */}
+        <div className="grid md:grid-cols-2 gap-6">
+          <AnimatePresence mode="wait">
+            {filteredServices.map((service) => {
+              const Icon = service.icon;
+              return (
+                <motion.div
+                  key={service.id}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  className="group relative"
+                >
+                  {/* Hover Glow */}
+                  <div className="absolute -inset-1 bg-gradient-to-r from-primary/10 via-transparent to-primary/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+
+                  <div className="relative bg-card/40 backdrop-blur-2xl border border-border/50 p-6 rounded-3xl flex flex-col justify-between h-full shadow-sm hover:border-primary/30 transition-all duration-300">
+                    <div>
+                      {/* Icon */}
+                      <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${service.color} p-0.5 shadow-md mb-6`}>
+                        <div className="w-full h-full bg-background/90 backdrop-blur-sm rounded-[14px] flex items-center justify-center">
+                          <Icon className="w-5 h-5 text-foreground" />
+                        </div>
+                      </div>
+
+                      {/* Header copy */}
+                      <h3 className="text-xl font-bold text-foreground tracking-tight mb-2">{service.name}</h3>
+                      <h4 className="text-xs font-semibold text-primary mb-4 leading-none">{service.tagline}</h4>
+                      <p className="text-xs text-muted-foreground leading-relaxed mb-6">{service.description}</p>
+
+                      {/* Core outcomes list */}
+                      <div className="space-y-2 border-t border-border/40 pt-4 mb-6">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block mb-2">Target ROI Highlights</span>
+                        {service.outcomes.map((out, i) => (
+                          <div key={i} className="flex items-start gap-2 text-xs text-foreground/80 font-medium">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                            <span>{out}</span>
+                          </div>
+                        ))}
                       </div>
                     </div>
-                  </div>
-                  
-                  <h3 className="text-3xl md:text-4xl font-bold mb-4 text-foreground tracking-tight">{service.name}</h3>
-                  <h4 className="text-lg font-semibold text-primary mb-6">{service.tagline}</h4>
-                  <p className="text-muted-foreground leading-relaxed text-lg mb-8">
-                    {service.description}
-                  </p>
-                  
-                  <div className="flex flex-wrap gap-2">
-                    {service.tech.map(t => (
-                      <span key={t} className="px-3 py-1.5 bg-secondary/80 text-secondary-foreground rounded-md text-sm font-medium border border-border/50">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
 
-                {/* Right Side: Outcomes */}
-                <div className="flex-1 w-full relative z-10">
-                  <div className="bg-background/80 dark:bg-black/40 backdrop-blur-xl border border-border/50 rounded-2xl p-8 lg:p-10 shadow-inner">
-                    <h5 className="text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground mb-8">Direct Business Outcomes</h5>
-                    <ul className="space-y-6">
-                      {service.outcomes.map((outcome, i) => (
-                        <li key={i} className="flex items-start gap-4">
-                          <div className="mt-1 flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
-                            <CheckCircle2 className="w-4 h-4 text-primary" />
-                          </div>
-                          <span className="text-lg text-foreground/90 font-medium leading-tight">{outcome}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    
-                    <div className="mt-10 pt-8 border-t border-border/50 flex flex-wrap gap-3">
+                    {/* Actions */}
+                    <div className="flex gap-2.5 mt-auto pt-4 border-t border-border/40">
                       <Button
                         onClick={() => setActiveService(service)}
                         variant="outline"
-                        className="flex-1 text-xs font-bold rounded-xl border-primary/20 hover:bg-muted text-foreground"
+                        className="flex-1 text-xs font-bold rounded-xl border-primary/20 hover:bg-muted text-foreground cursor-pointer h-11"
                       >
                         Inspect Blueprint
                       </Button>
-                      <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer" className="flex-1">
-                        <Button className="w-full group/btn h-12 rounded-xl bg-primary text-white text-xs font-bold hover:scale-[1.02] transition-all">
-                          Discuss This Solution
-                          <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                      
+                      <a 
+                        href={`https://wa.me/916006121193?text=${encodeURIComponent(
+                          `Hello Kumail! I'm interested in your service: "${service.name}". Let's discuss.`
+                        )}`}
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="flex-1"
+                      >
+                        <Button className="w-full group/btn rounded-xl bg-primary text-primary-foreground text-xs font-bold hover:scale-[1.01] transition-all cursor-pointer h-11">
+                          Consult
+                          <ArrowRight className="w-4 h-4 ml-1.5 group-hover/btn:translate-x-0.5 transition-transform" />
                         </Button>
                       </a>
                     </div>
-                  </div>
-                </div>
 
-              </div>
-            </motion.div>
-          ))}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
         </div>
 
       </div>
 
-      {/* Expandable Service Details Dialog */}
+      {/* Detail Modal overlay */}
       <AnimatePresence>
         {activeService && (
-          <div className="fixed inset-0 z-[9995] flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+            {/* Backdrop */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="relative w-full max-w-2xl bg-card border border-border rounded-3xl shadow-2xl p-6 md:p-8 space-y-6 max-h-[90vh] overflow-y-auto"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setActiveService(null)}
+              className="absolute inset-0 bg-black/85 backdrop-blur-md"
+            />
+
+            {/* Modal Body */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-2xl bg-card border border-border rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[85vh]"
             >
-              {/* Header */}
-              <div className="flex justify-between items-center pb-4 border-b border-border/30">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-                    <activeService.icon className="w-5 h-5" />
+              <div className={`h-2 bg-gradient-to-r ${activeService.color}`} />
+              
+              <button
+                onClick={() => setActiveService(null)}
+                className="absolute top-6 right-6 p-2 rounded-full bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground transition-all cursor-pointer"
+                aria-label="Close"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              <div className="overflow-y-auto p-6 md:p-8 space-y-6">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-primary block mb-1">{activeService.category} Profile</span>
+                  <h3 className="text-2xl font-black text-foreground tracking-tight">{activeService.name}</h3>
+                  <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{activeService.tagline}</p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-6 border-t border-border/50 pt-5">
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="text-[10px] uppercase font-bold text-muted-foreground">Problems Solved</h4>
+                      <p className="text-xs text-foreground/80 leading-relaxed mt-1">{activeService.problems}</p>
+                    </div>
+                    <div>
+                      <h4 className="text-[10px] uppercase font-bold text-muted-foreground">Core Benefits</h4>
+                      <p className="text-xs text-foreground/80 leading-relaxed mt-1">{activeService.benefits}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-foreground">{activeService.name} Blueprint</h3>
-                    <p className="text-[10px] text-primary uppercase font-bold tracking-wider">{activeService.tagline}</p>
+
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="text-[10px] uppercase font-bold text-muted-foreground">Technologies Stacked</h4>
+                      <div className="flex flex-wrap gap-1.5 mt-1.5">
+                        {activeService.tech.map(t => (
+                          <span key={t} className="px-2 py-1 bg-secondary text-foreground text-[10px] font-bold rounded border border-border/50">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <h4 className="text-[10px] uppercase font-bold text-muted-foreground">Pricing Target</h4>
+                        <p className="text-xs font-bold text-primary mt-1">{activeService.pricing}</p>
+                      </div>
+                      <div>
+                        <h4 className="text-[10px] uppercase font-bold text-muted-foreground">Target Timeline</h4>
+                        <p className="text-xs font-bold text-foreground mt-1">{activeService.timeline}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
+
+                {/* Features Checklist */}
+                <div className="border-t border-border/50 pt-5">
+                  <h4 className="text-[10px] uppercase font-bold text-muted-foreground mb-3">Engineered System Features</h4>
+                  <div className="grid sm:grid-cols-2 gap-2.5">
+                    {activeService.features.map((feat, i) => (
+                      <div key={i} className="flex items-center gap-2 text-xs text-foreground/85">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                        <span>{feat}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Modal Footer */}
+              <div className="p-4 bg-muted/40 border-t border-border flex gap-3 justify-end">
                 <button
                   onClick={() => setActiveService(null)}
-                  className="p-1.5 rounded-full hover:bg-muted text-muted-foreground hover:text-foreground transition-all cursor-pointer"
+                  className="text-xs font-bold text-muted-foreground hover:text-foreground transition-colors cursor-pointer px-4"
                 >
-                  <X className="w-5 h-5" />
+                  Close
                 </button>
+                <a
+                  href={`https://wa.me/916006121193?text=${encodeURIComponent(
+                    `Hello Kumail! I reviewed the blueprint for "${activeService.name}" ($${activeService.pricing}). Let's schedule a build review.`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button className="rounded-xl bg-primary text-primary-foreground text-xs font-bold hover:scale-[1.01] transition-all cursor-pointer px-6">
+                    Request Build Review
+                  </Button>
+                </a>
               </div>
-
-              {/* Contents */}
-              <div className="space-y-4 text-sm text-foreground/80">
-                
-                {/* Benefits & Problems */}
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="bg-secondary border border-border/40 p-4 rounded-2xl">
-                    <h4 className="text-xs font-bold text-emerald-500 dark:text-emerald-400 uppercase mb-2 flex items-center gap-1.5">
-                      <Sparkles className="w-3.5 h-3.5" />
-                      Client Benefits
-                    </h4>
-                    <p className="text-xs leading-relaxed">{activeService.benefits}</p>
-                  </div>
-
-                  <div className="bg-secondary border border-border/40 p-4 rounded-2xl">
-                    <h4 className="text-xs font-bold text-red-500 dark:text-red-400 uppercase mb-2 flex items-center gap-1.5">
-                      <ShieldAlert className="w-3.5 h-3.5" />
-                      Problems Solved
-                    </h4>
-                    <p className="text-xs leading-relaxed">{activeService.problems}</p>
-                  </div>
-                </div>
-
-                {/* Features & Workflow */}
-                <div className="bg-secondary border border-border/40 p-4 rounded-2xl space-y-3">
-                  <h4 className="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
-                    <Layers className="w-3.5 h-3.5" />
-                    Key Architecture Features
-                  </h4>
-                  <ul className="grid sm:grid-cols-2 gap-2 text-xs">
-                    {activeService.features.map((feat: string, i: number) => (
-                      <li key={i} className="flex items-center gap-2">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" />
-                        {feat}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="bg-secondary border border-border/40 p-4 rounded-2xl">
-                    <h4 className="text-xs font-bold text-foreground uppercase mb-1.5 flex items-center gap-1.5">
-                      <Clock className="w-3.5 h-3.5 text-primary" />
-                      Workflow & Delivery Timeline
-                    </h4>
-                    <p className="text-xs font-semibold text-foreground/90 leading-relaxed mb-2">{activeService.timeline}</p>
-                    <p className="text-[11px] text-muted-foreground leading-relaxed">{activeService.workflow}</p>
-                  </div>
-
-                  <div className="bg-secondary border border-border/40 p-4 rounded-2xl">
-                    <h4 className="text-xs font-bold text-foreground uppercase mb-1.5 flex items-center gap-1.5">
-                      <HelpCircle className="w-3.5 h-3.5 text-purple-500 dark:text-purple-400" />
-                      Pricing Guidelines
-                    </h4>
-                    <p className="text-xs font-semibold text-foreground/90 leading-relaxed mb-2">{activeService.pricing}</p>
-                    <p className="text-[11px] text-muted-foreground leading-relaxed">Budgets vary depending on API loads and endpoints count.</p>
-                  </div>
-                </div>
-
-                {/* FAQs */}
-                <div className="bg-secondary border border-border/40 p-4 rounded-2xl space-y-2">
-                  <h4 className="text-xs font-bold text-foreground uppercase tracking-wider">Frequently Asked Questions</h4>
-                  {activeService.faqs.map((faq, idx: number) => (
-                    <div key={idx} className="space-y-1 text-xs">
-                      <p className="font-bold text-foreground flex items-center gap-1">
-                        <span>Q:</span> {faq.q}
-                      </p>
-                      <p className="text-muted-foreground pl-3">
-                        {faq.a}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
-              </div>
-
-              {/* Footer */}
-              <div className="pt-4 border-t border-border/20 flex flex-col sm:flex-row gap-4 justify-between items-center">
-                <div className="text-xs text-muted-foreground flex items-center gap-1">
-                  <span>Case Study:</span>
-                  <span className="font-bold text-foreground">{activeService.caseStudies}</span>
-                </div>
-                <div className="flex gap-2 w-full sm:w-auto">
-                  <button
-                    onClick={() => setActiveService(null)}
-                    className="flex-1 sm:flex-initial py-2.5 px-5 rounded-xl border border-border text-xs font-bold hover:bg-muted text-foreground transition-all cursor-pointer"
-                  >
-                    Close
-                  </button>
-                  <button
-                    onClick={() => {
-                      const text = `Hi Kumail! I'm interested in the "${activeService.name}" solution package.`;
-                      window.open(`https://wa.me/916006121193?text=${encodeURIComponent(text)}`, "_blank");
-                    }}
-                    className="flex-1 sm:flex-initial py-2.5 px-5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary/95 transition-all cursor-pointer flex items-center justify-center gap-1.5"
-                  >
-                    Discuss Solution
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-
             </motion.div>
           </div>
         )}

@@ -91,7 +91,7 @@ export function Contact() {
       </AnimatePresence>
 
       {/* Subtle Background Glow */}
-      <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-[min(600px,90vw)] h-[min(600px,90vw)] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
         <div className="text-center mb-16 max-w-2xl mx-auto">

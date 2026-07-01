@@ -375,7 +375,7 @@ export function AIAssistant() {
       <div className="fixed bottom-24 right-6 md:bottom-6 md:right-6 z-[9990]">
         <motion.button
           onClick={() => setIsOpen(!isOpen)}
-          className="relative w-16 h-16 rounded-full bg-gradient-to-tr from-primary to-purple-600 flex items-center justify-center text-white shadow-[0_4px_30px_rgba(124,58,237,0.4)] cursor-pointer"
+          className="relative w-16 h-16 rounded-full bg-primary flex items-center justify-center text-primary-foreground shadow-[0_4px_30px_rgba(234,179,8,0.4)] cursor-pointer"
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}
           aria-label="Toggle AI Assistant"
@@ -386,7 +386,7 @@ export function AIAssistant() {
             transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
           />
           <motion.div 
-            className="absolute -inset-4 rounded-full border border-purple-500/20 opacity-40"
+            className="absolute -inset-4 rounded-full border border-primary/20 opacity-40"
             animate={{ scale: [1, 1.4, 1], rotate: -360 }}
             transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
           />
@@ -421,7 +421,7 @@ export function AIAssistant() {
             {/* Header */}
             <div className="p-4 border-b border-border/30 bg-background/30 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-primary to-purple-600 flex items-center justify-center text-white">
+                <div className="relative w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-primary-foreground">
                   <Bot className="w-5 h-5" />
                   <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-background" />
                 </div>
@@ -733,6 +733,37 @@ export function AIAssistant() {
                 </button>
               </div>
             )}
+
+            {/* Real-time Search Suggestions */}
+            <AnimatePresence>
+              {inputText.length >= 2 && CATEGORIZED_QUESTIONS.flatMap(c => c.questions).filter(q => q.toLowerCase().includes(inputText.toLowerCase()) && q.toLowerCase() !== inputText.toLowerCase().trim()).slice(0, 3).length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="px-4 py-2 border-t border-border/10 flex flex-col gap-1.5 shrink-0 bg-background/40"
+                >
+                  <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider block">Suggested Questions</span>
+                  <div className="flex flex-col gap-1.5">
+                    {CATEGORIZED_QUESTIONS.flatMap(c => c.questions)
+                      .filter(q => q.toLowerCase().includes(inputText.toLowerCase()) && q.toLowerCase() !== inputText.toLowerCase().trim())
+                      .slice(0, 3)
+                      .map((q) => (
+                        <button
+                          key={q}
+                          onClick={() => {
+                            handleSubmitMessage(q);
+                            setInputText("");
+                          }}
+                          className="text-left text-[11px] text-foreground/80 hover:text-primary hover:bg-primary/5 border border-border/40 hover:border-primary/20 px-3 py-1.5 rounded-lg transition-all truncate cursor-pointer bg-card/40"
+                        >
+                          {q}
+                        </button>
+                      ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Input Bar */}
             <div className="p-4 border-t border-border/20 bg-background/30 flex items-center gap-2 shrink-0">

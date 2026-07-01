@@ -118,7 +118,7 @@ export function WelcomeNotification({ show, onHireMe }: WelcomeNotificationProps
                   onHireMe();
                   setPhase(2);
                 }}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-white text-sm font-bold shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 active:translate-y-0 group"
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-bold shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 active:translate-y-0 group"
               >
                 <Briefcase className="w-4 h-4" />
                 Hire Me Now

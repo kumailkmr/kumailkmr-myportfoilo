@@ -5,6 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { ColorThemeToggle } from "@/components/ui/ColorThemeToggle";
+import { SoundToggle } from "@/components/ui/SoundToggle";
 import { motion } from "framer-motion";
 import { Home, Layers, LayoutGrid, User, UserCircle, Menu, ArrowRight, Briefcase, BarChart3, Bot } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet";
@@ -115,7 +117,12 @@ export function Navbar() {
               Hire Me
             </button>
 
-            <ThemeToggle />
+            {/* Unified Control Pill */}
+            <div className="flex items-center gap-0.5 bg-muted/40 border border-border/80 px-1 py-1 rounded-full shadow-xs shrink-0">
+              <ColorThemeToggle className="bg-transparent hover:bg-muted/80 border-none shadow-none h-8 w-8" />
+              <SoundToggle className="bg-transparent hover:bg-muted/80 border-none shadow-none h-8 w-8" />
+              <ThemeToggle className="bg-transparent hover:bg-muted/80 border-none shadow-none h-8 w-8" />
+            </div>
           <a 
             href={CALENDLY_LINK}
             target="_blank"
@@ -186,17 +193,27 @@ export function Navbar() {
                   </button>
                 </nav>
 
+                {/* Mobile Interface Toggles */}
+                <div className="flex justify-between items-center py-4 border-t border-border/20">
+                  <span className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">Appearance</span>
+                  <div className="flex items-center gap-0.5 bg-muted/40 border border-border/80 px-1 py-1 rounded-full shadow-xs shrink-0">
+                    <ColorThemeToggle className="bg-transparent hover:bg-muted/80 border-none shadow-none h-8 w-8" />
+                    <SoundToggle className="bg-transparent hover:bg-muted/80 border-none shadow-none h-8 w-8" />
+                    <ThemeToggle className="bg-transparent hover:bg-muted/80 border-none shadow-none h-8 w-8" />
+                  </div>
+                </div>
+
                 {/* Footer CTA */}
                 <div className="mt-auto pt-6 border-t border-border/20">
                   <a 
                     href={CALENDLY_LINK}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center justify-between w-full p-4 rounded-2xl bg-gradient-to-r from-primary/90 to-purple-600/90 hover:from-primary hover:to-purple-600 text-white shadow-lg transition-all duration-300 hover:shadow-primary/25 hover:-translate-y-1"
+                    className="group flex items-center justify-between w-full p-4 rounded-2xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg transition-all duration-300 hover:-translate-y-1"
                   >
                     <span className="font-bold text-base tracking-tight">Book Consultation</span>
-                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
-                      <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-0.5 transition-transform" />
+                    <div className="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center group-hover:bg-black/20 transition-colors">
+                      <ArrowRight className="w-4 h-4 text-primary-foreground group-hover:translate-x-0.5 transition-transform" />
                     </div>
                   </a>
                 </div>

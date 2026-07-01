@@ -6,6 +6,23 @@
  */
 
 let audioCtx: AudioContext | null = null;
+let isMuted = false;
+
+// Read state on client mount
+if (typeof window !== "undefined") {
+  isMuted = localStorage.getItem("portfolio-sounds-muted") === "true";
+}
+
+export function isAudioMuted() {
+  return isMuted;
+}
+
+export function setAudioMuted(mute: boolean) {
+  isMuted = mute;
+  if (typeof window !== "undefined") {
+    localStorage.setItem("portfolio-sounds-muted", String(mute));
+  }
+}
 
 function getAudioContext(): AudioContext {
   if (!audioCtx) {
@@ -24,6 +41,7 @@ function getAudioContext(): AudioContext {
  * Two short tones (like a real cardiac monitor: "beep-beep").
  */
 export function playHeartbeatSound() {
+  if (isMuted) return;
   try {
     const ctx = getAudioContext();
     const now = ctx.currentTime;
@@ -61,6 +79,7 @@ function playBeep(ctx: AudioContext, startTime: number, freq: number, duration: 
  * Multiple ascending tones that create a "magical reveal" feel.
  */
 export function playWelcomeBurstSound() {
+  if (isMuted) return;
   try {
     const ctx = getAudioContext();
     const now = ctx.currentTime;
@@ -97,6 +116,7 @@ export function playWelcomeBurstSound() {
  * Uses noise burst shaped to mimic a knock on wood.
  */
 export function playKnockSound() {
+  if (isMuted) return;
   try {
     const ctx = getAudioContext();
     const now = ctx.currentTime;
@@ -155,6 +175,7 @@ function createKnock(ctx: AudioContext, startTime: number, volume: number) {
  * Ambient ECG line drawing tone — a subtle continuous beep that follows the ECG drawing.
  */
 export function playECGDrawSound(): () => void {
+  if (isMuted) return () => {};
   try {
     const ctx = getAudioContext();
     const now = ctx.currentTime;

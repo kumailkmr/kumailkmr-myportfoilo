@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Bot, DollarSign, Clock, ArrowRight, Activity, Code, Users, CheckCircle2, ChevronRight, Info, UserCheck } from "lucide-react";
+import { Bot, Clock, ArrowRight, Activity, Code, Users, ChevronRight, Info, UserCheck } from "lucide-react";
 import { CALENDLY_LINK } from "@/config/socials";
 import { SmoothScroll } from "@/components/animations/SmoothScroll";
+import { PremiumRoiCalculator } from "@/components/ui/PremiumRoiCalculator";
 
 // Live Counters State Interface
 interface CounterProps {
@@ -52,11 +53,6 @@ interface EstimatorOutput {
 }
 
 export default function AIHubPage() {
-  // ROI Calculator inputs
-  const [employees, setEmployees] = useState(5);
-  const [hoursPerWeek, setHoursPerWeek] = useState(8);
-  const [hourlySalary, setHourlySalary] = useState(30);
-
   // Estimator inputs
   const [industry, setIndustry] = useState("Real Estate");
   const [size, setSize] = useState("2-10 staff");
@@ -67,12 +63,24 @@ export default function AIHubPage() {
   // Client Journey Active Node
   const [activeTimelineStage, setActiveTimelineStage] = useState<number | null>(null);
 
-  // Calculate ROI outputs
-  const monthlyHoursSaved = employees * hoursPerWeek * 4.3;
-  const monthlySavings = monthlyHoursSaved * hourlySalary;
-  const annualSavings = monthlySavings * 12;
-  const estimatedCost = selectedFeatures.length * 4000;
-  const roiPercentage = estimatedCost > 0 ? Math.round(((annualSavings - estimatedCost) / estimatedCost) * 100) : 350;
+  // Synchronize Estimator state to localStorage dynamically
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("lead-estimation-data");
+      const current = saved ? JSON.parse(saved) : {};
+      const updated = {
+        ...current,
+        industry,
+        size,
+        timeline,
+        selectedFeatures,
+        estimatorOutput
+      };
+      localStorage.setItem("lead-estimation-data", JSON.stringify(updated));
+    } catch {
+      // Ignore
+    }
+  }, [industry, size, timeline, selectedFeatures, estimatorOutput]);
 
   const handleFeatureToggle = (feature: string) => {
     setSelectedFeatures(prev => 
@@ -112,11 +120,11 @@ export default function AIHubPage() {
 
   return (
     <SmoothScroll>
-      <div className="flex flex-col min-h-screen pt-24 pb-16 bg-background relative text-foreground transition-colors duration-300">
+      <div className="flex flex-col min-h-screen pt-24 pb-16 bg-background relative text-foreground transition-colors duration-300 overflow-x-hidden">
         
         {/* Subtle glowing elements */}
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px] pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-purple-600/5 rounded-full blur-[150px] pointer-events-none" />
+        <div className="absolute top-1/4 left-1/4 w-[min(500px,90vw)] h-[min(500px,90vw)] bg-primary/5 rounded-full blur-[150px] pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-[min(600px,90vw)] h-[min(600px,90vw)] bg-purple-600/5 rounded-full blur-[150px] pointer-events-none" />
 
         <div className="container mx-auto px-4 max-w-7xl relative z-10 space-y-24">
           
@@ -163,105 +171,11 @@ export default function AIHubPage() {
             ))}
           </div>
 
-          {/* 2. Interactive Calculator Tools Grid */}
-          <div className="grid lg:grid-cols-2 gap-8 items-start">
+          {/* 2. Interactive Calculator Tools */}
+          <div className="grid lg:grid-cols-1 gap-8 items-start">
             
             {/* ROI Savings Calculator */}
-            <div className="bg-card border border-border/80 p-6 md:p-8 rounded-3xl space-y-6">
-              <div className="border-b border-border pb-4 flex justify-between items-center">
-                <div>
-                  <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
-                    <DollarSign className="w-5 h-5 text-emerald-500" />
-                    Automation ROI Calculator
-                  </h3>
-                  <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider mt-1">Operational savings projection</p>
-                </div>
-                <div className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 dark:text-emerald-400 rounded-full text-xs font-bold">
-                  {roiPercentage}% Projected ROI
-                </div>
-              </div>
-
-              {/* Sliders */}
-              <div className="space-y-5">
-                <div className="space-y-2">
-                  <div className="flex justify-between text-xs font-bold">
-                    <label className="text-muted-foreground">Number of Employees Affected</label>
-                    <span className="text-foreground">{employees} Staff</span>
-                  </div>
-                  <input 
-                    type="range" 
-                    min="1" 
-                    max="50" 
-                    value={employees} 
-                    onChange={(e) => setEmployees(parseInt(e.target.value))} 
-                    className="w-full h-1 bg-muted dark:bg-[#171717] rounded-lg appearance-none cursor-pointer accent-primary"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex justify-between text-xs font-bold">
-                    <label className="text-muted-foreground">Admin/CRM Hours Spent per Staff / Week</label>
-                    <span className="text-foreground">{hoursPerWeek} Hours</span>
-                  </div>
-                  <input 
-                    type="range" 
-                    min="2" 
-                    max="30" 
-                    value={hoursPerWeek} 
-                    onChange={(e) => setHoursPerWeek(parseInt(e.target.value))} 
-                    className="w-full h-1 bg-muted dark:bg-[#171717] rounded-lg appearance-none cursor-pointer accent-primary"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex justify-between text-xs font-bold">
-                    <label className="text-muted-foreground">Average Hourly Staff Salary/Cost</label>
-                    <span className="text-foreground">${hourlySalary} / hr</span>
-                  </div>
-                  <input 
-                    type="range" 
-                    min="15" 
-                    max="100" 
-                    value={hourlySalary} 
-                    onChange={(e) => setHourlySalary(parseInt(e.target.value))} 
-                    className="w-full h-1 bg-muted dark:bg-[#171717] rounded-lg appearance-none cursor-pointer accent-primary"
-                  />
-                </div>
-              </div>
-
-              {/* Savings Results Grid */}
-              <div className="grid grid-cols-2 gap-4 bg-secondary p-4 border border-border/80 rounded-2xl">
-                <div>
-                  <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider block mb-1">Monthly Savings</span>
-                  <h4 className="text-2xl font-black text-emerald-500 dark:text-emerald-400 tracking-tight">
-                    ${Math.round(monthlySavings).toLocaleString()} USD
-                  </h4>
-                  <p className="text-[10px] text-muted-foreground mt-1">≈ ₹{(Math.round(monthlySavings * 83)).toLocaleString('en-IN')}</p>
-                </div>
-                <div>
-                  <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider block mb-1">Annual Reclaimed Overhead</span>
-                  <h4 className="text-2xl font-black text-foreground tracking-tight">
-                    ${Math.round(annualSavings).toLocaleString()} USD
-                  </h4>
-                  <p className="text-[10px] text-muted-foreground mt-1">≈ ₹{(Math.round(annualSavings * 83)).toLocaleString('en-IN')}</p>
-                </div>
-              </div>
-
-              {/* Benefits list */}
-              <div className="space-y-3">
-                <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Projected Organizational Leverage</h4>
-                <ul className="space-y-2.5 text-xs text-foreground/80">
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                    Reclaims {Math.round(monthlyHoursSaved)} hours of core manual labor every month.
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                    Eliminates human indexing / copywriting errors completely.
-                  </li>
-                </ul>
-              </div>
-            </div>
+            <PremiumRoiCalculator />
 
             {/* AI Custom Project Estimator */}
             <div className="bg-card border border-border/80 p-6 md:p-8 rounded-3xl space-y-6">

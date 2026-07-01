@@ -12,9 +12,9 @@
   --card-foreground: #111827;
   --popover: #FFFFFF;
   --popover-foreground: #111827;
-  --primary: #2563EB;
-  --primary-hover: #1D4ED8;
-  --primary-foreground: #FFFFFF;
+  --primary: #EAB308;
+  --primary-hover: #CA8A04;
+  --primary-foreground: #000000;
   --secondary: #F8FAFC;
   --secondary-foreground: #6B7280;
   --muted: #F8FAFC;
@@ -27,7 +27,7 @@
   --warning: #F59E0B;
   --border: #E5E7EB;
   --input: #E5E7EB;
-  --ring: #2563EB;
+  --ring: #EAB308;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -36,12 +36,12 @@
   --radius: 0.75rem; 
   --sidebar: #FFFFFF;
   --sidebar-foreground: #111827;
-  --sidebar-primary: #2563EB;
-  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-primary: #EAB308;
+  --sidebar-primary-foreground: #000000;
   --sidebar-accent: #F8FAFC;
   --sidebar-accent-foreground: #111827;
   --sidebar-border: #E5E7EB;
-  --sidebar-ring: #2563EB;
+  --sidebar-ring: #EAB308;
 }
 
 .dark {
@@ -52,9 +52,9 @@
   --card-foreground: #FFFFFF;
   --popover: #0A0A0A;
   --popover-foreground: #FFFFFF;
-  --primary: #3B82F6;
-  --primary-hover: #2563EB;
-  --primary-foreground: #FFFFFF;
+  --primary: #FACC15;
+  --primary-hover: #EAB308;
+  --primary-foreground: #000000;
   --secondary: #0A0A0A;
   --secondary-foreground: #A1A1AA;
   --muted: #0A0A0A;
@@ -67,7 +67,7 @@
   --warning: #F59E0B;
   --border: #262626;
   --input: #262626;
-  --ring: #3B82F6;
+  --ring: #FACC15;
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
@@ -75,12 +75,12 @@
   --chart-5: oklch(0.645 0.246 16.439);
   --sidebar: #000000;
   --sidebar-foreground: #FFFFFF;
-  --sidebar-primary: #3B82F6;
-  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-primary: #FACC15;
+  --sidebar-primary-foreground: #000000;
   --sidebar-accent: #0A0A0A;
   --sidebar-accent-foreground: #FFFFFF;
   --sidebar-border: #1A1A1A;
-  --sidebar-ring: #3B82F6;
+  --sidebar-ring: #FACC15;
 }
 
 @theme inline {
@@ -124,7 +124,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-x-hidden max-w-full;
   }
   
   /* Premium Typography Hierarchy */
@@ -228,5 +228,31 @@
 
   .glass-panel {
     @apply bg-white/60 dark:bg-black/40 backdrop-blur-xl border border-white/20 dark:border-white/10;
+  }
+
+  /* Premium Buttons Architecture */
+  .btn-premium {
+    @apply inline-flex items-center justify-center font-semibold transition-all duration-300 h-14 px-8 rounded-xl cursor-pointer hover:-translate-y-0.5 active:translate-y-px;
+  }
+  
+  .btn-premium-primary {
+    @apply bg-primary text-primary-foreground border border-primary/30;
+    box-shadow: 0 4px 20px color-mix(in srgb, var(--primary) 30%, transparent), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  
+  .btn-premium-primary:hover {
+    box-shadow: 0 6px 30px color-mix(in srgb, var(--primary) 50%, transparent), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  }
+  
+  .btn-premium-secondary {
+    @apply border border-border/50 bg-background/30 backdrop-blur-md text-foreground;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+  
+  .btn-premium-secondary:hover {
+    @apply bg-muted/50 border-primary/50;
+    box-shadow: 0 4px 15px color-mix(in srgb, var(--primary) 10%, transparent);
   }
 }

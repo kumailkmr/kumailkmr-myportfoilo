@@ -259,7 +259,7 @@ export const KNOWLEDGE_BASE: KnowledgeNode[] = [
     category: "contact",
     keywords: ["book a consultation", "schedule a meeting", "open whatsapp", "send an email", "resume", "github", "linkedin", "contact information", "social links"],
     title: "Contact & Scheduling Channels",
-    content: "Connect directly with Kumail Kmr:\n- **Calendly**: Schedule strategy sessions via [Calendly Session](https://calendly.com/ka6307464/business-automation-strategy-session).\n- **WhatsApp**: Direct chat via [WhatsApp](https://wa.me/916006121193).\n- **Email**: hello@kumailkmr.com / kumailkmr.dev@gmail.com\n- **GitHub**: [github.com/kumailkmr](https://github.com/kumailkmr) (View open-source work).\n- **LinkedIn**: [linkedin.com/in/kumailkmr](https://linkedin.com/in/kumailkmr) (Professional network).",
+    content: "Connect directly with Kumail Kmr:\n- **Calendly**: Schedule strategy sessions via [Calendly Session](https://calendly.com/ka6307464/business-automation-strategy-session).\n- **WhatsApp**: Direct chat via [WhatsApp](https://wa.me/916006121193).\n- **Email**: hello@kumailkmr.com / kumailkmr.dev@gmail.com\n- **GitHub**: [github.com/kumailkmr](https://github.com/kumailkmr) (View open-source work).\n- **LinkedIn**: [linkedin.com/in/kumail-kmr-](https://www.linkedin.com/in/kumail-kmr-/) (Professional network).",
     cta: { label: "Book Calendly Session", actionType: "calendly", value: "" }
   }
 ];

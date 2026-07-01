@@ -2,15 +2,37 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, TrendingUp, Clock, ShieldCheck, Zap } from "lucide-react";
-import { CALENDLY_LINK } from "@/config/socials";
+import { TrendingUp, Clock, ShieldCheck, Zap, ExternalLink, Sparkles } from "lucide-react";
+import { SiGithub } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 import { ProjectDetailsModal } from "@/components/ui/ProjectDetailsModal";
 
-const caseStudies = [
+interface CaseStudy {
+  id: string;
+  client: string;
+  industry: string;
+  title: string;
+  metric: string;
+  metricLabel: string;
+  challenge: string;
+  solution: string;
+  roi: { icon: React.ComponentType<{ className?: string }>; text: string }[];
+  tech: string[];
+  color: string;
+  overview: string;
+  timeline: string;
+  challenges: string;
+  businessImpact: string[];
+  liveDemo?: string;
+  github?: string;
+  testimonial: { quote: string; author: string; role: string };
+}
+
+const caseStudies: CaseStudy[] = [
   {
     id: "01",
     client: "E-Commerce Brand",
+    industry: "E-Commerce & Retail",
     title: "Scaling Support with Generative AI",
     metric: "40% Reduction",
     metricLabel: "in support ticket volume",
@@ -29,11 +51,19 @@ const caseStudies = [
       "Resolved 60%+ of standard support inquiries instantly without human intervention.",
       "Customer satisfaction index rose from 3.2 to 4.8 out of 5 stars.",
       "Saved $60,000+ in annual staffing overhead while expanding support to 24/7."
-    ]
+    ],
+    liveDemo: "https://radiant-kepler.vercel.app",
+    github: "https://github.com/kumailkmr",
+    testimonial: {
+      quote: "Kumail's custom AI engine resolved 60% of our support tickets instantly. Our response time went from hours to seconds.",
+      author: "Sarah Jenkins",
+      role: "VP of Operations"
+    }
   },
   {
     id: "02",
     client: "B2B Consulting Agency",
+    industry: "B2B Professional Services",
     title: "Enterprise Workflow CRM Automation",
     metric: "20+ Hours",
     metricLabel: "saved per week manually",
@@ -52,11 +82,19 @@ const caseStudies = [
       "Freed up 20+ hours of executive administration labor per week.",
       "Reduced invoice creation delay to less than 3 seconds.",
       "Achieved 100% data fidelity between lead source channels and internal boards."
-    ]
+    ],
+    liveDemo: "https://radiant-kepler.vercel.app",
+    github: "https://github.com/kumailkmr",
+    testimonial: {
+      quote: "Bypassing agency overhead and working directly with Kumail meant we delivered a custom PostgreSQL CRM two weeks ahead of schedule.",
+      author: "David Vance",
+      role: "Managing Director"
+    }
   },
   {
     id: "03",
     client: "Real Estate Firm",
+    industry: "Real Estate & Brokerage",
     title: "Automated Booking & Lead Engine",
     metric: "3x Increase",
     metricLabel: "in qualified appointments",
@@ -75,47 +113,54 @@ const caseStudies = [
       "3x jump in qualified property viewing bookings within 30 days.",
       "Eliminated 90% of manual follow-up labor for listing agents.",
       "Captured and categorized 100% of after-hours leads automatically."
-    ]
+    ],
+    liveDemo: "https://radiant-kepler.vercel.app",
+    github: "https://github.com/kumailkmr",
+    testimonial: {
+      quote: "The WhatsApp booking bot Kumail built qualifier-leads our buyers 24/7. Our viewing bookings tripled in the first 30 days.",
+      author: "Elena Rostova",
+      role: "Principal Broker"
+    }
   }
 ];
 
 export function Projects() {
-  const [selectedProject, setSelectedProject] = useState<typeof caseStudies[number] | null>(null);
+  const [selectedProject, setSelectedProject] = useState<CaseStudy | null>(null);
 
   return (
     <section className="pt-12 pb-16 relative overflow-hidden bg-background">
       {/* Ambient Premium Glows */}
-      <div className="absolute top-0 right-0 w-[800px] h-[600px] bg-primary/5 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-600/5 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[min(800px,90vw)] h-[min(600px,90vw)] bg-primary/5 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[min(600px,90vw)] h-[min(600px,90vw)] bg-purple-600/5 rounded-full blur-[150px] pointer-events-none" />
 
       <div className="container mx-auto px-4 max-w-6xl relative z-10">
         
-        <div className="text-center mb-24 max-w-3xl mx-auto">
+        <div className="text-center mb-20 max-w-3xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-flex items-center justify-center px-4 py-1.5 mb-6 rounded-full bg-primary/10 border border-primary/20 text-sm font-semibold text-primary uppercase tracking-wider"
+            className="inline-flex items-center justify-center px-4 py-1.5 mb-6 rounded-full bg-primary/10 border border-primary/20 text-xs font-bold text-primary uppercase tracking-wider"
           >
+            <Sparkles className="w-3.5 h-3.5 mr-1.5 animate-pulse" />
             Proven Results
           </motion.div>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-6xl font-extrabold mb-8 tracking-tight text-foreground leading-[1.1]"
+            className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-foreground"
           >
-            Work That Drives <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-500">Massive ROI</span>
+            Work That Drives <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-500">Massive ROI</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto"
+            className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto"
           >
-            I don&apos;t just deliver code; I deliver scalable business systems. Explore how I&apos;ve helped companies eliminate bottlenecks and multiply their revenue.
+            I don&apos;t just deliver code; I deliver high-performing operational infrastructure. Explore the metrics behind my business integrations.
           </motion.p>
         </div>
 
@@ -140,13 +185,16 @@ export function Projects() {
                   <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff1a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff1a_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none opacity-20" />
                   
                   <div className="relative z-10">
-                    <span className="text-white/70 font-semibold uppercase tracking-widest text-sm mb-4 block">
+                    <span className="text-white/70 font-semibold uppercase tracking-widest text-xs mb-2 block">
                       {study.client}
+                    </span>
+                    <span className="text-white/60 text-[10px] font-bold uppercase tracking-widest block mb-4">
+                      {study.industry}
                     </span>
                     <h3 className="text-5xl md:text-6xl font-black mb-2 tracking-tighter">
                       {study.metric}
                     </h3>
-                    <p className="text-xl text-white/90 font-medium">
+                    <p className="text-lg text-white/90 font-medium">
                       {study.metricLabel}
                     </p>
                   </div>
@@ -154,52 +202,68 @@ export function Projects() {
 
                 {/* Right Side: The Breakdown */}
                 <div className="lg:w-2/3 p-10 lg:p-12 flex flex-col justify-center bg-background/50">
-                  <h4 className="text-3xl font-bold text-foreground mb-8 tracking-tight">{study.title}</h4>
+                  <h4 className="text-2xl font-bold text-foreground mb-8 tracking-tight">{study.title}</h4>
                   
                   <div className="grid md:grid-cols-2 gap-8 mb-10">
                     <div>
-                      <h5 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-3">The Challenge</h5>
-                      <p className="text-foreground/80 leading-relaxed">{study.challenge}</p>
+                      <h5 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">The Challenge</h5>
+                      <p className="text-xs text-foreground/80 leading-relaxed">{study.challenge}</p>
                     </div>
                     <div>
-                      <h5 className="text-sm font-bold uppercase tracking-wider text-primary mb-3">The Solution</h5>
-                      <p className="text-foreground/80 leading-relaxed">{study.solution}</p>
+                      <h5 className="text-xs font-bold uppercase tracking-wider text-primary mb-3">The Solution</h5>
+                      <p className="text-xs text-foreground/80 leading-relaxed">{study.solution}</p>
                     </div>
                   </div>
 
                   <div className="space-y-4 mb-10 p-6 rounded-2xl bg-muted/30 border border-border/50">
-                    {study.roi.map((item, i) => (
-                      <div key={i} className="flex items-start gap-4">
-                        <div className="mt-1 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                          <item.icon className="w-3.5 h-3.5 text-primary" />
+                    {study.roi.map((item, i) => {
+                      const Icon = item.icon;
+                      return (
+                        <div key={i} className="flex items-start gap-4">
+                          <div className="mt-1 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                            <Icon className="w-3.5 h-3.5 text-primary" />
+                          </div>
+                          <span className="text-xs text-foreground font-medium">{item.text}</span>
                         </div>
-                        <span className="text-foreground font-medium">{item.text}</span>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
 
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mt-auto">
                     <div className="flex flex-wrap gap-2">
                       {study.tech.map((t, i) => (
-                        <span key={i} className="px-3 py-1.5 bg-secondary text-secondary-foreground rounded-lg text-xs font-semibold uppercase tracking-wider border border-border/50">
+                        <span key={i} className="px-2.5 py-1 bg-secondary text-secondary-foreground rounded-lg text-[10px] font-bold uppercase tracking-wider border border-border/50">
                           {t}
                         </span>
                       ))}
                     </div>
-                    <div className="flex flex-wrap gap-3 w-full sm:w-auto">
+                    
+                    <div className="flex flex-wrap gap-3.5 w-full sm:w-auto">
+                      {study.liveDemo && (
+                        <a href={study.liveDemo} target="_blank" rel="noopener noreferrer" className="flex-1 sm:flex-initial">
+                          <Button variant="outline" className="w-full text-xs font-bold rounded-xl border-border hover:bg-muted text-foreground flex items-center gap-1.5 h-11 px-4 cursor-pointer">
+                            <ExternalLink className="w-3.5 h-3.5" />
+                            Live Demo
+                          </Button>
+                        </a>
+                      )}
+                      
+                      {study.github && (
+                        <a href={study.github} target="_blank" rel="noopener noreferrer" className="flex-1 sm:flex-initial">
+                          <Button variant="outline" className="w-full text-xs font-bold rounded-xl border-border hover:bg-muted text-foreground flex items-center gap-1.5 h-11 px-4 cursor-pointer">
+                            <SiGithub className="w-3.5 h-3.5" />
+                            GitHub
+                          </Button>
+                        </a>
+                      )}
+
                       <Button
                         onClick={() => setSelectedProject(study)}
                         variant="outline"
-                        className="flex-1 sm:flex-initial rounded-xl border-primary/20 text-xs font-bold hover:bg-muted text-foreground"
+                        className="flex-1 sm:flex-initial rounded-xl border-primary/20 text-xs font-bold hover:bg-muted text-foreground h-11 px-4 cursor-pointer"
                       >
                         Case Study Blueprint
                       </Button>
-                      <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer" className="flex-1 sm:flex-initial">
-                        <Button className="w-full group/btn hover:scale-105 transition-transform rounded-xl">
-                          Want similar results?
-                          <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
-                        </Button>
-                      </a>
                     </div>
                   </div>
 

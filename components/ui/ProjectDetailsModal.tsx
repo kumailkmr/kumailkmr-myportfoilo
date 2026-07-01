@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, CheckCircle2, TrendingUp, Calendar, ArrowRight, Check } from "lucide-react";
 import { createPortal } from "react-dom";
@@ -31,7 +31,22 @@ interface ProjectDetailsModalProps {
 }
 
 export function ProjectDetailsModal({ isOpen, onClose, project }: ProjectDetailsModalProps) {
-  const [activeTab, setActiveTab] = useState<"overview" | "architecture" | "results">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "architecture" | "results" | "api">("overview");
+
+  // Simulation State
+  const [simulationLogs, setSimulationLogs] = useState<string[]>([]);
+  const [isSimulating, setIsSimulating] = useState(false);
+  const [simulationDone, setSimulationDone] = useState(false);
+
+  // Reset simulation states when tab changes or modal closes
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      setSimulationLogs([]);
+      setIsSimulating(false);
+      setSimulationDone(false);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [activeTab, isOpen]);
 
   if (!isOpen) return null;
 
@@ -70,6 +85,31 @@ export function ProjectDetailsModal({ isOpen, onClose, project }: ProjectDetails
   const handleRequestSimilar = () => {
     const text = `Hello Kumail! I reviewed your project blueprint for "${project.title}" (${project.metric} outcome). I'd like to request a similar setup for my business.`;
     window.open(`https://wa.me/916006121193?text=${encodeURIComponent(text)}`, "_blank");
+  };
+
+  const runSimulation = () => {
+    setIsSimulating(true);
+    setSimulationDone(false);
+    setSimulationLogs([]);
+
+    const logs = [
+      `✦ [00:01] POST /v1/agents/run requested...`,
+      `✦ [00:03] Handshaking with secure RAG vector DB...`,
+      `✦ [00:05] Running semantic query match (similarity: 0.94)...`,
+      `✦ [00:08] Processing nodes in LangGraph agent pipeline...`,
+      `✦ [00:12] Triggering outbound client synced webhooks...`,
+      `✔ [00:15] Completed successfully. HTTP 200 OK (latency: 140ms)`
+    ];
+
+    logs.forEach((log, index) => {
+      setTimeout(() => {
+        setSimulationLogs(prev => [...prev, log]);
+        if (index === logs.length - 1) {
+          setIsSimulating(false);
+          setSimulationDone(true);
+        }
+      }, (index + 1) * 450);
+    });
   };
 
   return createPortal(
@@ -119,16 +159,16 @@ export function ProjectDetailsModal({ isOpen, onClose, project }: ProjectDetails
             </div>
 
             {/* Navigation Tabs */}
-            <div className="flex border-b border-border gap-4">
-              {(["overview", "architecture", "results"] as const).map((tab) => (
+            <div className="flex border-b border-border gap-4 overflow-x-auto scrollbar-none">
+              {(["overview", "architecture", "results", "api"] as const).map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`pb-3 text-sm font-bold capitalize transition-colors relative cursor-pointer ${
+                  className={`pb-3 text-sm font-bold capitalize transition-colors relative cursor-pointer whitespace-nowrap ${
                     activeTab === tab ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  {tab}
+                  {tab === "api" ? "API Playground ⚡" : tab}
                   {activeTab === tab && (
                     <motion.div
                       layoutId="activeModalTab"
@@ -253,6 +293,83 @@ export function ProjectDetailsModal({ isOpen, onClose, project }: ProjectDetails
                   </div>
                 </motion.div>
               )}
+
+              {activeTab === "api" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="space-y-6"
+                >
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {/* Left: Request Payload */}
+                    <div className="space-y-4 flex flex-col">
+                      <div className="flex justify-between items-center">
+                        <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Request Payload</h4>
+                        <span className="text-[10px] bg-emerald-500/10 text-emerald-500 font-extrabold uppercase px-2 py-0.5 rounded">POST /v1/agents/run</span>
+                      </div>
+                      <div className="bg-card border border-border p-4 rounded-2xl font-mono text-xs text-foreground/80 overflow-x-auto leading-relaxed shadow-sm flex-1">
+                        <pre>{JSON.stringify({
+                          endpoint: `https://api.kumailkmr.com/v1/agents/${project.id}`,
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer kmr_sec_key_****"
+                          },
+                          body: {
+                            client: project.client,
+                            trigger_type: "webhook_integration",
+                            metrics_target: project.metric,
+                            sandbox_mode: false
+                          }
+                        }, null, 2)}</pre>
+                      </div>
+                      <button
+                        onClick={runSimulation}
+                        disabled={isSimulating}
+                        className="w-full btn-premium btn-premium-primary text-xs"
+                      >
+                        {isSimulating ? "Simulating Webhook Execution..." : "Run API Simulation ⚡"}
+                      </button>
+                    </div>
+
+                    {/* Right: Live Terminal Logs & Mock Response */}
+                    <div className="space-y-4 flex flex-col h-full">
+                      <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Live Execution Terminal</h4>
+                      <div className="bg-[#0A0A0A] border border-[#262626] p-4 rounded-2xl font-mono text-[11px] text-emerald-400 flex-1 min-h-[260px] flex flex-col justify-between shadow-inner">
+                        <div className="space-y-1.5 overflow-y-auto max-h-[160px] scrollbar-thin">
+                          {simulationLogs.map((log, i) => (
+                            <div key={i} className="animate-fade-in">{log}</div>
+                          ))}
+                          {!isSimulating && simulationLogs.length === 0 && (
+                            <div className="text-muted-foreground/40 italic">Waiting to run REST simulation payload...</div>
+                          )}
+                        </div>
+                        
+                        {simulationDone && (
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.98 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="border-t border-[#262626] pt-3 mt-3 text-white/95"
+                          >
+                            <span className="text-[10px] text-muted-foreground block mb-1">Response JSON (200 OK)</span>
+                            <pre className="text-[10px] text-emerald-400 max-h-[100px] overflow-y-auto leading-tight">{JSON.stringify({
+                              status: "success",
+                              latency_ms: 140,
+                              payload: {
+                                system_active: true,
+                                client_notified: true,
+                                target_metric: project.metric,
+                                target_metric_label: project.metricLabel,
+                                business_outcome: "verified_production"
+                              }
+                            }, null, 2)}</pre>
+                          </motion.div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
             </div>
 
             {/* Tech stack used tags */}
@@ -284,7 +401,7 @@ export function ProjectDetailsModal({ isOpen, onClose, project }: ProjectDetails
               </button>
               <button
                 onClick={handleRequestSimilar}
-                className="flex-1 sm:flex-initial text-center py-3 px-6 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary/90 hover:scale-[1.02] shadow-md transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                className="flex-1 sm:flex-initial text-center py-3 px-6 rounded-xl bg-primary text-primary-foreground text-xs font-bold hover:bg-primary/90 hover:scale-[1.02] shadow-md transition-all cursor-pointer flex items-center justify-center gap-1.5"
               >
                 Request Similar Project
                 <ArrowRight className="w-4 h-4" />
