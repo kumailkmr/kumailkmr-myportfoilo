@@ -14,9 +14,9 @@ interface YoutubeModalProps {
 export function YoutubeModal({ isOpen, onClose }: YoutubeModalProps) {
   const [mounted, setMounted] = useState(false);
 
-  // Set mounted on client side
   useEffect(() => {
-    setMounted(true);
+    const frame = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   // Prevent scrolling when modal is open

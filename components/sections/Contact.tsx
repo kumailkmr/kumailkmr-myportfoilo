@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -15,6 +15,16 @@ export function Contact() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
+  interface ConfettiParticle {
+    id: number;
+    startX: number;
+    duration: number;
+    color: string;
+    rotate: number;
+    leftOffset: number;
+  }
+  const [confettiParticles, setConfettiParticles] = useState<ConfettiParticle[]>([]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,10 +35,23 @@ export function Contact() {
     
     setSubmitting(true);
     
+    const colors = ["bg-blue-500", "bg-purple-500", "bg-cyan-400", "bg-emerald-400", "bg-yellow-400"];
+    const particles = Array.from({ length: 45 }).map((_, i) => ({
+      id: i,
+      startX: Math.random() * 100,
+      duration: Math.random() * 2.5 + 1.5,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rotate: Math.random() * 720,
+      leftOffset: Math.random() * 20 - 10
+    }));
+    setConfettiParticles(particles);
+
     const fullName = `${firstName} ${lastName}`.trim();
     const formattedMessage = `Hello Kumail! I'd like to get in touch.%0A%0A*Name:* ${fullName}%0A*Email:* ${email}%0A*Message:*%0A${message}`;
     const whatsappUrl = `https://wa.me/916006121193?text=${formattedMessage}`;
     
+    setShowConfetti(true);
+
     setTimeout(() => {
       window.open(whatsappUrl, "_blank");
       setSubmitting(false);
@@ -36,11 +59,37 @@ export function Contact() {
       setLastName("");
       setEmail("");
       setMessage("");
-    }, 800);
+      
+      setTimeout(() => setShowConfetti(false), 4000);
+    }, 1000);
   };
 
   return (
     <section className="py-24 bg-white dark:bg-[#0A0A0A] relative overflow-hidden">
+      {/* Confetti Particles Stream Overlay */}
+      <AnimatePresence>
+        {showConfetti && (
+          <div className="absolute inset-0 z-50 pointer-events-none overflow-hidden">
+            {confettiParticles.map((p) => {
+              return (
+                <motion.div
+                  key={p.id}
+                  className={`absolute w-3 h-3 rounded-sm ${p.color}`}
+                  initial={{ top: "100%", left: `${p.startX}%`, rotate: 0, opacity: 1 }}
+                  animate={{ 
+                    top: "-10%", 
+                    left: `${p.startX + p.leftOffset}%`,
+                    rotate: p.rotate,
+                    opacity: [1, 1, 0.8, 0]
+                  }}
+                  transition={{ duration: p.duration, ease: "easeOut" }}
+                />
+              );
+            })}
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* Subtle Background Glow */}
       <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
 
@@ -54,36 +103,61 @@ export function Contact() {
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           
-          {/* Social Cards Grid */}
-          <div className="grid sm:grid-cols-2 gap-6">
-            {contactCards.map((social, idx) => {
-              if (!social) return null;
-              const Icon = social.icon;
-              return (
-                <motion.a
-                  key={social.platform}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1 }}
-                  className="group flex flex-col bg-gray-50 dark:bg-[#171717] border border-[#E5E7EB] dark:border-[#262626] hover:border-[#2563EB] dark:hover:border-[#2563EB] p-6 rounded-3xl transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-15px_rgba(37,99,235,0.15)]"
-                  aria-label={social.platform}
-                >
-                  <div className="w-12 h-12 rounded-xl bg-white dark:bg-[#262626] border border-black/5 dark:border-white/5 flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 group-hover:text-[#2563EB] transition-all duration-300">
-                    <Icon className="w-6 h-6 text-[#111827] dark:text-white group-hover:text-[#2563EB] transition-colors" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2 text-[#111827] dark:text-white">{social.platform}</h3>
-                  <p className="text-sm text-[#6B7280] dark:text-[#A1A1AA] mb-6 flex-grow">{social.description}</p>
-                  <div className="flex items-center text-sm font-semibold text-[#2563EB] mt-auto">
-                    Connect
-                    <ArrowUpRight className="w-4 h-4 ml-1 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300" />
-                  </div>
-                </motion.a>
-              );
-            })}
+          {/* Social Cards Grid & Availability Column */}
+          <div className="space-y-6">
+            <div className="grid sm:grid-cols-2 gap-6">
+              {contactCards.map((social, idx) => {
+                if (!social) return null;
+                const Icon = social.icon;
+                return (
+                  <motion.a
+                    key={social.platform}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.1 }}
+                    className="group flex flex-col bg-gray-50 dark:bg-[#171717] border border-[#E5E7EB] dark:border-[#262626] hover:border-[#2563EB] dark:hover:border-[#2563EB] p-6 rounded-3xl transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-15px_rgba(37,99,235,0.15)]"
+                    aria-label={social.platform}
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-white dark:bg-[#262626] border border-black/5 dark:border-white/5 flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 group-hover:text-[#2563EB] transition-all duration-300">
+                      <Icon className="w-6 h-6 text-[#111827] dark:text-white group-hover:text-[#2563EB] transition-colors" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-2 text-[#111827] dark:text-white">{social.platform}</h3>
+                    <p className="text-sm text-[#6B7280] dark:text-[#A1A1AA] mb-6 flex-grow">{social.description}</p>
+                    <div className="flex items-center text-sm font-semibold text-[#2563EB] mt-auto">
+                      Connect
+                      <ArrowUpRight className="w-4 h-4 ml-1 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300" />
+                    </div>
+                  </motion.a>
+                );
+              })}
+            </div>
+
+            {/* Direct Response Stats Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+              <div className="p-5 bg-gray-50 dark:bg-[#171717] border border-[#E5E7EB] dark:border-[#262626] rounded-2xl flex flex-col justify-between min-h-[100px]">
+                <span className="text-[10px] uppercase font-bold text-[#6B7280] dark:text-muted-foreground tracking-wider block mb-1">Availability</span>
+                <span className="text-xs font-semibold text-[#111827] dark:text-white flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  Q3 2026 Checkouts
+                </span>
+              </div>
+              <div className="p-5 bg-gray-50 dark:bg-[#171717] border border-[#E5E7EB] dark:border-[#262626] rounded-2xl flex flex-col justify-between min-h-[100px]">
+                <span className="text-[10px] uppercase font-bold text-[#6B7280] dark:text-muted-foreground tracking-wider block mb-1">Response Time</span>
+                <span className="text-xs font-semibold text-[#111827] dark:text-white">
+                  Under 4 Hours
+                </span>
+              </div>
+              <div className="p-5 bg-gray-50 dark:bg-[#171717] border border-[#E5E7EB] dark:border-[#262626] rounded-2xl flex flex-col justify-between min-h-[100px]">
+                <span className="text-[10px] uppercase font-bold text-[#6B7280] dark:text-muted-foreground tracking-wider block mb-1">Office Location</span>
+                <span className="text-xs font-semibold text-[#111827] dark:text-white">
+                  Remote Worldwide
+                </span>
+              </div>
+            </div>
           </div>
 
           {/* Contact Form */}

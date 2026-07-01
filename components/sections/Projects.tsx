@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, TrendingUp, Clock, ShieldCheck, Zap } from "lucide-react";
 import { CALENDLY_LINK } from "@/config/socials";
 import { Button } from "@/components/ui/button";
+import { ProjectDetailsModal } from "@/components/ui/ProjectDetailsModal";
 
 const caseStudies = [
   {
@@ -19,7 +21,15 @@ const caseStudies = [
       { icon: TrendingUp, text: "$5,000/month saved in operational staffing costs." }
     ],
     tech: ["Next.js", "OpenAI", "Pinecone", "Supabase"],
-    color: "from-blue-500 to-cyan-500"
+    color: "from-blue-500 to-cyan-500",
+    overview: "A specialized multi-agent customer support pipeline designed to replace manual triage and resolve standard inquiries instantly using custom semantic knowledge checks.",
+    timeline: "4 weeks from kickoff",
+    challenges: "Synchronizing dynamic return parameters across legacy databases while preserving context during complex multi-part customer chats.",
+    businessImpact: [
+      "Resolved 60%+ of standard support inquiries instantly without human intervention.",
+      "Customer satisfaction index rose from 3.2 to 4.8 out of 5 stars.",
+      "Saved $60,000+ in annual staffing overhead while expanding support to 24/7."
+    ]
   },
   {
     id: "02",
@@ -34,7 +44,15 @@ const caseStudies = [
       { icon: Zap, text: "Contract generation time reduced from 30 mins to 1 click." }
     ],
     tech: ["React", "n8n", "Node.js", "PostgreSQL"],
-    color: "from-emerald-400 to-teal-600"
+    color: "from-emerald-400 to-teal-600",
+    overview: "An automated enterprise operations framework connecting pipeline CRMs, proposal generators, and accounting software into a zero-latency sync loop.",
+    timeline: "6 weeks onboarding",
+    challenges: "Designing multi-path custom retries for API endpoints during stripe billing token changes and sync queue blockages.",
+    businessImpact: [
+      "Freed up 20+ hours of executive administration labor per week.",
+      "Reduced invoice creation delay to less than 3 seconds.",
+      "Achieved 100% data fidelity between lead source channels and internal boards."
+    ]
   },
   {
     id: "03",
@@ -49,11 +67,21 @@ const caseStudies = [
       { icon: Clock, text: "Agents now only speak with pre-qualified, warm leads." }
     ],
     tech: ["WhatsApp API", "Make", "Next.js", "Stripe"],
-    color: "from-purple-500 to-fuchsia-600"
+    color: "from-purple-500 to-fuchsia-600",
+    overview: "An automated lead generation conversational funnel integrated with the official WhatsApp Business API to qualify prospects and schedules calendar dates instantly.",
+    timeline: "5 weeks delivery",
+    challenges: "Building conversational state trees that handle unpredictable user responses during budget qualification phases without stalling.",
+    businessImpact: [
+      "3x jump in qualified property viewing bookings within 30 days.",
+      "Eliminated 90% of manual follow-up labor for listing agents.",
+      "Captured and categorized 100% of after-hours leads automatically."
+    ]
   }
 ];
 
 export function Projects() {
+  const [selectedProject, setSelectedProject] = useState<typeof caseStudies[number] | null>(null);
+
   return (
     <section className="pt-12 pb-16 relative overflow-hidden bg-background">
       {/* Ambient Premium Glows */}
@@ -158,12 +186,21 @@ export function Projects() {
                         </span>
                       ))}
                     </div>
-                    <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
-                      <Button className="w-full group/btn hover:scale-105 transition-transform rounded-xl">
-                        Want similar results?
-                        <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                    <div className="flex flex-wrap gap-3 w-full sm:w-auto">
+                      <Button
+                        onClick={() => setSelectedProject(study)}
+                        variant="outline"
+                        className="flex-1 sm:flex-initial rounded-xl border-primary/20 text-xs font-bold hover:bg-muted text-foreground"
+                      >
+                        Case Study Blueprint
                       </Button>
-                    </a>
+                      <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer" className="flex-1 sm:flex-initial">
+                        <Button className="w-full group/btn hover:scale-105 transition-transform rounded-xl">
+                          Want similar results?
+                          <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                        </Button>
+                      </a>
+                    </div>
                   </div>
 
                 </div>
@@ -172,6 +209,14 @@ export function Projects() {
           ))}
         </div>
       </div>
+
+      {selectedProject && (
+        <ProjectDetailsModal
+          isOpen={!!selectedProject}
+          onClose={() => setSelectedProject(null)}
+          project={selectedProject}
+        />
+      )}
     </section>
   );
 }

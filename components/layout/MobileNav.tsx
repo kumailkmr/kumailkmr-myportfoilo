@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Layers, LayoutGrid, User, LucideIcon } from "lucide-react";
+import { Home, Layers, LayoutGrid, User, LucideIcon, Bot } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -17,6 +17,7 @@ const mobileNavLinks: NavLink[] = [
   { name: "Home", href: "/", icon: Home },
   { name: "Services", href: "/services", icon: Layers },
   { name: "Work", href: "/work", icon: LayoutGrid },
+  { name: "AI Hub", href: "/ai-hub", icon: Bot },
   { name: "About", href: "/about", icon: User },
 ];
 

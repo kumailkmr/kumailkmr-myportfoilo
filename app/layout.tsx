@@ -7,6 +7,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { Footer } from "@/components/layout/Footer";
 import { IntroExperience } from "@/components/ui/IntroExperience";
+import { AIAssistant } from "@/components/ui/AIAssistant";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -68,6 +69,7 @@ export default function RootLayout({
                 </main>
                 <Footer />
                 <MobileNav />
+                <AIAssistant />
               </div>
             </IntroExperience>
           </TooltipProvider>

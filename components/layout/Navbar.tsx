@@ -6,7 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { motion } from "framer-motion";
-import { Home, Layers, LayoutGrid, User, UserCircle, Menu, ArrowRight, Briefcase, BarChart3 } from "lucide-react";
+import { Home, Layers, LayoutGrid, User, UserCircle, Menu, ArrowRight, Briefcase, BarChart3, Bot } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { getSocials } from "@/config/socials";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -18,6 +18,7 @@ const navLinks = [
   { name: "Home", href: "/", icon: Home },
   { name: "Services", href: "/services", icon: Layers },
   { name: "Work", href: "/work", icon: LayoutGrid },
+  { name: "AI Hub", href: "/ai-hub", icon: Bot },
   { name: "About", href: "/about", icon: User },
 ];
 

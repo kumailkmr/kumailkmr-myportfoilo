@@ -1,7 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowRight, Bot, Workflow, Code, CheckCircle2, Zap } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Bot, Workflow, Code, CheckCircle2, Zap, X, ShieldAlert, Sparkles, Clock, HelpCircle, Layers } from "lucide-react";
 import { CALENDLY_LINK } from "@/config/socials";
 import { Button } from "@/components/ui/button";
 
@@ -18,7 +19,19 @@ const premiumServices = [
       "Zero manual data entry between tools",
       "Automated invoice & contract generation",
     ],
-    tech: ["n8n", "Make", "Zapier", "Python"]
+    tech: ["n8n", "Make", "Zapier", "Python"],
+    // Extended parameters
+    benefits: "Save hours of copy-pasting, get real-time client record updates across all boards, and automatically dispatch invoices after every sale.",
+    problems: "Mismatched spreadsheets, manual onboarding delays, human typing errors, delayed proposals.",
+    features: ["Bi-directional CRM sync", "Automated contract & PDF creation", "Multi-path custom API retry logic", "Slack/Teams notifications"],
+    workflow: "API Audit → Trigger mapping → Code-level scripting → Beta review → Production deployment.",
+    pricing: "Custom packages starting from $2,500 USD / ₹1,80,000 INR.",
+    timeline: "2 - 4 weeks standard delivery.",
+    faqs: [
+      { q: "Do I have to pay monthly software fees?", a: "No. I prioritize self-hosted open-source tools like n8n which reduces your subscription overhead to near zero." },
+      { q: "Can we add new apps later?", a: "Yes. The system is modular and written in clean JS, allowing you to connect extra APIs easily." }
+    ],
+    caseStudies: "Enterprise Workflow CRM Automation"
   },
   {
     id: "02",
@@ -32,7 +45,19 @@ const premiumServices = [
       "Automated lead qualification & booking",
       "Pre-trained on your specific business data",
     ],
-    tech: ["OpenAI", "LangChain", "WhatsApp API", "Pinecone"]
+    tech: ["OpenAI", "LangChain", "WhatsApp API", "Pinecone"],
+    // Extended parameters
+    benefits: "Engage warm leads instantly, reply outside of standard business hours, filter prospects by budget, and push booking dates to calendar slots automatically.",
+    problems: "Lost leads due to delayed replies, time spent chasing cold prospects, scheduling friction.",
+    features: ["RAG knowledge base querying", "Conversational qualifying pathways", "WhatsApp & SMS API configurations", "Calendly scheduling API sync"],
+    workflow: "Knowledge ingestion → Prompt scoping → Bot tree engineering → API integration → Launch review.",
+    pricing: "Custom packages starting from $5,000 USD / ₹3,80,000 INR.",
+    timeline: "4 - 8 weeks delivery.",
+    faqs: [
+      { q: "Does the AI hallucinate or make up false info?", a: "No. I write custom system boundaries and use vector databases to restrict the AI to your official data." },
+      { q: "Can it transfer to a human?", a: "Yes. The assistant flags complex questions and instantly alerts your sales team via SMS or Slack." }
+    ],
+    caseStudies: "Scaling Support with Generative AI"
   },
   {
     id: "03",
@@ -46,11 +71,25 @@ const premiumServices = [
       "Real-time analytics and KPI visibility",
       "Enterprise-grade security and role access",
     ],
-    tech: ["Next.js", "TypeScript", "Supabase", "Tailwind"]
+    tech: ["Next.js", "TypeScript", "Supabase", "Tailwind"],
+    // Extended parameters
+    benefits: "Ditch bloated subscription portals, own 100% of your source code, and run client portals that load in milliseconds.",
+    problems: "Rigid templates, high seat-based monthly fees, slow UI response times, insecure data shares.",
+    features: ["Serverless PostgreSQL databases", "Supabase auth layers with secure policies", "Real-time metrics charts", "Stripe payment checkouts"],
+    workflow: "UI wireframing → Database schema design → Full-stack scripting → Webhook configuration → Serverless deployment.",
+    pricing: "Bespoke engineering starting from $7,500 USD / ₹5,50,000 INR.",
+    timeline: "1 - 3 months delivery.",
+    faqs: [
+      { q: "Who owns the code after delivery?", a: "You do. You get full ownership of the GitHub repository and all deployment access credentials." },
+      { q: "How does the hosting scale?", a: "I deploy on serverless platforms (like Vercel and Supabase) meaning your hosting costs scale dynamically with your actual traffic." }
+    ],
+    caseStudies: "Next.js SaaS Platform Case Study"
   }
 ];
 
 export function Services() {
+  const [activeService, setActiveService] = useState<typeof premiumServices[number] | null>(null);
+
   return (
     <section className="pt-12 pb-16 relative overflow-hidden bg-background">
       {/* Subtle Premium Background Layers */}
@@ -85,7 +124,7 @@ export function Services() {
             transition={{ delay: 0.1 }}
             className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto"
           >
-            I don&apos;t just sell code. I partner with businesses to eliminate operational bottlenecks, automate growth, and build enterprise-grade software that drives measurable returns.
+            I don&apos;t just sell code. I partner with businesses to eliminate operational bottlenecks, automate growth, and build enterprise-grade software that drives measurable returns. Click a solution to inspect details.
           </motion.p>
         </div>
 
@@ -146,9 +185,16 @@ export function Services() {
                       ))}
                     </ul>
                     
-                    <div className="mt-10 pt-8 border-t border-border/50">
-                      <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
-                        <Button variant="outline" className="w-full group/btn h-12 rounded-xl border-primary/20 hover:bg-primary hover:text-primary-foreground transition-all">
+                    <div className="mt-10 pt-8 border-t border-border/50 flex flex-wrap gap-3">
+                      <Button
+                        onClick={() => setActiveService(service)}
+                        variant="outline"
+                        className="flex-1 text-xs font-bold rounded-xl border-primary/20 hover:bg-muted text-foreground"
+                      >
+                        Inspect Blueprint
+                      </Button>
+                      <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer" className="flex-1">
+                        <Button className="w-full group/btn h-12 rounded-xl bg-primary text-white text-xs font-bold hover:scale-[1.02] transition-all">
                           Discuss This Solution
                           <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
                         </Button>
@@ -163,6 +209,141 @@ export function Services() {
         </div>
 
       </div>
+
+      {/* Expandable Service Details Dialog */}
+      <AnimatePresence>
+        {activeService && (
+          <div className="fixed inset-0 z-[9995] flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="relative w-full max-w-2xl bg-card border border-border rounded-3xl shadow-2xl p-6 md:p-8 space-y-6 max-h-[90vh] overflow-y-auto"
+            >
+              {/* Header */}
+              <div className="flex justify-between items-center pb-4 border-b border-border/30">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                    <activeService.icon className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-foreground">{activeService.name} Blueprint</h3>
+                    <p className="text-[10px] text-primary uppercase font-bold tracking-wider">{activeService.tagline}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setActiveService(null)}
+                  className="p-1.5 rounded-full hover:bg-muted text-muted-foreground hover:text-foreground transition-all cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Contents */}
+              <div className="space-y-4 text-sm text-foreground/80">
+                
+                {/* Benefits & Problems */}
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="bg-secondary border border-border/40 p-4 rounded-2xl">
+                    <h4 className="text-xs font-bold text-emerald-500 dark:text-emerald-400 uppercase mb-2 flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      Client Benefits
+                    </h4>
+                    <p className="text-xs leading-relaxed">{activeService.benefits}</p>
+                  </div>
+
+                  <div className="bg-secondary border border-border/40 p-4 rounded-2xl">
+                    <h4 className="text-xs font-bold text-red-500 dark:text-red-400 uppercase mb-2 flex items-center gap-1.5">
+                      <ShieldAlert className="w-3.5 h-3.5" />
+                      Problems Solved
+                    </h4>
+                    <p className="text-xs leading-relaxed">{activeService.problems}</p>
+                  </div>
+                </div>
+
+                {/* Features & Workflow */}
+                <div className="bg-secondary border border-border/40 p-4 rounded-2xl space-y-3">
+                  <h4 className="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
+                    <Layers className="w-3.5 h-3.5" />
+                    Key Architecture Features
+                  </h4>
+                  <ul className="grid sm:grid-cols-2 gap-2 text-xs">
+                    {activeService.features.map((feat: string, i: number) => (
+                      <li key={i} className="flex items-center gap-2">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" />
+                        {feat}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="bg-secondary border border-border/40 p-4 rounded-2xl">
+                    <h4 className="text-xs font-bold text-foreground uppercase mb-1.5 flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 text-primary" />
+                      Workflow & Delivery Timeline
+                    </h4>
+                    <p className="text-xs font-semibold text-foreground/90 leading-relaxed mb-2">{activeService.timeline}</p>
+                    <p className="text-[11px] text-muted-foreground leading-relaxed">{activeService.workflow}</p>
+                  </div>
+
+                  <div className="bg-secondary border border-border/40 p-4 rounded-2xl">
+                    <h4 className="text-xs font-bold text-foreground uppercase mb-1.5 flex items-center gap-1.5">
+                      <HelpCircle className="w-3.5 h-3.5 text-purple-500 dark:text-purple-400" />
+                      Pricing Guidelines
+                    </h4>
+                    <p className="text-xs font-semibold text-foreground/90 leading-relaxed mb-2">{activeService.pricing}</p>
+                    <p className="text-[11px] text-muted-foreground leading-relaxed">Budgets vary depending on API loads and endpoints count.</p>
+                  </div>
+                </div>
+
+                {/* FAQs */}
+                <div className="bg-secondary border border-border/40 p-4 rounded-2xl space-y-2">
+                  <h4 className="text-xs font-bold text-foreground uppercase tracking-wider">Frequently Asked Questions</h4>
+                  {activeService.faqs.map((faq, idx: number) => (
+                    <div key={idx} className="space-y-1 text-xs">
+                      <p className="font-bold text-foreground flex items-center gap-1">
+                        <span>Q:</span> {faq.q}
+                      </p>
+                      <p className="text-muted-foreground pl-3">
+                        {faq.a}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+              </div>
+
+              {/* Footer */}
+              <div className="pt-4 border-t border-border/20 flex flex-col sm:flex-row gap-4 justify-between items-center">
+                <div className="text-xs text-muted-foreground flex items-center gap-1">
+                  <span>Case Study:</span>
+                  <span className="font-bold text-foreground">{activeService.caseStudies}</span>
+                </div>
+                <div className="flex gap-2 w-full sm:w-auto">
+                  <button
+                    onClick={() => setActiveService(null)}
+                    className="flex-1 sm:flex-initial py-2.5 px-5 rounded-xl border border-border text-xs font-bold hover:bg-muted text-foreground transition-all cursor-pointer"
+                  >
+                    Close
+                  </button>
+                  <button
+                    onClick={() => {
+                      const text = `Hi Kumail! I'm interested in the "${activeService.name}" solution package.`;
+                      window.open(`https://wa.me/916006121193?text=${encodeURIComponent(text)}`, "_blank");
+                    }}
+                    className="flex-1 sm:flex-initial py-2.5 px-5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary/95 transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                  >
+                    Discuss Solution
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

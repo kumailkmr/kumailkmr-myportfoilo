@@ -30,7 +30,7 @@ function playBeep(ctx: AudioContext, freq: number, startTime: number, duration: 
 
 function playHeartbeat() {
   safePlaySound(() => {
-    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext)();
     const now = ctx.currentTime;
     playBeep(ctx, 880, now, 0.12, 0.25);
     playBeep(ctx, 660, now + 0.18, 0.1, 0.15);
@@ -39,7 +39,7 @@ function playHeartbeat() {
 
 function playShimmer() {
   safePlaySound(() => {
-    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext)();
     const now = ctx.currentTime;
     [523, 659, 784, 1047].forEach((freq, i) => {
       const osc = ctx.createOscillator();
@@ -73,21 +73,21 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
       setTimeout(() => {
         setPhase(1);
         playHeartbeat();
-      }, 1800),
+      }, 900),
       setTimeout(() => {
         playHeartbeat();
-      }, 2500),
+      }, 1250),
       setTimeout(() => {
         setPhase(2);
         playShimmer();
-      }, 3200),
+      }, 1600),
       setTimeout(() => {
         setPhase(3);
-      }, 5200),
+      }, 3300),
       setTimeout(() => {
         setVisible(false);
         onComplete();
-      }, 6000),
+      }, 3900),
     ];
 
     return () => timers.forEach(clearTimeout);
@@ -208,7 +208,7 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
               strokeLinejoin="round"
               initial={{ pathLength: 0, opacity: 0 }}
               animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 1.6, ease: "easeInOut" }}
+              transition={{ duration: 0.8, ease: "easeInOut" }}
             />
             <motion.path
               d="M 0 100 L 150 100 L 180 100 L 200 60 L 220 100 L 240 100 L 280 100 L 300 100 L 320 20 L 340 180 L 360 100 L 380 80 L 400 100 L 500 100 L 520 100 L 540 60 L 560 100 L 580 100 L 620 100 L 640 100 L 660 20 L 680 180 L 700 100 L 720 80 L 740 100 L 800 100"
@@ -219,7 +219,7 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
               filter="url(#ecgGlow)"
               initial={{ pathLength: 0, opacity: 0 }}
               animate={{ pathLength: 1, opacity: 0.35 }}
-              transition={{ duration: 1.6, ease: "easeInOut" }}
+              transition={{ duration: 0.8, ease: "easeInOut" }}
             />
             <defs>
               <linearGradient id="ecgGrad" x1="0" y1="0" x2="800" y2="0">
